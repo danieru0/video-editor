@@ -1,24 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useTypedSelector } from './store/selector';
+import { useDispatch } from 'react-redux';
+import { types } from './store/actions/types';
 
 function App() {
+  const dispatch = useDispatch();
+  const text = useTypedSelector(state => state.test);
+
+  console.log(text);
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch({
+      type: types.SET_TEST_VALUE,
+      payload: {text: e.target.value}
+    })
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input onChange={handleInput}></input>
     </div>
   );
 }
