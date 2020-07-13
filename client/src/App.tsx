@@ -12,6 +12,15 @@ const testFile = [
     "position": {"x": 200, "y": 200}
   },
   {
+    "type": "drawtext",
+    "text": "THIS IS TEXT",
+    "time": "1,7",
+    "position": {"x": 0, "y": 0},
+    "fontsize": 20,
+    "fontcolor": "yellow",
+    "fontfile": "Robot-Regular.ttf"
+  },
+  {
     "type": "overlay",
     "image": "test.jpg",
     "time": "2,5",
