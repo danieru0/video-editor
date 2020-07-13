@@ -3,6 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import path from 'path';
 import multer from 'multer';
+
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
 
@@ -25,7 +26,7 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
     let input = 1;
 
     const ffmpegChained = new ffmpeg(`./videos/${req.files['video'][0].originalname}`);
-    
+
     for (let i = 0 ; i < req.files['images'].length; i++) {
         ffmpegChained.input(`./videos/${req.files['images'][i].originalname}`);
     }
@@ -55,6 +56,17 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
                         fontsize: item.fontsize,
                         fontcolor: item.fontcolor,
                         enable: `between(t,${item.time})`
+                    }
+                });
+                break;
+            case 'eq':
+                filters.push({
+                    filter: item.type,
+                    options: {
+                        brightness: item.brightness || 0,
+                        saturation: item.saturation || 1,
+                        contrast: item.contrast || 1,
+                        gamma: item.gamma || 1
                     }
                 });
                 break;
