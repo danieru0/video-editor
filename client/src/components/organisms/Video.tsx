@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import VideoAtom from '../atoms/VideoAtom';
+import VideoPlayer from '../molecules/VideoPlayer';
 
 interface VideoProps {
     [x: string]: any;
@@ -18,7 +18,7 @@ const Container = styled.div`
 const Video: FC<VideoProps> = ({...props}) => {
     return (
         <Container {...props}>
-            <VideoAtom />
+            <VideoPlayer />
         </Container>
     )
 }

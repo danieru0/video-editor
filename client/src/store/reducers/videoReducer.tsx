@@ -1,9 +1,10 @@
-import { videoData } from '../../types/video';
+import { videoData, videoRef } from '../../types/video';
 import { types, Action } from '../actions/types';
 
 export interface VideoState {
     video: File | null;
     videoData: videoData;
+    videoRef: videoRef;
 }
 
 const initState: VideoState = {
@@ -14,8 +15,11 @@ const initState: VideoState = {
         play: false,
         volume: 1,
         duration: 0,
-        currentDuration: 0,
         muted: false
+    },
+    videoRef: {
+        currentDuration: 0,
+        videoRef: null
     }
 }
 
@@ -27,8 +31,8 @@ export default (state = initState, action: Action): VideoState => {
         case types.SET_VIDEO_DIMENSIONS: {
             return {...state, videoData: { ...state.videoData, width: action.payload.width, height: action.payload.height }}
         }
-        case types.SET_VIDEO_CURRENT_DURATION: {
-            return {...state, videoData: { ...state.videoData, currentDuration: action.payload.currentDuration }}
+        case types.SET_VIDEO_REF: {
+            return {...state, videoRef: { ...state.videoRef, currentDuration: action.payload.currentDuration, videoRef: action.payload.videoRef }}
         }
         default: return state;
     }

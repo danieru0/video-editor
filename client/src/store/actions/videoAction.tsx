@@ -1,7 +1,7 @@
-import { videoDimensions, videoCurrentDuration } from '../../types/video'; 
+import { videoDimensions, videoCurrentDuration, videoRef } from '../../types/video'; 
 import { types } from './types';
 
-export type videoActions = setVideoFileAction | setVideoDimensionAction | setVideoCurrentDurationAction;
+export type videoActions = setVideoFileAction | setVideoDimensionAction | setVideoRefAction;
 
 interface setVideoFileAction {
     type: types.SET_VIDEO_FILE,
@@ -21,11 +21,12 @@ export const setVideoDimensions = (value: videoDimensions): setVideoDimensionAct
     payload: value
 })
 
-interface setVideoCurrentDurationAction {
-    type: types.SET_VIDEO_CURRENT_DURATION;
-    payload: videoCurrentDuration;
+interface setVideoRefAction {
+    type: types.SET_VIDEO_REF;
+    payload: videoRef;
 }
-export const setVideoCurrentDuration = (value: videoCurrentDuration): setVideoCurrentDurationAction => ({
-    type: types.SET_VIDEO_CURRENT_DURATION,
+export const setVideoRef = (value: videoRef): setVideoRefAction => ({
+    type: types.SET_VIDEO_REF,
     payload: value
-})
+});
+

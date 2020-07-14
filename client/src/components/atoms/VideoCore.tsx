@@ -4,16 +4,21 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../store/selector';
 import { types } from '../../store/actions/types';
 
-const StyledVideo = styled.video`
+interface VideoCoreProps {
+    handleTick: (tick: number | undefined, videoRef: any) => void;
+    [x: string]: any;
+}
 
-`
+const StyledVideo = styled.video``;
 
-const VideoAtom: FC = () => {
+const VideoCore: FC<VideoCoreProps> = ({ handleTick, ...props }) => {
     const dispatch = useDispatch();
     const videoFile = useTypedSelector(state => state.video.video);
     const videoData = useTypedSelector(state => state.video.videoData);
     const URL = window.URL || window.webkitURL;
     const videoRef = useRef<HTMLVideoElement>(null);
+
+    let getTimeInterval: any;
 
     useEffect(() => {
         if (videoFile) {
@@ -39,16 +44,19 @@ const VideoAtom: FC = () => {
         }
     }, [videoData.play, videoData.muted, videoData.duration, videoData.volume]);
 
-    const tick = (e: React.SyntheticEvent<HTMLVideoElement>) => {
-        dispatch({
-            type: types.SET_VIDEO_CURRENT_DURATION,
-            payload: { currentDuration: videoRef.current?.currentTime }
-        });
+    const tickStart = () => {
+        getTimeInterval = setInterval(() => {
+            handleTick(videoRef.current?.currentTime, videoRef.current);
+        }, 30)
+    }
+
+    const tickStop = () => {
+        clearInterval(getTimeInterval);
     }
 
     return (
-        <StyledVideo onTimeUpdate={tick} controls={false} ref={videoRef} />
+        <StyledVideo {...props} onPause={tickStop} onPlay={tickStart} controls={false} ref={videoRef} />
     )
 }
 
-export default VideoAtom;
+export default VideoCore;
