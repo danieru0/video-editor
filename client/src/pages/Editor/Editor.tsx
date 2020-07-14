@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Scene from '../../components/organisms/Scene';
 import Video from '../../components/organisms/Video';
 
+import Icon from '../../components/atoms/Icon';
+
 const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -15,7 +17,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
     width: 100%;
     display: flex;
-    height: 600px;
+    height: 500px;
 `
 
 const StyledScene = styled(Scene)`
@@ -33,6 +35,7 @@ const Editor: FC = () => {
                 <StyledScene />
                 <StyledVideo />
             </Wrapper>
+            <Icon name="IoIosPlay" color="white" size={30} />
         </Container>
     );
 }
