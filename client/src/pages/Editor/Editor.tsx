@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import Scene from '../../components/organisms/Scene';
+import Video from '../../components/organisms/Video';
 
 const Container = styled.div`
     display: flex;
@@ -21,8 +22,7 @@ const StyledScene = styled(Scene)`
     flex: 1.2;
 `
 
-const Dummy = styled.div`
-    height: 100%;
+const StyledVideo = styled(Video)`
     flex: 2;
 `
 
@@ -31,7 +31,7 @@ const Editor: FC = () => {
         <Container>
             <Wrapper>
                 <StyledScene />
-                <Dummy />
+                <StyledVideo />
             </Wrapper>
         </Container>
     );
