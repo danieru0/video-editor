@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import VolumeInput from '../molecules/VolumeInput';
 import ControlsPlay from '../molecules/ControlsPlay';
+import ExportButton from '../atoms/ExportButton';
 
 const Container = styled.div`
     width: 100%;
@@ -19,7 +20,7 @@ const Controls: FC = () => {
         <Container>
             <VolumeInput />
             <ControlsPlay />
-            <div></div>
+            <ExportButton onClick={() => console.log('export')}/>
         </Container>
     )
 }
