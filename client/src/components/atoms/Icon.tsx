@@ -21,6 +21,7 @@ interface WrapperProps extends IconProps {
 
 interface IconComponentProps extends IconProps, WrapperProps {
     name: IconTypes;
+    [x: string]: any;
 }
 
 const Wrapper = styled.div<WrapperProps>`
@@ -38,17 +39,12 @@ const Wrapper = styled.div<WrapperProps>`
     }
 `
 
-const Icon: FC<IconComponentProps> = ({ name, color, size, circle = false }) => {
+const Icon: FC<IconComponentProps> = ({ name, color, size, circle = false, ...props }) => {
     const Icon = Ionicons[name];
-
-    const StyledIcon = styled(Icon)<IconProps>`
-        position: relative;
-        color: ${({color}) => color};
-        font-size: ${({size}) => size};
-    `
+    
     return (
-        <Wrapper color={color} circle={circle} size={size}>
-            <StyledIcon color={color} size={size} />
+        <Wrapper {...props} color={color} circle={circle} size={size}>
+            <Icon color={color} size={size} />
         </Wrapper>
     )
 }

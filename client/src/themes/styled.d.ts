@@ -6,5 +6,8 @@ declare module "styled-components" {
         secondary: string;
         white: string;
         notSelected: string;
+        inputRangeActive: string;
+        inputRangeTrack: string;
+        inputRangeThumb: string;
     }
 }

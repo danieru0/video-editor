@@ -3,12 +3,9 @@ export interface videoDimensions {
     height: number;
 }
 
-export interface videoCurrentDuration {
-    currentDuration: number;
-}
-
-export interface videoRef extends videoCurrentDuration {
+export interface videoRef {
     videoRef: any;
+    currentDuration: number;
 }
 
 export interface videoData extends videoDimensions {
