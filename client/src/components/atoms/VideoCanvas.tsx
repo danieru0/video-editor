@@ -14,19 +14,17 @@ const VideoCanvas: FC<VideoCanvasProps> = ({ videoRef, tick, ...props }) => {
     const ctx = canvasObj?.getContext('2d');
 
     useEffect(() => {
-        if (videoData) {
             if (canvasObj) {
                 canvasObj.width = videoData.width;
                 canvasObj.height = videoData.height;
             }
-        }
-    }, [videoData.width, videoData.height]);
+    }, [videoData.width, videoData.height, canvasObj]);
 
     useEffect(() => {
         if (videoRef) {
             ctx?.drawImage(videoRef, 0, 0)
         }
-    }, [videoRef, tick]);
+    }, [videoRef, tick, ctx]);
 
     return (
         <canvas {...props} ref={canvasRef}></canvas>

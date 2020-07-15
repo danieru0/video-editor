@@ -37,6 +37,15 @@ export default (state = initState, action: Action): VideoState => {
         case types.SET_VIDEO_VOLUME: {
             return {...state, videoData: { ...state.videoData, volume: action.payload }}
         }
+        case types.SET_VIDEO_PLAY: {
+            return {...state, videoData: { ...state.videoData, play: action.payload }}
+        }
+        case types.SET_VIDEO_CURRENT_DURATION: {
+            return {...state, videoRef: { ...state.videoRef, currentDuration: action.payload }}
+        }
+        case types.SET_VIDEO_DURATION: {
+            return {...state, videoData: { ...state.videoData, duration: action.payload }};
+        }
         default: return state;
     }
 }

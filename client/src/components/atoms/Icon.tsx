@@ -17,6 +17,7 @@ interface IconProps {
 
 interface WrapperProps extends IconProps {
     circle?: boolean;
+    name: string;
 }
 
 interface IconComponentProps extends IconProps, WrapperProps {
@@ -25,16 +26,17 @@ interface IconComponentProps extends IconProps, WrapperProps {
 }
 
 const Wrapper = styled.div<WrapperProps>`
-    ${({circle, size, color}) =>
+    ${({circle, size, color, name}) =>
         circle &&
         css `
-            border: 1px solid ${color};
+            border: 2px solid ${color};
             border-radius: 50%;
             width: ${size + 10}px;
             height: ${size + 10}px;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding-left: ${name === 'IoIosPlay' && '4px'};
         `
     }
 `
@@ -43,7 +45,7 @@ const Icon: FC<IconComponentProps> = ({ name, color, size, circle = false, ...pr
     const Icon = Ionicons[name];
     
     return (
-        <Wrapper {...props} color={color} circle={circle} size={size}>
+        <Wrapper {...props} color={color} name={name} circle={circle} size={size}>
             <Icon color={color} size={size} />
         </Wrapper>
     )

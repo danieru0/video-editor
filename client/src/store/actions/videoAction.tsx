@@ -4,7 +4,10 @@ import { types } from './types';
 export type videoActions = setVideoFileAction 
     | setVideoDimensionAction 
     | setVideoRefAction
-    | setVideoVolumeAction;
+    | setVideoVolumeAction
+    | setVideoPlayAction
+    | setVideoCurrentDurationAction
+    | setVideoDurationAction;
 
 interface setVideoFileAction {
     type: types.SET_VIDEO_FILE,
@@ -39,5 +42,32 @@ interface setVideoVolumeAction {
 }
 export const setVideoVolume = (value: number): setVideoVolumeAction => ({
     type: types.SET_VIDEO_VOLUME,
+    payload: value
+});
+
+interface setVideoPlayAction {
+    type: types.SET_VIDEO_PLAY,
+    payload: boolean;
+}
+export const setVideoPlay = (value: boolean): setVideoPlayAction => ({
+    type: types.SET_VIDEO_PLAY,
+    payload: value
+});
+
+interface setVideoCurrentDurationAction {
+    type: types.SET_VIDEO_CURRENT_DURATION,
+    payload: number;
+}
+export const setVideoCurrentDuration = (value: number): setVideoCurrentDurationAction => ({
+    type: types.SET_VIDEO_CURRENT_DURATION,
+    payload: value
+});
+
+interface setVideoDurationAction {
+    type: types.SET_VIDEO_DURATION,
+    payload: number;
+}
+export const setVideoDuration = (value: number): setVideoDurationAction => ({
+    type: types.SET_VIDEO_DURATION,
     payload: value
 });

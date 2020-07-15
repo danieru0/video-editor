@@ -1,5 +1,7 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { types } from '../../store/actions/types';
 
 import VideoCore from '../atoms/VideoCore';
 import VideoCanvas from '../atoms/VideoCanvas';
@@ -13,15 +15,22 @@ const StyledVideoCanvas = styled(VideoCanvas)`
 `
 
 const VideoPlayer: FC = () => {
+    const dispatch = useDispatch();
     const [tick, setTick] = useState<number | undefined>(0);
     const [videoRef, setVideoRef] = useState(undefined);
-    const timeUpdate = (tick: number | undefined, videoRef: any) => {
+
+    const timeUpdate =  (tick: number | undefined, videoRef: any) => {
         setTick(tick);
         setVideoRef(videoRef);
+        dispatch({
+            type: types.SET_VIDEO_CURRENT_DURATION,
+            payload: tick
+        });
     }
+
     return (
         <>
-            <StyledVideoCore  handleTick={timeUpdate} />
+            <StyledVideoCore handleTick={timeUpdate} />
             <StyledVideoCanvas videoRef={videoRef} tick={tick} />
         </>
     )

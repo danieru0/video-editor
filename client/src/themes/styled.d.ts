@@ -9,5 +9,7 @@ declare module "styled-components" {
         inputRangeActive: string;
         inputRangeTrack: string;
         inputRangeThumb: string;
+        Lato: string;
+        time: string;
     }
 }

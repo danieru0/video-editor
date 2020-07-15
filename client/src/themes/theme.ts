@@ -8,8 +8,11 @@ const theme: DefaultTheme = {
 
     inputRangeActive: '#8EA4D2',
     inputRangeThumb: '#E1E4F2',
-    inputRangeTrack: '#10151E'
-    
+    inputRangeTrack: '#10151E',
+
+    time: '#55596C',
+
+    Lato: 'Lato',
 }
 
 export { theme }

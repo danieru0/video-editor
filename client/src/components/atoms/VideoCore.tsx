@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect } from 'react';
+import React, { FC, useRef, useEffect, useReducer } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../store/selector';
@@ -37,12 +37,25 @@ const VideoCore: FC<VideoCoreProps> = ({ handleTick, ...props }) => {
 
     useEffect(() => {
         if (videoRef.current) {
-            videoData.play ? videoRef.current.play() : videoRef.current.pause();
-            videoRef.current.currentTime = videoData.duration;
             videoRef.current.muted = videoData.muted;
             videoRef.current.volume = videoData.volume;
         }
-    }, [videoData.play, videoData.muted, videoData.duration, videoData.volume]);
+    }, [videoData.muted, videoData.volume]);
+
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.currentTime = videoData.duration;
+            handleTick(videoRef.current.currentTime, videoRef.current);
+        }
+    }, [videoData.duration]); //eslint-disable-line
+
+    useEffect(() => {
+        if (videoRef.current) {
+            videoData.play ? videoRef.current.play() : videoRef.current.pause();
+        }
+
+        return () => clearInterval(getTimeInterval);
+    }, [videoData.play, getTimeInterval])
 
     const tickStart = () => {
         getTimeInterval = setInterval(() => {
@@ -50,12 +63,8 @@ const VideoCore: FC<VideoCoreProps> = ({ handleTick, ...props }) => {
         }, 30)
     }
 
-    const tickStop = () => {
-        clearInterval(getTimeInterval);
-    }
-
     return (
-        <StyledVideo {...props} onPause={tickStop} onPlay={tickStart} controls={false} ref={videoRef} />
+        <StyledVideo {...props} onPlay={tickStart} controls={false} ref={videoRef} />
     )
 }
 

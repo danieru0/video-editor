@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { theme } from '../../themes/theme';
 
 interface SceneButtonProps {
     text: string;
@@ -20,7 +21,7 @@ const Button = styled.button<ButtonProps>`
     flex: 1;
     border: none;
     outline: none;
-    font-family: 'Lato';
+    font-family: ${theme.Lato};
     font-size: 16px;
     text-transform: uppercase;
     letter-spacing: 2px;

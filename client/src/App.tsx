@@ -19,7 +19,7 @@ function App() {
           payload: file
         })
       })
-  }, [])
+  }, [dispatch])
 
   return (
     <Editor />
