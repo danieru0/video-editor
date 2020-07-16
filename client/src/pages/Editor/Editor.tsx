@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Scene from '../../components/organisms/Scene';
 import Video from '../../components/organisms/Video';
 import Controls from '../../components/organisms/Controls';
+import TimeLine from '../../components/organisms/TimeLine';
 
 const Container = styled.div`
     display: flex;
@@ -35,6 +36,7 @@ const Editor: FC = () => {
                 <StyledVideo />
             </Wrapper>
             <Controls />
+            <TimeLine />
         </Container>
     );
 }

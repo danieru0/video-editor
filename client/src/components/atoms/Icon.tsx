@@ -7,8 +7,9 @@ type IconTypes = 'IoIosPlay'
     | 'IoIosPause'
     | 'IoIosSkipForward'
     | 'IoIosSkipBackward'
-    | 'IoIosPulse'
+    | 'IoIosAdd'
     | 'IoIosTrash'
+    | 'IoIosSettings';
 
 interface IconProps {
     size: number;
@@ -17,6 +18,7 @@ interface IconProps {
 
 interface WrapperProps extends IconProps {
     circle?: boolean;
+    square?: boolean;
     name: string;
 }
 
@@ -39,13 +41,26 @@ const Wrapper = styled.div<WrapperProps>`
             padding-left: ${name === 'IoIosPlay' && '4px'};
         `
     }
+
+    ${({square, size}) =>
+        square &&
+        css `
+            width: ${size + 10}px;
+            height: ${size + 10}px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            background-color: #2C3045;
+        `
+    }
 `
 
-const Icon: FC<IconComponentProps> = ({ name, color, size, circle = false, ...props }) => {
+const Icon: FC<IconComponentProps> = ({ name, color, size, circle = false, square = false, ...props }) => {
     const Icon = Ionicons[name];
     
     return (
-        <Wrapper {...props} color={color} name={name} circle={circle} size={size}>
+        <Wrapper {...props} color={color} name={name} circle={circle} square={square} size={size}>
             <Icon color={color} size={size} />
         </Wrapper>
     )

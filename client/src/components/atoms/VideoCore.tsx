@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect, useReducer } from 'react';
+import React, { FC, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../store/selector';
@@ -29,6 +29,10 @@ const VideoCore: FC<VideoCoreProps> = ({ handleTick, ...props }) => {
                     dispatch({
                         type: types.SET_VIDEO_DIMENSIONS,
                         payload: { width: element.offsetWidth, height: element.offsetHeight }
+                    });
+                    dispatch({
+                        type: types.SET_VIDEO_LENGTH,
+                        payload: element.duration
                     });
                 });
             }

@@ -13,6 +13,7 @@ const Container = styled.div`
     padding: 20px;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 `
 
 const Video: FC<VideoProps> = ({...props}) => {

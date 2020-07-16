@@ -15,6 +15,7 @@ const initState: VideoState = {
         play: false,
         volume: 1,
         duration: 0,
+        videoLength: 0,
         muted: false
     },
     videoRef: {
@@ -30,6 +31,9 @@ export default (state = initState, action: Action): VideoState => {
         }
         case types.SET_VIDEO_DIMENSIONS: {
             return {...state, videoData: { ...state.videoData, width: action.payload.width, height: action.payload.height }}
+        }
+        case types.SET_VIDEO_LENGTH: {
+            return {...state, videoData: { ...state.videoData, videoLength: action.payload }};
         }
         case types.SET_VIDEO_REF: {
             return {...state, videoRef: { ...state.videoRef, currentDuration: action.payload.currentDuration, videoRef: action.payload.videoRef }}

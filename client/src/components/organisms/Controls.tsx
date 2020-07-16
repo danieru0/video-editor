@@ -13,6 +13,7 @@ const Container = styled.div`
     align-items: center;
     padding: 0px 20px;
     justify-content: space-between;
+    z-index: 2;
 `
 
 const Controls: FC = () => {

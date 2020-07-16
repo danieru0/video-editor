@@ -20,6 +20,7 @@
     "react-icons": "^3.10.0",
     "react-input-slider": "^5.1.7",
     "react-redux": "^7.2.0",
+    "react-rnd": "^10.1.10",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",

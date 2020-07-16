@@ -13,6 +13,7 @@ const Container = styled.div`
     flex-direction: column;
     height: 100%;
     border-right: 15px solid ${({theme}) => theme.secondary};
+    z-index: 2;
 `
 
 const Wrapper = styled.div`
