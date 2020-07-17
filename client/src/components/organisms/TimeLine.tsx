@@ -60,10 +60,13 @@ const TimeLine: FC = () => {
         });
     }
 
-    const handlePosition = (e: any) => {
+    const handlePosition = (x: number, e: any) => {
         if (timelineRef.current) {
-            //const calc = (videoRef.currentDuration / videoData.videoLength ) * timelineRef.current.offsetWidth;
-            setXPosition(e);
+            const progress = x * videoData.videoLength / timelineRef.current.offsetWidth;
+            dispatch({
+                type: types.SET_VIDEO_DURATION,
+                payload: progress
+            })
         }
     }
 

@@ -5,7 +5,7 @@ import Icon from '../atoms/Icon';
 
 interface TimeArrowProps {
     height: number;
-    positionChange: (x: number) => void;
+    positionChange: (x: number, e: any) => void;
     xPosition: number;
 }
 
@@ -40,7 +40,7 @@ const TimeArrow: FC<TimeArrowProps> = ({height, positionChange, xPosition }) => 
                 width: 5,
                 height: height - 63
             }}
-            onDragStop={(e, d) => positionChange(d.x)}
+            onDrag={(e, d) => positionChange(d.x, e)}
             enableResizing={{
                 top: false,
                 right: false,
