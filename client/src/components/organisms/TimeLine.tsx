@@ -42,8 +42,10 @@ const TimeLine: FC = () => {
     const dispatch = useDispatch();
     const videoData = useTypedSelector(state => state.video.videoData);
     const videoRef = useTypedSelector(state => state.video.videoRef);
-    const [trackHeights, setTrackHeights] = useState(300);
+    const trackList = useTypedSelector(state => state.timeline.timeline);
+    const [trackHeights, setTrackHeights] = useState(100);
     const [xPosition, setXPosition] = useState(0);
+    const [yPosition, setYPosition] = useState(0);
     const timelineRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -70,22 +72,52 @@ const TimeLine: FC = () => {
         }
     }
 
+    const handleNewTrack = () => {
+        const newTrack = {
+            name: `track ${trackList.length}`,
+            item: null
+        };
+        const newTrackHeight = trackHeights + 70;
+
+        dispatch({
+            type: types.CREATE_NEW_TRACK,
+            payload: newTrack
+        });
+        setTrackHeights(newTrackHeight);
+        
+        if (timelineRef.current) {
+            const allTrackSize = newTrackHeight - 100;
+            setYPosition(((-15 - 10) - allTrackSize) + 15);
+
+            // -15 is TimeStamp height
+            // 10 is margin in first track
+            // allTrackSize is size of every track created
+            // oneTrack is 70px
+            // Initial height for track container is 100
+            // +15 at the end is because RND make it's own calculation and add TimeStamp height
+        }
+    }
+
     return (
         <Container height={trackHeights}>
             <SideNav>
-                <AddTrack onClick={() => console.log('ye')} />
+                <AddTrack onClick={handleNewTrack} />
                 <Wrapper>
-                    <TrackEdit />
-                    <TrackEdit />
-                    <TrackEdit />
+                    {
+                        trackList && trackList.map(item => {
+                            return <TrackEdit key={item.name} name={item.name}/>
+                        })
+                    }
                 </Wrapper>
             </SideNav>
             <TimeLineContainer ref={timelineRef}>
                 <TimeStamp videoLength={videoData.videoLength} onTimeClick={handleTimeStampClick}/>
-                <Track />
-                <Track />
-                <Track />
-                <TimeArrow xPosition={xPosition} positionChange={handlePosition} height={trackHeights} />
+                {
+                    trackList && trackList.map(item => {
+                        return <Track key={item.name} />
+                    })
+                }
+                <TimeArrow yPosition={yPosition} xPosition={xPosition} positionChange={handlePosition} height={trackHeights} />
             </TimeLineContainer>
         </Container>
     )

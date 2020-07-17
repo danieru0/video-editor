@@ -1,10 +1,15 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { theme } from '../../themes/theme';
 
 import WithButton from '../../hoc/withButton';
 
 import TrackText from '../atoms/TrackText';
 import Icon from '../atoms/Icon';
+
+interface TrackEditProps {
+    name: string;
+}
 
 const Container = styled.div`
     width: 100%;
@@ -23,10 +28,10 @@ const Wrapper = styled.div`
 
 const WithButtonIcon = WithButton(Icon);
 
-const TrackEdit: FC = () => {
+const TrackEdit: FC<TrackEditProps> = ({name}) => {
     return (
         <Container>
-            <TrackText text="Track 1" color="#5E5CB5" />
+            <TrackText text={name} color={theme.trackText} />
             <Wrapper>
                 <WithButtonIcon onClick={() => console.log('ye')} square name="IoIosSettings" color="#fff" size={26} />
                 <WithButtonIcon onClick={() => console.log('ye')} square name="IoIosTrash" color="#fff" size={26} />

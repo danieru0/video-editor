@@ -11,5 +11,8 @@ declare module "styled-components" {
         inputRangeThumb: string;
         Lato: string;
         time: string;
+        addTrack: string;
+        trackText: string;
+        exportBtn: string;
     }
 }

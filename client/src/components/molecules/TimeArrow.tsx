@@ -7,6 +7,7 @@ interface TimeArrowProps {
     height: number;
     positionChange: (x: number, e: any) => void;
     xPosition: number;
+    yPosition: number;
 }
 
 const Timer = styled.div`
@@ -23,19 +24,18 @@ const StyledIcon = styled(Icon)`
     top: 7px;
 `
 
-const TimeArrow: FC<TimeArrowProps> = ({height, positionChange, xPosition }) => {
+const TimeArrow: FC<TimeArrowProps> = ({height, positionChange, xPosition, yPosition }) => {
     return (
         <Rnd
             position={{
                 x: xPosition,
-                y: 0
+                y: yPosition
             }}
             style={{
                 position: 'relative',
                 display: 'block'
             }}
             dragAxis='x'
-            bounds="parent"
             size={{
                 width: 5,
                 height: height - 63

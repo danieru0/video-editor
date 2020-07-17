@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
+import { Rnd } from 'react-rnd';
 
 const Container = styled.div`
     width: 100%;
@@ -11,7 +12,35 @@ const Container = styled.div`
 const Track: FC = () => {
     return (
         <Container>
+            <Rnd
+                style={{
+                    position: 'relative',
+                    display: 'block',
+                    background: 'red'
+                }}
+                position={{
+                    x: 0,
+                    y: 0,
+                }}
+                bounds="parent"
+                dragAxis="x"
+                size={{
+                    width: 134,
+                    height: 60
+                }}
+                enableResizing={{
+                    top: false,
+                    right: true,
+                    bottom: false,
+                    left: true,
+                    topRight: false,
+                    bottomRight: false,
+                    bottomLeft: false,
+                    topLeft: false,
+                  }}
+            >
 
+            </Rnd>
         </Container>
     )
 }

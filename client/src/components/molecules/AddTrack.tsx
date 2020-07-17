@@ -23,7 +23,7 @@ const Span = styled.span`
     font-size: 16px;
     margin-left: 8px;
     text-transform: uppercase;
-    color: #5DA3D0;
+    color: ${({theme}) => theme.addTrack};
     font-weight: bold;
     letter-spacing: 1px;
 `

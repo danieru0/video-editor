@@ -6,7 +6,7 @@ interface ExportButtonProps {
 }
 
 const Button = styled.button`
-    background-color: #36BCFF;
+    background-color: ${({theme}) => theme.exportBtn};
     border: none;
     border-radius: 5px;
     font-family: 'Lato';

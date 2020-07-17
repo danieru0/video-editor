@@ -6,11 +6,15 @@ const theme: DefaultTheme = {
     white: '#E1E6EF',
     notSelected: '#535863',
 
+    exportBtn: '#36BCFF',
+
     inputRangeActive: '#8EA4D2',
     inputRangeThumb: '#E1E4F2',
     inputRangeTrack: '#10151E',
 
     time: '#55596C',
+    addTrack: '#5DA3D0',
+    trackText: '#5E5CB5',
 
     Lato: 'Lato',
 }
