@@ -1,13 +1,14 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
 import Icon from '../atoms/Icon';
+import { useTypedSelector } from '../../store/selector';
 
 interface TimeArrowProps {
     height: number;
     positionChange: (x: number, e: any) => void;
-    xPosition: number;
     yPosition: number;
+    timelineRef: any;
 }
 
 const Timer = styled.div`
@@ -24,7 +25,18 @@ const StyledIcon = styled(Icon)`
     top: 7px;
 `
 
-const TimeArrow: FC<TimeArrowProps> = ({height, positionChange, xPosition, yPosition }) => {
+const TimeArrow: FC<TimeArrowProps> = ({height, positionChange, yPosition, timelineRef }) => {
+    const [xPosition, setXPosition] = useState(0);
+    const videoRef = useTypedSelector(state => state.video.videoRef);
+    const videoData = useTypedSelector(state => state.video.videoData);
+
+    useEffect(() => {
+        if (timelineRef.current) {
+            const calc = (videoRef.currentDuration / videoData.videoLength ) * timelineRef.current.offsetWidth;
+            setXPosition(calc);
+        }
+    }, [videoRef.currentDuration, videoData.videoLength, timelineRef]);
+
     return (
         <Rnd
             position={{

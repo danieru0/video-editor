@@ -1,8 +1,13 @@
 interface item {
     type: string;
-    width: number;
+    width: number | string;
     xPosition: number;
-    time: string;
+    selector: string;
+    color: string;
+    time: {
+        start: number,
+        end: number
+    } | null
     videoPosition: {
         x: number;
         y: number;

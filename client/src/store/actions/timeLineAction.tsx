@@ -1,7 +1,12 @@
-import { timeLine } from '../../types/timeline';
+import { timeLine, item } from '../../types/timeline';
 import { types } from './types';
 
-export type timeLineActions = createNewTrackAction;
+export type timeLineActions = createNewTrackAction
+    | addItemToTrackAction
+    | updateItemTimeAction
+    | setTimelineRefAction
+    | updateItemTrackPositionAction
+    | updateItemTrackSizeAction;
 
 interface createNewTrackAction {
     type: types.CREATE_NEW_TRACK,
@@ -11,3 +16,48 @@ export const createNewTrack = (value: timeLine): createNewTrackAction => ({
     type: types.CREATE_NEW_TRACK,
     payload: value
 });
+
+interface addItemToTrackAction {
+    type: types.ADD_ITEM_TO_TRACK,
+    payload: {name: string; item: item}
+}
+export const addItemToTrack = (value: {name: string; item: item}): addItemToTrackAction => ({
+    type: types.ADD_ITEM_TO_TRACK,
+    payload: value
+});
+
+interface updateItemTimeAction {
+    type: types.UPDATE_ITEM_TRACK,
+    payload: {name: string, start: number; end: number}
+}
+export const updateItemTime = (value: {name: string, start: number; end: number}): updateItemTimeAction => ({
+    type: types.UPDATE_ITEM_TRACK,
+    payload: value
+});
+
+interface setTimelineRefAction {
+    type: types.SET_TIMELINE_REF,
+    payload: object
+}
+export const setTimelineRef = (value: object): setTimelineRefAction => ({
+    type: types.SET_TIMELINE_REF,
+    payload: value
+});
+
+interface updateItemTrackPositionAction {
+    type: types.UPDATE_ITEM_TRACK_POSITION,
+    payload: { xPosition: number, start: number, end: number, name: string; }
+}
+export const updateItemTrackPosition = (value: { xPosition: number, start: number, end: number, name: string }): updateItemTrackPositionAction => ({
+    type: types.UPDATE_ITEM_TRACK_POSITION,
+    payload: value
+})
+
+interface updateItemTrackSizeAction {
+    type: types.UPDATE_ITEM_TRACK_SIZE,
+    payload: {name: string, width: string, start: number, end: number, xPosition: number};
+}
+export const updateItemTrackSize = (value: {name: string, width: string, start: number, end: number, xPosition: number}) => ({
+    type: types.UPDATE_ITEM_TRACK_SIZE,
+    payload: value
+})

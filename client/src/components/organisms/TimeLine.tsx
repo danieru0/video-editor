@@ -41,19 +41,20 @@ const Wrapper = styled.div`
 const TimeLine: FC = () => {
     const dispatch = useDispatch();
     const videoData = useTypedSelector(state => state.video.videoData);
-    const videoRef = useTypedSelector(state => state.video.videoRef);
     const trackList = useTypedSelector(state => state.timeline.timeline);
     const [trackHeights, setTrackHeights] = useState(100);
-    const [xPosition, setXPosition] = useState(0);
     const [yPosition, setYPosition] = useState(0);
     const timelineRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (timelineRef.current) {
-            const calc = (videoRef.currentDuration / videoData.videoLength ) * timelineRef.current.offsetWidth;
-            setXPosition(calc);
+            dispatch({
+                type: types.SET_TIMELINE_REF,
+                payload: timelineRef.current
+            });
         }
-    }, [videoRef.currentDuration, videoData.videoLength]);
+    }, [timelineRef, dispatch]);
+
 
     const handleTimeStampClick = (time: number) => {
         dispatch({
@@ -114,10 +115,10 @@ const TimeLine: FC = () => {
                 <TimeStamp videoLength={videoData.videoLength} onTimeClick={handleTimeStampClick}/>
                 {
                     trackList && trackList.map(item => {
-                        return <Track key={item.name} />
+                        return <Track videoLength={videoData.videoLength} timelineRef={timelineRef} name={item.name} item={item.item} key={item.name} />
                     })
                 }
-                <TimeArrow yPosition={yPosition} xPosition={xPosition} positionChange={handlePosition} height={trackHeights} />
+                <TimeArrow timelineRef={timelineRef} yPosition={yPosition} positionChange={handlePosition} height={trackHeights} />
             </TimeLineContainer>
         </Container>
     )
