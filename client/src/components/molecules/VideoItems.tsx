@@ -1,8 +1,6 @@
 import React, { FC, useRef, useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../store/selector';
-import { types } from '../../store/actions/types';
 
 import Item from './Item';
 
@@ -17,9 +15,7 @@ interface Bounds {
     bottom: number;
 }
 
-const Container = styled.div`
-
-`
+const Container = styled.div``
 
 const VideoItems: FC<VideoItemsProps> = ({...props}) => {
     const videoData = useTypedSelector(state => state.video.videoData);
@@ -27,21 +23,23 @@ const VideoItems: FC<VideoItemsProps> = ({...props}) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const calculateBounds = useCallback(() => {
-        const containerRect = containerRef.current?.getBoundingClientRect();
+        if (containerRef.current) {
+            const containerRect = containerRef.current.getBoundingClientRect();
 
-        if (containerRect) {
             return {
                 "left": containerRect.left,
                 "top": containerRect.top,
-                "right": videoData.width + containerRect.left,
-                "bottom": videoData.height + containerRect.top
+                "right": containerRef.current.offsetWidth + containerRect.left,
+                "bottom": containerRef.current.offsetHeight + containerRect.top
             }
         }
-    }, [videoData.height, videoData.width]);
+    }, []);
 
     useEffect(() => {
         window.addEventListener('resize', handleResize);
-    })
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []) //eslint-disable-line
 
     useEffect(() => {
         if (containerRef.current) {
@@ -54,11 +52,11 @@ const VideoItems: FC<VideoItemsProps> = ({...props}) => {
         if (containerRef.current) {
             setBounds(calculateBounds());
         }
-    }, [containerRef, calculateBounds])
+    }, [containerRef, videoData.width, calculateBounds])
 
 
     const handleResize = () => {
-       setBounds(calculateBounds());
+        setBounds(calculateBounds());
     }
 
     return (
