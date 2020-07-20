@@ -5,11 +5,19 @@ import { types, Action } from '../actions/types';
 export interface timeLineState {
     timeline: timeLine[];
     timelineRef: any;
+    clickedItem: {
+        name: string;
+        type: string;
+    }
 }
 
 const initState: timeLineState = {
     timeline: [],
-    timelineRef: null
+    timelineRef: null,
+    clickedItem: {
+        name: '',
+        type: ''
+    }
 }
 
 export default (state = initState, action: Action): timeLineState => {
@@ -76,6 +84,20 @@ export default (state = initState, action: Action): timeLineState => {
                                 x: action.payload.x,
                                 y: action.payload.y
                             }
+                        }
+                    }
+                })
+            })
+        }
+        case types.UPDATE_CLICKED_ITEM: {
+            return {...state, clickedItem: action.payload}
+        }
+        case types.UPDATE_ITEM_COLOR: {
+            return produce(state, draft => {
+                draft.timeline.forEach(item => {
+                    if (item.name === action.payload.name) {
+                        if (item.item) {
+                            item.item.color = action.payload.color
                         }
                     }
                 })

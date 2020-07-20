@@ -8,7 +8,6 @@ import { types } from '../../store/actions/types';
 import Block from '../atoms/Block';
 
 interface ItemProps {
-    containerRef: any;
     type: string;
     bounds: {
         left: number;
@@ -21,10 +20,6 @@ interface ItemProps {
         start: number;
         end: number;
     } | null;
-    videoPosition: {
-        x: number;
-        y: number;
-    }
     name: string;
     color: string;
 }
@@ -38,7 +33,7 @@ const Container = styled.div<isActiveProp>`
     position: absolute;
 `
 
-const Item: FC<ItemProps> = ({containerRef, bounds, selector, time, videoPosition, name, color, type}) => {
+const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type}) => {
     const dispatch = useDispatch();
     const videoCurrentDuration = useTypedSelector(state => state.video.videoRef.currentDuration);
     const [target, setTarget] = useState<HTMLElement>();
@@ -78,6 +73,16 @@ const Item: FC<ItemProps> = ({containerRef, bounds, selector, time, videoPositio
         })
     }
 
+    const handleItemClick = () => {
+        dispatch({
+            type: types.UPDATE_CLICKED_ITEM,
+            payload: {
+                name: name,
+                type: type
+            }
+        })
+    }
+
     return (
         <Container isActive={time && videoCurrentDuration >= time.start && videoCurrentDuration <= time.end}>
             <Block id={selector} color={color} type={type} />
@@ -93,6 +98,7 @@ const Item: FC<ItemProps> = ({containerRef, bounds, selector, time, videoPositio
                 snappable={true}
                 throttleScale={0}
                 bounds={bounds}
+                onClick={handleItemClick}
                 onDragStart={({ set }) => {
                     set(frame.translate);
                 }}

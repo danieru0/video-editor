@@ -1,8 +1,10 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
+import { useTypedSelector } from '../../store/selector';
 
 import SceneNavigation from '../molecules/SceneMolecules/SceneNavigation';
 import SceneConnector from '../molecules/SceneMolecules/SceneConnector';
+import SceneItemEdit from '../molecules/SceneMolecules/SceneItemEdit';
 
 interface SceneProps {
     [x:string]: any;
@@ -23,6 +25,7 @@ const Wrapper = styled.div`
 `
 
 const Scene: FC<SceneProps> = ({...props}) => {
+    const clickedItem = useTypedSelector(state => state.timeline.clickedItem);
     const [activeScene, setScene] = useState(0);
 
     const handleNavigationClick = (id: number) => {
@@ -31,10 +34,18 @@ const Scene: FC<SceneProps> = ({...props}) => {
 
     return (
         <Container {...props}>
-            <SceneNavigation activeScene={activeScene} onClick={handleNavigationClick}/>
-            <Wrapper>
-                <SceneConnector activeScene={activeScene} />
-            </Wrapper>
+            {
+                clickedItem.name ? (
+                    <SceneItemEdit name={clickedItem.name} type={clickedItem.type} />
+                ) : (
+                    <>
+                        <SceneNavigation activeScene={activeScene} onClick={handleNavigationClick}/>
+                        <Wrapper>
+                            <SceneConnector activeScene={activeScene} />
+                        </Wrapper>
+                    </>
+                )
+            }
         </Container>
     );
 }

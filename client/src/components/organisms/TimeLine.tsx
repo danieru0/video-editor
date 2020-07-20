@@ -56,7 +56,6 @@ const TimeLine: FC = () => {
         }
     }, [timelineRef, dispatch]);
 
-
     const handleTimeStampClick = (time: number) => {
         dispatch({
             type: types.SET_VIDEO_DURATION,

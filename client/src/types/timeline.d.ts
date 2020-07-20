@@ -1,6 +1,6 @@
 interface item {
     type: string;
-    blockType: string;
+    itemType: string;
     width: number | string;
     xPosition: number;
     selector: string;

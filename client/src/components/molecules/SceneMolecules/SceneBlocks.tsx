@@ -38,7 +38,7 @@ const SceneBlocks: FC = () => {
             if (trackList.length !== 0) {
                 const newItem = {
                     type: 'overlay',
-                    blockType: type,
+                    itemType: type,
                     width: 134,
                     xPosition: 0,
                     selector: Math.random().toString(36).substring(7),

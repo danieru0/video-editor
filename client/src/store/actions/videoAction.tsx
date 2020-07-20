@@ -8,7 +8,8 @@ export type videoActions = setVideoFileAction
     | setVideoPlayAction
     | setVideoCurrentDurationAction
     | setVideoDurationAction
-    | setVideoLengthAction;
+    | setVideoLengthAction
+    | updateClickedItemAction;
 
 interface setVideoFileAction {
     type: types.SET_VIDEO_FILE,
@@ -79,5 +80,14 @@ interface setVideoLengthAction {
 }
 export const setVideoLength = (value: number): setVideoLengthAction => ({
     type: types.SET_VIDEO_LENGTH,
+    payload: value
+});
+
+interface updateClickedItemAction {
+    type: types.UPDATE_CLICKED_ITEM,
+    payload: {name: string, type: string}
+}
+export const updateClickedItem = (value: {name: string, type: string}): updateClickedItemAction => ({
+    type: types.UPDATE_CLICKED_ITEM,
     payload: value
 });

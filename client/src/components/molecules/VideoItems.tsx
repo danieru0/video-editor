@@ -48,7 +48,7 @@ const VideoItems: FC<VideoItemsProps> = ({...props}) => {
             {
                 timelineItems.map((item, key) => {
                     if (item.item) {
-                        return <Item key={item.name} type={item.item.blockType} name={item.name} videoPosition={item.item.videoPosition} color={item.item.color} selector={item.item.selector} time={item.item.time} bounds={bounds} containerRef={containerRef.current} />
+                        return <Item key={item.name} type={item.item.itemType} name={item.name} color={item.item.color} selector={item.item.selector} time={item.item.time} bounds={bounds} />
                     }
 
                     return null;

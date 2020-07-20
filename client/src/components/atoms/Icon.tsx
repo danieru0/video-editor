@@ -9,7 +9,9 @@ type IconTypes = 'IoIosPlay'
     | 'IoIosSkipBackward'
     | 'IoIosAdd'
     | 'IoIosTrash'
-    | 'IoIosSettings';
+    | 'IoIosSettings'
+    | 'IoIosArrowBack'
+    | 'IoIosArrowDown';
 
 interface IconProps {
     size: number;
