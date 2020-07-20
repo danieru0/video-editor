@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect, useState, useCallback } from 'react';
+import React, { FC, useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useTypedSelector } from '../../store/selector';
 

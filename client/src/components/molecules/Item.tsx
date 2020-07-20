@@ -2,6 +2,8 @@ import React, { FC, useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import Moveable from 'react-moveable';
 import { useTypedSelector } from '../../store/selector';
+import { useDispatch } from 'react-redux';
+import { types } from '../../store/actions/types';
 
 import Block from '../atoms/Block';
 
@@ -37,6 +39,7 @@ const Container = styled.div<isActiveProp>`
 `
 
 const Item: FC<ItemProps> = ({containerRef, bounds, selector, time, videoPosition, name, color, type}) => {
+    const dispatch = useDispatch();
     const videoCurrentDuration = useTypedSelector(state => state.video.videoRef.currentDuration);
     const [target, setTarget] = useState<HTMLElement>();
     const [frame, setFrame] = useState({ //eslint-disable-line
@@ -64,6 +67,17 @@ const Item: FC<ItemProps> = ({containerRef, bounds, selector, time, videoPositio
         moveableRef.current?.updateRect();
     }
 
+    const handleDragEnd = () => {
+        dispatch({
+            type: types.UPDATE_ITEM_POSITION,
+            payload: {
+                name: name,
+                x: frame.translate[0],
+                y: frame.translate[1]
+            }
+        })
+    }
+
     return (
         <Container isActive={time && videoCurrentDuration >= time.start && videoCurrentDuration <= time.end}>
             <Block id={selector} color={color} type={type} />
@@ -88,6 +102,9 @@ const Item: FC<ItemProps> = ({containerRef, bounds, selector, time, videoPositio
                         = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`
                         + ` scale(${frame.scale[0]}, ${frame.scale[1]})`
                         + `rotate(${frame.rotate}deg)`;
+                }}
+                onDragEnd={({clientX, clientY, lastEvent}) => {
+                    handleDragEnd();
                 }}
                 onScaleStart={({ set, dragStart }) => {
                     set(frame.scale);

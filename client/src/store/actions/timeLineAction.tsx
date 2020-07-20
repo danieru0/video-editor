@@ -6,7 +6,8 @@ export type timeLineActions = createNewTrackAction
     | updateItemTimeAction
     | setTimelineRefAction
     | updateItemTrackPositionAction
-    | updateItemTrackSizeAction;
+    | updateItemTrackSizeAction
+    | updateItemPositionAction;
 
 interface createNewTrackAction {
     type: types.CREATE_NEW_TRACK,
@@ -60,4 +61,13 @@ interface updateItemTrackSizeAction {
 export const updateItemTrackSize = (value: {name: string, width: string, start: number, end: number, xPosition: number}) => ({
     type: types.UPDATE_ITEM_TRACK_SIZE,
     payload: value
+})
+
+interface updateItemPositionAction {
+    type: types.UPDATE_ITEM_POSITION,
+    payload: { name: string, x: number, y: number }
+}
+export const updateItemPosition = (value: { name: string, x: number, y: number }) => ({
+    type: types.UPDATE_ITEM_POSITION,
+    payload: value 
 })
