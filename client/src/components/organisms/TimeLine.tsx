@@ -31,6 +31,8 @@ const SideNav = styled.div`
 const TimeLineContainer = styled.div`
     width: 100%;
     margin-top: 63px;
+
+    position: relative;
 `
 
 const Wrapper = styled.div`
@@ -43,7 +45,6 @@ const TimeLine: FC = () => {
     const videoData = useTypedSelector(state => state.video.videoData);
     const trackList = useTypedSelector(state => state.timeline.timeline);
     const [trackHeights, setTrackHeights] = useState(100);
-    const [yPosition, setYPosition] = useState(0);
     const timelineRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -85,18 +86,6 @@ const TimeLine: FC = () => {
             payload: newTrack
         });
         setTrackHeights(newTrackHeight);
-        
-        if (timelineRef.current) {
-            const allTrackSize = newTrackHeight - 100;
-            setYPosition(((-15 - 10) - allTrackSize) + 15);
-
-            // -15 is TimeStamp height
-            // 10 is margin in first track
-            // allTrackSize is size of every track created
-            // oneTrack is 70px
-            // Initial height for track container is 100
-            // +15 at the end is because RND make it's own calculation and add TimeStamp height
-        }
     }
 
     return (
@@ -118,7 +107,7 @@ const TimeLine: FC = () => {
                         return <Track videoLength={videoData.videoLength} timelineRef={timelineRef} name={item.name} item={item.item} key={item.name} />
                     })
                 }
-                <TimeArrow timelineRef={timelineRef} yPosition={yPosition} positionChange={handlePosition} height={trackHeights} />
+                <TimeArrow timelineRef={timelineRef} positionChange={handlePosition} height={trackHeights} />
             </TimeLineContainer>
         </Container>
     )

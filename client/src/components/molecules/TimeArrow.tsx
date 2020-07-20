@@ -7,7 +7,6 @@ import { useTypedSelector } from '../../store/selector';
 interface TimeArrowProps {
     height: number;
     positionChange: (x: number, e: any) => void;
-    yPosition: number;
     timelineRef: any;
 }
 
@@ -25,7 +24,7 @@ const StyledIcon = styled(Icon)`
     top: 7px;
 `
 
-const TimeArrow: FC<TimeArrowProps> = ({height, positionChange, yPosition, timelineRef }) => {
+const TimeArrow: FC<TimeArrowProps> = ({height, positionChange, timelineRef}) => {
     const [xPosition, setXPosition] = useState(0);
     const videoRef = useTypedSelector(state => state.video.videoRef);
     const videoData = useTypedSelector(state => state.video.videoData);
@@ -41,12 +40,13 @@ const TimeArrow: FC<TimeArrowProps> = ({height, positionChange, yPosition, timel
         <Rnd
             position={{
                 x: xPosition,
-                y: yPosition
+                y: 0
             }}
             style={{
-                position: 'relative',
+                position: 'absolute',
                 display: 'block'
             }}
+            bounds="parent"
             dragAxis='x'
             size={{
                 width: 5,
