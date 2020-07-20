@@ -19,7 +19,7 @@ type BlockTypes = 'Triangle'
 
 interface ContainerProps {
     color?: string;
-    type: BlockTypes;
+    type: BlockTypes | string;
 }
 
 interface BlockProps extends ContainerProps {

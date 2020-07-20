@@ -1,5 +1,6 @@
 interface item {
     type: string;
+    blockType: string;
     width: number | string;
     xPosition: number;
     selector: string;

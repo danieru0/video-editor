@@ -15,31 +15,15 @@ interface Bounds {
     bottom: number;
 }
 
-const Container = styled.div``
+const Container = styled.div`
+    position: relative;
+`
 
 const VideoItems: FC<VideoItemsProps> = ({...props}) => {
     const videoData = useTypedSelector(state => state.video.videoData);
+    const timelineItems = useTypedSelector(state => state.timeline.timeline);
     const [bounds, setBounds] = useState<Bounds>()
     const containerRef = useRef<HTMLDivElement>(null);
-
-    const calculateBounds = useCallback(() => {
-        if (containerRef.current) {
-            const containerRect = containerRef.current.getBoundingClientRect();
-
-            return {
-                "left": containerRect.left,
-                "top": containerRect.top,
-                "right": containerRef.current.offsetWidth + containerRect.left,
-                "bottom": containerRef.current.offsetHeight + containerRect.top
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, []) //eslint-disable-line
 
     useEffect(() => {
         if (containerRef.current) {
@@ -50,21 +34,25 @@ const VideoItems: FC<VideoItemsProps> = ({...props}) => {
 
     useEffect(() => {
         if (containerRef.current) {
-            setBounds(calculateBounds());
+            setBounds({
+                "left": 0,
+                "top": 0,
+                "right": containerRef.current.offsetWidth,
+                "bottom": containerRef.current.offsetHeight
+            });
         }
-    }, [containerRef, videoData.width, calculateBounds])
-
-
-    const handleResize = () => {
-        setBounds(calculateBounds());
-    }
+    }, [containerRef, videoData.width])
 
     return (
         <Container ref={containerRef} {...props}>
             {
-                videoData.width && (
-                    <Item bounds={bounds} containerRef={containerRef.current} />
-                )
+                timelineItems.map((item, key) => {
+                    if (item.item) {
+                        return <Item key={item.name} type={item.item.blockType} name={item.name} videoPosition={item.item.videoPosition} color={item.item.color} selector={item.item.selector} time={item.item.time} bounds={bounds} containerRef={containerRef.current} />
+                    }
+
+                    return null;
+                })
             }
         </Container>
     )

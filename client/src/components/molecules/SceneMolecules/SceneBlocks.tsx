@@ -38,9 +38,10 @@ const SceneBlocks: FC = () => {
             if (trackList.length !== 0) {
                 const newItem = {
                     type: 'overlay',
+                    blockType: type,
                     width: 134,
                     xPosition: 0,
-                    selector: Math.random().toString(),
+                    selector: Math.random().toString(36).substring(7),
                     color: '#fff',
                     time: {
                         start: 0,
@@ -74,7 +75,7 @@ const SceneBlocks: FC = () => {
 
     return (
         <Container>
-            <StyledBlock onClick={(e: any) => handleBlockClick(e, 'triangle')} type="Triangle"/>
+            <StyledBlock onClick={(e: any) => handleBlockClick(e, 'Triangle')} type="Triangle"/>
             <StyledBlock onClick={(e: any) => handleBlockClick(e, 'Octagon')} type="Octagon"/>
             <StyledBlock onClick={(e: any) => handleBlockClick(e, 'Trapezoid')} type="Trapezoid"/>
         </Container>

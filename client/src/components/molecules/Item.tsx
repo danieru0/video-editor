@@ -1,21 +1,44 @@
 import React, { FC, useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import Moveable from 'react-moveable';
+import { useTypedSelector } from '../../store/selector';
 
 import Block from '../atoms/Block';
 
 interface ItemProps {
     containerRef: any;
+    type: string;
     bounds: {
         left: number;
         top: number;
         bottom: number;
         right: number;
     } | undefined;
+    selector: string;
+    time: {
+        start: number;
+        end: number;
+    } | null;
+    videoPosition: {
+        x: number;
+        y: number;
+    }
+    name: string;
+    color: string;
 }
 
-const Item: FC<ItemProps> = ({containerRef, bounds}) => {
-    const [target, setTarget] = useState<HTMLDivElement>();
+interface isActiveProp {
+    isActive: boolean | null;
+}
+
+const Container = styled.div<isActiveProp>`
+    display: ${({isActive}) => isActive ? 'block' : 'none'};
+    position: absolute;
+`
+
+const Item: FC<ItemProps> = ({containerRef, bounds, selector, time, videoPosition, name, color, type}) => {
+    const videoCurrentDuration = useTypedSelector(state => state.video.videoRef.currentDuration);
+    const [target, setTarget] = useState<HTMLElement>();
     const [frame, setFrame] = useState({ //eslint-disable-line
         translate: [0,0],
         scale: [1,1],
@@ -24,12 +47,12 @@ const Item: FC<ItemProps> = ({containerRef, bounds}) => {
     const moveableRef = useRef<any>();
 
     useEffect(() => {
-        const blockElement = document.querySelector<HTMLDivElement>('.siemaneko');
+        const blockElement = document.getElementById(selector);
 
         if (blockElement) {
             setTarget(blockElement);
         }
-    }, [])
+    }, [selector])
 
     useEffect(() => {
         window.addEventListener('resize', handleResize);
@@ -37,18 +60,18 @@ const Item: FC<ItemProps> = ({containerRef, bounds}) => {
         return () => window.removeEventListener('resize', handleResize);
     }, []) //eslint-disable-line
 
-
     const handleResize = () => {
         moveableRef.current?.updateRect();
-     }
+    }
 
     return (
-        <>
-            <Block className="siemaneko" type="Triangle" />
+        <Container isActive={time && videoCurrentDuration >= time.start && videoCurrentDuration <= time.end}>
+            <Block id={selector} color={color} type={type} />
             <Moveable 
                 ref={moveableRef}
                 target={target}
                 scalable={true}
+                dragArea={true}
                 rotatable={true}
                 rotationPosition={"top"}
                 keepRatio={true}
@@ -90,8 +113,8 @@ const Item: FC<ItemProps> = ({containerRef, bounds}) => {
                         + `rotate(${beforeRotate}deg)`;
                 }}
             />
-        </>
-    )
+        </Container>
+    );
 }
 
 export default Item;
