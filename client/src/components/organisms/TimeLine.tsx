@@ -45,6 +45,8 @@ const TimeLine: FC = () => {
     const videoData = useTypedSelector(state => state.video.videoData);
     const trackList = useTypedSelector(state => state.timeline.timeline);
     const [trackHeights, setTrackHeights] = useState(100);
+    const [resizeActive, setResizeActive] = useState(false);
+    const [timelineWidth, setTimelineWidth] = useState(0);
     const timelineRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -55,6 +57,57 @@ const TimeLine: FC = () => {
             });
         }
     }, [timelineRef, dispatch]);
+
+    useEffect(() => {
+        if (timelineRef.current) {
+            setTimelineWidth(timelineRef.current.offsetWidth);
+        }
+    }, [setTimelineWidth]);
+
+    useEffect(() => {
+        let resizeTimeout: any;
+
+        const runTimeout = () => {
+            if (timelineRef.current) {
+                clearTimeout(resizeTimeout);
+
+                if (!resizeActive) {
+                    setTimelineWidth(timelineRef.current.offsetWidth);
+                    setResizeActive(true);
+                }
+    
+                resizeTimeout = setTimeout(() => {
+                    calculateItemWidths();
+                    setResizeActive(false);
+                }, 100);
+            }
+        }
+
+        const calculateItemWidths = () => {
+            trackList.forEach(item => {
+                if (item.item && timelineRef.current && item.item.time) {
+                    const width = typeof item.item.width === 'string' ? item.item.width.replace('px', '') : item.item.width; 
+                    const newWidth = Number(width) * timelineRef.current.offsetWidth / timelineWidth;
+                    const startTime = item.item.xPosition * videoData.videoLength / timelineRef.current.offsetWidth;
+                    const endTime = (newWidth * videoData.videoLength / timelineRef.current.offsetWidth) + startTime;
+                    dispatch({
+                        type: types.UPDATE_ITEM_TRACK_SIZE,
+                        payload: {
+                            xPosition: item.item.xPosition,
+                            start: startTime,
+                            end: endTime,
+                            width: newWidth,
+                            name: item.name
+                        }
+                    })
+                }
+            })
+        }
+
+        window.addEventListener('resize', runTimeout);
+
+        return () => window.removeEventListener('resize', runTimeout);
+    }, [trackList, timelineWidth]);
 
     const handleTimeStampClick = (time: number) => {
         dispatch({

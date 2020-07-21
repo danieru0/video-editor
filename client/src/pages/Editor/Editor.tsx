@@ -10,6 +10,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+    min-width: 872px;
     height: 100vh;
     background-color: ${({theme}) => theme.primary};
 `

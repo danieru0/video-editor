@@ -37,6 +37,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type}) => {
     const dispatch = useDispatch();
     const videoCurrentDuration = useTypedSelector(state => state.video.videoRef.currentDuration);
     const [target, setTarget] = useState<HTMLElement>();
+    const [active, setActive] = useState(true);
     const [frame, setFrame] = useState({ //eslint-disable-line
         translate: [0,0],
         scale: [1,1],
@@ -53,14 +54,12 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type}) => {
     }, [selector])
 
     useEffect(() => {
-        window.addEventListener('resize', handleResize);
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, []) //eslint-disable-line
-
-    const handleResize = () => {
-        moveableRef.current?.updateRect();
-    }
+        if (time && videoCurrentDuration >= time.start && videoCurrentDuration <= time.end) {
+            setActive(true);
+        } else {
+            setActive(false);
+        }
+    }, [time, videoCurrentDuration]);
 
     const handleDragEnd = () => {
         dispatch({
@@ -84,7 +83,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type}) => {
     }
 
     return (
-        <Container isActive={time && videoCurrentDuration >= time.start && videoCurrentDuration <= time.end}>
+        <Container isActive={active}>
             <Block id={selector} color={color} type={type} />
             <Moveable 
                 ref={moveableRef}
