@@ -36,6 +36,19 @@ const TimeArrow: FC<TimeArrowProps> = ({height, positionChange, timelineRef}) =>
         }
     }, [videoRef.currentDuration, videoData.videoLength, timelineRef]);
 
+    useEffect(() => {
+        const updatePosition = () => {
+            if (timelineRef.current) {
+                const calc = (videoRef.currentDuration / videoData.videoLength ) * timelineRef.current.offsetWidth;
+                setXPosition(calc);
+            }
+        }
+
+        window.addEventListener('resize', updatePosition);
+
+        return () => window.removeEventListener('resize', updatePosition);
+    }, [timelineRef, videoData.videoLength, videoRef.currentDuration]);
+
     return (
         <Rnd
             position={{

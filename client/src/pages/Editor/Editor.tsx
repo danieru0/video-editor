@@ -12,6 +12,7 @@ const Container = styled.div`
     width: 100%;
     min-width: 872px;
     height: 100vh;
+    min-height: 755px;
     background-color: ${({theme}) => theme.primary};
 `
 

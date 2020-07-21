@@ -90,10 +90,18 @@ const TimeLine: FC = () => {
                     const newWidth = Number(width) * timelineRef.current.offsetWidth / timelineWidth;
                     const startTime = item.item.xPosition * videoData.videoLength / timelineRef.current.offsetWidth;
                     const endTime = (newWidth * videoData.videoLength / timelineRef.current.offsetWidth) + startTime;
+                    let newXPosition;
+
+                    if (endTime > videoData.videoLength) {
+                        newXPosition = timelineRef.current.offsetWidth - newWidth;
+                    } else {
+                        newXPosition = item.item.xPosition;
+                    }
+
                     dispatch({
                         type: types.UPDATE_ITEM_TRACK_SIZE,
                         payload: {
-                            xPosition: item.item.xPosition,
+                            xPosition: newXPosition,
                             start: startTime,
                             end: endTime,
                             width: newWidth,
