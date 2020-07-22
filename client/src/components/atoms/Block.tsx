@@ -17,28 +17,50 @@ type BlockTypes = 'Triangle'
     | 'Trapezoid'
     | 'Octagon'
 
-interface ContainerProps {
+interface BlockTypeProps {
     color?: string;
     type: BlockTypes | string;
 }
 
-interface BlockProps extends ContainerProps {
+interface TextTypeProps {
+    color?: string;
+    textAlign?: string;
+    fontSize?: string;
+    justifyContent?: string;
+    fontFamily?: string;
+    border?: boolean;
+    textColor?: string;
+}
+
+interface BlockProps extends BlockTypeProps, TextTypeProps {
     [x: string]: any;
 }
 
-const Container = styled.div<ContainerProps>`
+const BlockType = styled.div<BlockTypeProps>`
     clip-path: ${({type}) => handleBlockType(type)}
     background-color: ${({color}) => color};
     width: 100px;
     height: 100px;
 `
 
-const Block: FC<BlockProps> = ({color = '#fff', type, ...props}) => {
-    return (
-        <Container type={type} color={color} {...props}>
+const TextType = styled.div<TextTypeProps>`
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    color: ${({color}) => color};
+    text-align: ${({textAlign}) => textAlign};
+    font-size: ${({fontSize}) => fontSize};
+    justify-content: ${({justifyContent}) => justifyContent};
+    border: ${({border}) => border ? '1px solid #fff' : 'none'};
+`
 
-        </Container>
-    )
+const Block: FC<BlockProps> = ({color = '#fff', type, textAlign, fontSize, justifyContent, fontFamily, textColor = '#000', border, children, ...props}) => {
+    switch(type) {
+        case 'text':
+            return <TextType border={border} color={color} textAlign="center" fontSize="20px" textColor={textColor} justifyContent="center" {...props}>{children}</TextType>
+        default: return <BlockType type={type} color={color} {...props} />
+    }
 }
 
 export default Block;

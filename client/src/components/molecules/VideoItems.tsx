@@ -16,10 +16,6 @@ interface Bounds {
     bottom: number;
 }
 
-interface reversedItemsState {
-    [x: number]: []
-}
-
 const Container = styled.div`
     position: relative;
 `
@@ -61,7 +57,7 @@ const VideoItems: FC<VideoItemsProps> = ({...props}) => {
             {
                 timelineItemsClone && timelineItemsClone.map((item, key) => {
                     if (item.item) {
-                        return <Item key={item.name} type={item.item.itemType} name={item.name} color={item.item.color} selector={item.item.selector} time={item.item.time} bounds={bounds} />
+                        return <Item key={item.name} type={item.item.itemType} textOptions={item.item.textOptions} name={item.name} color={item.item.color} selector={item.item.selector} time={item.item.time} bounds={bounds} />
                     }
 
                     return null;

@@ -13,6 +13,14 @@ interface item {
         x: number;
         y: number;
     }
+    textOptions: {
+        textAlign: string;
+        fontSize: string;
+        justifyContent: string;
+        fontFamily: string;
+        text: string;
+        textColor: string;
+    } | null;
 }
 
 export interface timeLine {

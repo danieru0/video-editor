@@ -47,6 +47,7 @@ const TimeLine: FC = () => {
     const [trackHeights, setTrackHeights] = useState(100);
     const [resizeActive, setResizeActive] = useState(false);
     const [timelineWidth, setTimelineWidth] = useState(0);
+    const [trackAmount, setTrackAmount]= useState(1);
     const timelineRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -115,7 +116,7 @@ const TimeLine: FC = () => {
         window.addEventListener('resize', runTimeout);
 
         return () => window.removeEventListener('resize', runTimeout);
-    }, [trackList, timelineWidth]);
+    }, [trackList, timelineWidth, dispatch, resizeActive, videoData.videoLength]);
 
     const handleTimeStampClick = (time: number) => {
         dispatch({
@@ -135,8 +136,9 @@ const TimeLine: FC = () => {
     }
 
     const handleNewTrack = () => {
+        setTrackAmount(trackAmount + 1);
         const newTrack = {
-            name: `track ${trackList.length}`,
+            name: `track ${trackAmount}`,
             item: null
         };
         const newTrackHeight = trackHeights + 70;

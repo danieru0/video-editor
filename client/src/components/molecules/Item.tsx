@@ -22,6 +22,14 @@ interface ItemProps {
     } | null;
     name: string;
     color: string;
+    textOptions: {
+        textAlign: string;
+        fontSize: string;
+        justifyContent: string;
+        fontFamily: string;
+        text: string;
+        textColor: string;
+    } | null;
 }
 
 interface isActiveProp {
@@ -33,7 +41,7 @@ const Container = styled.div<isActiveProp>`
     position: absolute;
 `
 
-const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type}) => {
+const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOptions}) => {
     const dispatch = useDispatch();
     const videoCurrentDuration = useTypedSelector(state => state.video.videoRef.currentDuration);
     const [target, setTarget] = useState<HTMLElement>();
@@ -84,15 +92,23 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type}) => {
 
     return (
         <Container isActive={active}>
-            <Block id={selector} color={color} type={type} />
+            {
+                textOptions ? (
+                    <Block id={selector} color={color} type={type} {...textOptions}>{textOptions.text}</Block>
+                ) : (
+                    <Block id={selector} color={color} type={type} />
+                )
+            }
             <Moveable 
                 ref={moveableRef}
                 target={target}
-                scalable={true}
+                scalable={textOptions ? false : true}
+                resizable={textOptions ? true : false}
                 dragArea={true}
                 rotatable={true}
+                origin={false}
                 rotationPosition={"top"}
-                keepRatio={true}
+                keepRatio={textOptions ? false : true}
                 draggable={true}
                 snappable={true}
                 throttleScale={0}
@@ -108,9 +124,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type}) => {
                         + ` scale(${frame.scale[0]}, ${frame.scale[1]})`
                         + `rotate(${frame.rotate}deg)`;
                 }}
-                onDragEnd={({clientX, clientY, lastEvent}) => {
-                    handleDragEnd();
-                }}
+                onDragEnd={handleDragEnd}
                 onScaleStart={({ set, dragStart }) => {
                     set(frame.scale);
                     dragStart && dragStart.set(frame.translate);
@@ -133,6 +147,20 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type}) => {
                         = `translate(${frame.translate[0]}px, ${frame.translate[1]}px)`
                         + ` scale(${frame.scale[0]}, ${frame.scale[1]})`
                         + `rotate(${beforeRotate}deg)`;
+                }}
+                onResizeStart={({ setOrigin, dragStart }) => {
+                    setOrigin(["%", "%"]);
+                    dragStart && dragStart.set(frame.translate);
+                }}
+                onResize={({ target, width, height, drag }) => {
+                    const beforeTranslate = drag.beforeTranslate;
+                
+                    frame.translate = beforeTranslate;
+                    target.style.width = `${width}px`;
+                    target.style.height = `${height}px`;
+                    target.style.transform 
+                        = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`
+                        + `rotate(${frame.rotate}deg)`;
                 }}
             />
         </Container>

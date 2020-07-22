@@ -63,8 +63,15 @@ const Track: FC<TrackProps> = ({name, item, timelineRef, videoLength}) => {
                 <Rnd
                     style={{
                         position: 'relative',
-                        display: 'block',
-                        background: item.color
+                        display: 'flex',
+                        background: item.color,
+                        textAlign: 'center',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        overflow: 'hidden',
+                        fontSize: '18px',
+                        fontFamily: 'Lato',
+                        color: item.textOptions ? item.textOptions.textColor : '',
                     }}
                     position={{
                         x: item.xPosition,
@@ -89,7 +96,9 @@ const Track: FC<TrackProps> = ({name, item, timelineRef, videoLength}) => {
                         topLeft: false,
                     }}
                 >
-
+                    {
+                        item.textOptions && item.textOptions.text
+                    }
                 </Rnd>
             )}
         </Container>

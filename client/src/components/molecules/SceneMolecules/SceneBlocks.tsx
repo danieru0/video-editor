@@ -36,8 +36,16 @@ const SceneBlocks: FC = () => {
             const endTime = 134 * videoData.videoLength / timelineRef.offsetWidth;
 
             if (trackList.length !== 0) {
+                const textOptions = {
+                    textAlign: 'center',
+                    fontSize: '20px',
+                    justifyContent: 'center',
+                    fontFamily: 'Lato',
+                    text: 'TEXT',
+                    color: '#000'
+                }
                 const newItem = {
-                    type: 'overlay',
+                    type: type === 'text' ? 'drawtext' : 'overlay',
                     itemType: type,
                     width: 134,
                     xPosition: 0,
@@ -50,7 +58,8 @@ const SceneBlocks: FC = () => {
                     videoPosition: {
                         x: 0,
                         y: 0
-                    }
+                    },
+                    textOptions: type === 'text' ? textOptions : null
                 }
     
                 const tracksWithoutItems = trackList.filter(item => item.item === null);
@@ -75,6 +84,7 @@ const SceneBlocks: FC = () => {
 
     return (
         <Container>
+            <StyledBlock onClick={(e: any) => handleBlockClick(e, 'text')} type="text" textAlign="center" fontSize="24px" border justifyContent="center">TEXT</StyledBlock>
             <StyledBlock onClick={(e: any) => handleBlockClick(e, 'Triangle')} type="Triangle"/>
             <StyledBlock onClick={(e: any) => handleBlockClick(e, 'Octagon')} type="Octagon"/>
             <StyledBlock onClick={(e: any) => handleBlockClick(e, 'Trapezoid')} type="Trapezoid"/>
