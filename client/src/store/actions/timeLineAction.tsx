@@ -8,7 +8,8 @@ export type timeLineActions = createNewTrackAction
     | updateItemTrackPositionAction
     | updateItemTrackSizeAction
     | updateItemPositionAction
-    | updateItemColorAction;
+    | updateItemColorAction
+    | updateTextOptionsColorAction;
 
 interface createNewTrackAction {
     type: types.CREATE_NEW_TRACK,
@@ -80,4 +81,13 @@ interface updateItemColorAction {
 export const updateItemColor = (value: { name: string, color: string }) => ({
     type: types.UPDATE_ITEM_COLOR,
     payload: value 
+})
+
+interface updateTextOptionsColorAction {
+    type: types.UPDATE_TEXT_OPTIONS_COLOR
+    payload: { name: string, color: string }
+}
+export const updateTextOptionsColor = (value: { name: string; color: string }) => ({
+    type: types.UPDATE_TEXT_OPTIONS_COLOR,
+    payload: value
 })

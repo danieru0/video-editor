@@ -7,6 +7,7 @@ import WithButton from '../../../hoc/withButton';
 
 import Icon from '../../atoms/Icon';
 import BlockItemEdit from '../../atoms/BlockItemEdit';
+import BlockTextEdit from '../../atoms/BlockTextEdit';
 
 const ButtonIcon = WithButton(Icon);
 
@@ -59,22 +60,34 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
         })
     }
 
-    const handleColorChange = (color: string) => {
-        dispatch({
-            type: types.UPDATE_ITEM_COLOR,
-            payload: {
-                name: name,
-                color: color
-            }
-        })
+    const handleColorChange = (color: string, type: string) => {
+        switch(type) {
+            case 'block':
+                return dispatch({
+                    type: types.UPDATE_ITEM_COLOR,
+                    payload: {
+                        name: name,
+                        color: color
+                    }
+                })
+            case 'text':
+                return dispatch({
+                    type: types.UPDATE_TEXT_OPTIONS_COLOR,
+                    payload: {
+                        name: name,
+                        color: color
+                    }
+                })
+            default: return false;
+        }
     }
 
     const EditComponent = () => {
         switch(type) {
             case 'text':
-                return <p>siema</p>
+                return <BlockTextEdit name={name} onColorChange={(color: string) => handleColorChange(color, 'text')} />
             default:
-                return <BlockItemEdit name={name} onColorChange={handleColorChange} />
+                return <BlockItemEdit name={name} onColorChange={(color: string) => handleColorChange(color, 'block')} />
         }
     }
 

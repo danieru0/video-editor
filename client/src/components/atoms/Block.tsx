@@ -48,14 +48,14 @@ const TextType = styled.div<TextTypeProps>`
     height: 100px;
     display: flex;
     align-items: center;
-    color: ${({color}) => color};
+    color: ${({textColor}) => textColor};
     text-align: ${({textAlign}) => textAlign};
     font-size: ${({fontSize}) => fontSize};
     justify-content: ${({justifyContent}) => justifyContent};
     border: ${({border}) => border ? '1px solid #fff' : 'none'};
 `
 
-const Block: FC<BlockProps> = ({color = '#fff', type, textAlign, fontSize, justifyContent, fontFamily, textColor = '#000', border, children, ...props}) => {
+const Block: FC<BlockProps> = ({color = '#fff', type, textAlign, fontSize, justifyContent, fontFamily, textColor = '#fff', border, children, ...props}) => {
     switch(type) {
         case 'text':
             return <TextType border={border} color={color} textAlign="center" fontSize="20px" textColor={textColor} justifyContent="center" {...props}>{children}</TextType>
