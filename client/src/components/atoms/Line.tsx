@@ -51,7 +51,7 @@ const StyledIcon = styled(Icon)<IconProps>`
 const Line: FC<LineProps> = ({active, text, onClick, ...props}) => {
     return (
         <Container onClick={onClick} {...props}>
-            <StyledIcon active={active} name="IoIosArrowDown" size={30} color="#fff" />
+            <StyledIcon active={active} name="chevron-down" size={30} color="#fff" />
             <LineComponent />
             <Text>{text}</Text>
         </Container>

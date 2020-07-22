@@ -36,7 +36,7 @@ const Navigation = styled.div`
 const StyledIcon = styled(ButtonIcon)`
     position: absolute;
     left: 5px;
-    top: 10px;
+    top: 11px;
 `
 
 const Text = styled.span`
@@ -94,7 +94,7 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
     return (
         <Container>
             <Navigation>
-                <StyledIcon onClick={handleBackClick} size={30} color="#fff" name="IoIosArrowBack" />
+                <StyledIcon onClick={handleBackClick} size={24} color="#fff" name="arrow-left" />
                 <Text>{name}</Text>
             </Navigation>
             <EditComponent />

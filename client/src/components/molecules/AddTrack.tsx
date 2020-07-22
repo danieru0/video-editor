@@ -20,7 +20,7 @@ const Button = styled.button`
 
 const Span = styled.span`
     font-family: ${({theme}) => theme.Lato};
-    font-size: 16px;
+    font-size: 18px;
     margin-left: 8px;
     text-transform: uppercase;
     color: ${({theme}) => theme.addTrack};
@@ -28,14 +28,10 @@ const Span = styled.span`
     letter-spacing: 1px;
 `
 
-const StyledIcon = styled(Icon)`
-    margin-top: 4px;
-`
-
 const AddTrack: FC<AddTrackProps> = ({onClick}) => {
     return (
         <Button onClick={onClick}>
-            <StyledIcon name="IoIosAdd" size={20} color="#5DA3D0" />
+            <Icon name="plus" size={20} color="#5DA3D0" />
             <Span>Add track</Span>
         </Button>
     )

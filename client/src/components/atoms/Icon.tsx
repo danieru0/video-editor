@@ -1,17 +1,18 @@
 import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
-import * as Ionicons from 'react-icons/io'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-type IconTypes = 'IoIosPlay'
-    | 'IoIosVolumeHigh'
-    | 'IoIosPause'
-    | 'IoIosSkipForward'
-    | 'IoIosSkipBackward'
-    | 'IoIosAdd'
-    | 'IoIosTrash'
-    | 'IoIosSettings'
-    | 'IoIosArrowBack'
-    | 'IoIosArrowDown';
+type IconTypes = 'play'
+    | 'volume-up'
+    | 'pause'
+    | 'forward'
+    | 'backward'
+    | 'plus'
+    | 'trash'
+    | 'sliders-h'
+    | 'chevron-left'
+    | 'chevron-down'
+    | 'arrow-left';
 
 interface IconProps {
     size: number;
@@ -35,20 +36,20 @@ const Wrapper = styled.div<WrapperProps>`
         css `
             border: 2px solid ${color};
             border-radius: 50%;
-            width: ${size + 10}px;
-            height: ${size + 10}px;
+            width: ${size + 20}px;
+            height: ${size + 20}px;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding-left: ${name === 'IoIosPlay' && '4px'};
+            padding-left: ${name === 'play' && '4px'};
         `
     }
 
     ${({square, size}) =>
         square &&
         css `
-            width: ${size + 10}px;
-            height: ${size + 10}px;
+            width: ${size + 15}px;
+            height: ${size + 15}px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -59,11 +60,9 @@ const Wrapper = styled.div<WrapperProps>`
 `
 
 const Icon: FC<IconComponentProps> = ({ name, color, size, circle = false, square = false, ...props }) => {
-    const Icon = Ionicons[name];
-    
     return (
         <Wrapper {...props} color={color} name={name} circle={circle} square={square} size={size}>
-            <Icon color={color} size={size} />
+            <FontAwesomeIcon color={color} icon={name} style={{fontSize: size}} />
         </Wrapper>
     )
 }

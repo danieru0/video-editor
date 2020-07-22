@@ -33,8 +33,8 @@ const TrackEdit: FC<TrackEditProps> = ({name}) => {
         <Container>
             <TrackText text={name} color={theme.trackText} />
             <Wrapper>
-                <WithButtonIcon onClick={() => console.log('ye')} square name="IoIosSettings" color="#fff" size={26} />
-                <WithButtonIcon onClick={() => console.log('ye')} square name="IoIosTrash" color="#fff" size={26} />
+                <WithButtonIcon onClick={() => console.log('ye')} square name="sliders-h" color="#fff" size={18} />
+                <WithButtonIcon onClick={() => console.log('ye')} square name="trash" color="#fff" size={18} />
             </Wrapper>
         </Container>
     )

@@ -31,7 +31,7 @@ const VolumeInput: FC = () => {
 
     return (
         <Container>
-            <StyledIcon name="IoIosVolumeHigh" color="#8DA5D1" size={30}/>
+            <StyledIcon name="volume-up" color="#8DA5D1" size={24}/>
             <InputRange 
                 activeColor={theme.inputRangeActive}
                 trackColor={theme.inputRangeTrack}

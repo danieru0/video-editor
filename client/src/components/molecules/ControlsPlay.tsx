@@ -18,12 +18,6 @@ const Container = styled.div`
     width: 350px;
 `
 
-const StyledIconPlay = styled(ButtonIcon)``
-
-const StyledIcon = styled(ButtonIcon)`
-    margin-top: 5px;
-`
-
 const ControlsPlay: FC = () => {
     const dispatch = useDispatch();
     const videoData = useTypedSelector(state => state.video.videoData);
@@ -53,9 +47,9 @@ const ControlsPlay: FC = () => {
     return (
         <Container>
             <Time time={0} />
-            <StyledIcon onClick={goBackward} name="IoIosSkipBackward" size={26} color="#E0E5EE" />
-            <StyledIconPlay onClick={toggleVideo} name={videoData.play ? "IoIosPause" : "IoIosPlay"} circle size={33} color="#E0E5EE" />
-            <StyledIcon onClick={goForward} name="IoIosSkipForward" size={26} color="#E0E5EE" />
+            <ButtonIcon onClick={goBackward} name="backward" size={26} color="#E0E5EE" />
+            <ButtonIcon onClick={toggleVideo} name={videoData.play ? "pause" : "play"} circle size={24} color="#E0E5EE" />
+            <ButtonIcon onClick={goForward} name="forward" size={26} color="#E0E5EE" />
             <Time time={videoRef.currentDuration} />
         </Container>
     )

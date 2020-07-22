@@ -20,8 +20,8 @@ const Timer = styled.div`
 const StyledIcon = styled(Icon)`
     transform: rotate(90deg);
     position: absolute;
-    left: -12px;
-    top: 7px;
+    left: -7px;
+    top: 12px;
 `
 
 const TimeArrow: FC<TimeArrowProps> = ({height, positionChange, timelineRef}) => {
@@ -78,7 +78,7 @@ const TimeArrow: FC<TimeArrowProps> = ({height, positionChange, timelineRef}) =>
             }}
             >
                 <Timer>
-                    <StyledIcon size={26} color='#fff' name="IoIosPlay" />
+                    <StyledIcon size={20} color='#fff' name="play" />
                 </Timer>
             </Rnd>
     )
