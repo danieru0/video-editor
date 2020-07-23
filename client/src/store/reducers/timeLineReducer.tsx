@@ -114,6 +114,31 @@ export default (state = initState, action: Action): timeLineState => {
                 })
             })
         }
+        case types.UPDATE_TEXT_OPTIONS_POSITION: {
+            return produce(state, draft => {
+                draft.timeline.forEach(item => {
+                    if (item.name === action.payload.name) {
+                        if (item.item && item.item.textOptions) {
+                            item.item.textOptions.textPosition = {
+                                x: action.payload.x,
+                                y: action.payload.y
+                            }
+                        }
+                    }
+                })
+            })
+        }
+        case types.UPDATE_TEXT_OPTIONS_ALIGN: {
+            return produce(state, draft => {
+                draft.timeline.forEach(item => {
+                    if (item.name === action.payload.name) {
+                        if (item.item && item.item.textOptions) {
+                            item.item.textOptions.justifyContent = action.payload.align;
+                        }
+                    }
+                })
+            })
+        }
         default: return state;
     }
 }

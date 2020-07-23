@@ -9,7 +9,9 @@ export type timeLineActions = createNewTrackAction
     | updateItemTrackSizeAction
     | updateItemPositionAction
     | updateItemColorAction
-    | updateTextOptionsColorAction;
+    | updateTextOptionsColorAction
+    | updateTextOptionsPositionAction
+    | updateTextOptionsAlignAction;
 
 interface createNewTrackAction {
     type: types.CREATE_NEW_TRACK,
@@ -60,7 +62,7 @@ interface updateItemTrackSizeAction {
     type: types.UPDATE_ITEM_TRACK_SIZE,
     payload: {name: string, width: string, start: number, end: number, xPosition: number};
 }
-export const updateItemTrackSize = (value: {name: string, width: string, start: number, end: number, xPosition: number}) => ({
+export const updateItemTrackSize = (value: {name: string, width: string, start: number, end: number, xPosition: number}): updateItemTrackSizeAction => ({
     type: types.UPDATE_ITEM_TRACK_SIZE,
     payload: value
 })
@@ -69,7 +71,7 @@ interface updateItemPositionAction {
     type: types.UPDATE_ITEM_POSITION,
     payload: { name: string, x: number, y: number }
 }
-export const updateItemPosition = (value: { name: string, x: number, y: number }) => ({
+export const updateItemPosition = (value: { name: string, x: number, y: number }): updateItemPositionAction => ({
     type: types.UPDATE_ITEM_POSITION,
     payload: value 
 })
@@ -78,7 +80,7 @@ interface updateItemColorAction {
     type: types.UPDATE_ITEM_COLOR,
     payload: { name: string, color: string }
 }
-export const updateItemColor = (value: { name: string, color: string }) => ({
+export const updateItemColor = (value: { name: string, color: string }): updateItemColorAction => ({
     type: types.UPDATE_ITEM_COLOR,
     payload: value 
 })
@@ -87,7 +89,25 @@ interface updateTextOptionsColorAction {
     type: types.UPDATE_TEXT_OPTIONS_COLOR
     payload: { name: string, color: string }
 }
-export const updateTextOptionsColor = (value: { name: string; color: string }) => ({
+export const updateTextOptionsColor = (value: { name: string; color: string }): updateTextOptionsColorAction => ({
     type: types.UPDATE_TEXT_OPTIONS_COLOR,
+    payload: value
+})
+
+interface updateTextOptionsPositionAction {
+    type: types.UPDATE_TEXT_OPTIONS_POSITION,
+    payload: { name: string, x: number; y: number }
+}
+export const updateTextOptionsPosition = (value: { name: string, x: number, y: number }): updateTextOptionsPositionAction => ({
+    type: types.UPDATE_TEXT_OPTIONS_POSITION,
+    payload: value
+})
+
+interface updateTextOptionsAlignAction {
+    type: types.UPDATE_TEXT_OPTIONS_ALIGN,
+    payload: { name: string, align: string; }
+}
+export const updateTextOptionsAlign = (value: { name: string, align: string }): updateTextOptionsAlignAction => ({
+    type: types.UPDATE_TEXT_OPTIONS_ALIGN,
     payload: value
 })

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
 const handleBlockType = (type: string) => {
@@ -55,12 +55,16 @@ const TextType = styled.div<TextTypeProps>`
     border: ${({border}) => border ? '1px solid #fff' : 'none'};
 `
 
-const Block: FC<BlockProps> = ({color = '#fff', type, textAlign, fontSize, justifyContent, fontFamily, textColor = '#fff', border, children, ...props}) => {
-    switch(type) {
-        case 'text':
-            return <TextType border={border} color={color} textAlign="center" fontSize="20px" textColor={textColor} justifyContent="center" {...props}>{children}</TextType>
-        default: return <BlockType type={type} color={color} {...props} />
+const Block = forwardRef(
+    (props: BlockProps, ref?: React.Ref<HTMLDivElement>) => {
+        const { color = '#fff', type, textAlign, fontSize, justifyContent, fontFamily, textColor = '#fff', border, children, ...rest } = props;
+        
+        switch(type) {
+            case 'text':
+                return <TextType ref={ref} border={border} color={color} textAlign={textAlign} fontSize={fontSize} textColor={textColor} justifyContent={justifyContent} {...rest}><span>{children}</span></TextType>
+            default: return <BlockType ref={ref} type={type} color={color} {...rest} />
+        }
     }
-}
+)
 
 export default Block;

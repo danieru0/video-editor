@@ -20,6 +20,10 @@ interface item {
         fontFamily: string;
         text: string;
         textColor: string;
+        textPosition: {
+            x: number;
+            y: number;
+        } | null;
     } | null;
 }
 

@@ -42,7 +42,8 @@ const SceneBlocks: FC = () => {
                     justifyContent: 'center',
                     fontFamily: 'Lato',
                     text: 'TEXT',
-                    textColor: '#000'
+                    textColor: '#000',
+                    textPosition: null
                 }
                 const newItem = {
                     type: type === 'text' ? 'drawtext' : 'overlay',

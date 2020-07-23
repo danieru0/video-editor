@@ -44,6 +44,7 @@ const Container = styled.div<isActiveProp>`
 const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOptions}) => {
     const dispatch = useDispatch();
     const videoCurrentDuration = useTypedSelector(state => state.video.videoRef.currentDuration);
+    const videoRef = useTypedSelector(state => state.video.videoRef.videoRef);
     const [target, setTarget] = useState<HTMLElement>();
     const [active, setActive] = useState(true);
     const [frame, setFrame] = useState({ //eslint-disable-line
@@ -52,6 +53,28 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
         rotate: 0
     });
     const moveableRef = useRef<any>();
+    const blockTextRef = useRef<any>();
+    const alignment = textOptions?.justifyContent;
+
+    useEffect(() => {
+        if (type === 'text') {
+            if (blockTextRef.current && videoRef) {
+                const videoRect = videoRef.getBoundingClientRect();
+                const textRect = blockTextRef.current.children[0].getBoundingClientRect();
+                const x = textRect.x - videoRect.x;
+                const y = textRect.y - videoRect.y;
+                dispatch({
+                    type: types.UPDATE_TEXT_OPTIONS_POSITION,
+                    payload: {
+                        name: name,
+                        x: x,
+                        y: y
+                    }
+                })
+
+            }
+        }
+    }, [alignment, videoRef, type, dispatch, name])
 
     useEffect(() => {
         const blockElement = document.getElementById(selector);
@@ -69,7 +92,19 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
         }
     }, [time, videoCurrentDuration]);
 
-    const handleDragEnd = () => {
+    const updateOptionsTextPosition = (xRect: number, yRect: number) => {
+        const videoRect = videoRef.getBoundingClientRect();
+        dispatch({
+            type: types.UPDATE_TEXT_OPTIONS_POSITION,
+            payload: {
+                name: name,
+                x: xRect - videoRect.x,
+                y: yRect - videoRect.y
+            }
+        })
+    }
+
+    const handleDragEnd = (e: any) => {
         dispatch({
             type: types.UPDATE_ITEM_POSITION,
             payload: {
@@ -78,6 +113,18 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                 y: frame.translate[1]
             }
         })
+
+        if (type === 'text') {
+            const textRect = e.target.children[0].getBoundingClientRect();
+            updateOptionsTextPosition(textRect.x, textRect.y);
+        }
+    }
+
+    const handleEndEvent = (e: any) => {
+        if (type === 'text') {
+            const textRect = e.target.children[0].getBoundingClientRect();
+            updateOptionsTextPosition(textRect.x, textRect.y);
+        }   
     }
 
     const handleItemClick = () => {
@@ -94,7 +141,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
         <Container isActive={active}>
             {
                 textOptions ? (
-                    <Block id={selector} color={color} type={type} {...textOptions}>{textOptions.text}</Block>
+                    <Block ref={blockTextRef} id={selector} color={color} type={type} {...textOptions}>{textOptions.text}</Block>
                 ) : (
                     <Block id={selector} color={color} type={type} />
                 )
@@ -148,6 +195,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                         + ` scale(${frame.scale[0]}, ${frame.scale[1]})`
                         + `rotate(${beforeRotate}deg)`;
                 }}
+                onRotateEnd={handleEndEvent}
                 onResizeStart={({ setOrigin, dragStart }) => {
                     setOrigin(["%", "%"]);
                     dragStart && dragStart.set(frame.translate);
@@ -162,6 +210,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                         = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`
                         + `rotate(${frame.rotate}deg)`;
                 }}
+                onResizeEnd={handleEndEvent}
             />
         </Container>
     );

@@ -12,7 +12,10 @@ type IconTypes = 'play'
     | 'sliders-h'
     | 'chevron-left'
     | 'chevron-down'
-    | 'arrow-left';
+    | 'arrow-left'
+    | 'align-left'
+    | 'align-center'
+    | 'align-right';
 
 interface IconProps {
     size: number;

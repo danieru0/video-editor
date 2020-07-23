@@ -29,8 +29,11 @@ const VideoPlayer: FC = () => {
         setTick(tick);
         setVideoRef(videoRef);
         dispatch({
-            type: types.SET_VIDEO_CURRENT_DURATION,
-            payload: tick
+            type: types.SET_VIDEO_REF,
+            payload: {
+                currentDuration: tick,
+                videoRef: videoRef
+            }
         });
     }
 

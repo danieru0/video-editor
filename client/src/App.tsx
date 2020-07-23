@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { types } from './store/actions/types'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlay, faVolumeUp, faPause, faForward, faBackward, faPlus, faTrash, faSlidersH, faChevronLeft, faChevronDown, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faVolumeUp, faPause, faForward, faBackward, faPlus, faTrash, faSlidersH, faChevronLeft, faChevronDown, faArrowLeft, faAlignLeft, faAlignCenter, faAlignRight } from '@fortawesome/free-solid-svg-icons'
 
 import Editor from './pages/Editor/Editor';
 import { base64 } from './testVideoBase64';
 
-library.add(faPlay, faVolumeUp, faPause, faForward, faBackward, faPlus, faTrash, faSlidersH, faChevronLeft, faChevronDown, faArrowLeft);
+library.add(faPlay, faVolumeUp, faPause, faForward, faBackward, faPlus, faTrash, faSlidersH, faChevronLeft, faChevronDown, faArrowLeft, faAlignLeft, faAlignCenter, faAlignRight);
 
 function App() {
   const dispatch = useDispatch();

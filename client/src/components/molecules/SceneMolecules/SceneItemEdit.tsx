@@ -82,10 +82,20 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
         }
     }
 
+    const handleAlignChange = (type: string) => {
+        dispatch({
+            type: types.UPDATE_TEXT_OPTIONS_ALIGN,
+            payload: {
+                name: name,
+                align: type
+            }
+        })
+    }
+
     const EditComponent = () => {
         switch(type) {
             case 'text':
-                return <BlockTextEdit name={name} onColorChange={(color: string) => handleColorChange(color, 'text')} />
+                return <BlockTextEdit name={name} onAlignChange={handleAlignChange} onColorChange={(color: string) => handleColorChange(color, 'text')} />
             default:
                 return <BlockItemEdit name={name} onColorChange={(color: string) => handleColorChange(color, 'block')} />
         }
