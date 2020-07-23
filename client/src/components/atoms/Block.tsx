@@ -53,6 +53,11 @@ const TextType = styled.div<TextTypeProps>`
     font-size: ${({fontSize}) => fontSize};
     justify-content: ${({justifyContent}) => justifyContent};
     border: ${({border}) => border ? '1px solid #fff' : 'none'};
+    overflow: hidden;
+`
+
+const TextElement = styled.span`
+    white-space: pre-wrap;
 `
 
 const Block = forwardRef(
@@ -61,7 +66,11 @@ const Block = forwardRef(
         
         switch(type) {
             case 'text':
-                return <TextType ref={ref} border={border} color={color} textAlign={textAlign} fontSize={fontSize} textColor={textColor} justifyContent={justifyContent} {...rest}><span>{children}</span></TextType>
+                return <TextType ref={ref} border={border} color={color} textAlign={textAlign} fontSize={fontSize} textColor={textColor} justifyContent={justifyContent} {...rest}>
+                        <TextElement>
+                            {children}
+                        </TextElement>
+                    </TextType>
             default: return <BlockType ref={ref} type={type} color={color} {...rest} />
         }
     }

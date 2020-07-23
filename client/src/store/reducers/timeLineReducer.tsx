@@ -134,6 +134,27 @@ export default (state = initState, action: Action): timeLineState => {
                     if (item.name === action.payload.name) {
                         if (item.item && item.item.textOptions) {
                             item.item.textOptions.justifyContent = action.payload.align;
+
+                            switch(action.payload.align) {
+                                case 'flex-start':
+                                    return item.item.textOptions.textAlign = 'left';
+                                case 'center':
+                                    return item.item.textOptions.textAlign = 'center';
+                                case 'flex-end':
+                                    return item.item.textOptions.textAlign = 'right';
+                                default: throw new Error('wrong type!');
+                            }
+                        }
+                    }
+                })
+            })
+        }
+        case types.UPDATE_TEXT_OPTIONS: {
+            return produce(state, draft => {
+                draft.timeline.forEach(item => {
+                    if (item.name === action.payload.name) {
+                        if (item.item && item.item.textOptions) {
+                            item.item.textOptions.text = action.payload.text;
                         }
                     }
                 })

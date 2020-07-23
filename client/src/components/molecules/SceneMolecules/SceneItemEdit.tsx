@@ -21,6 +21,7 @@ const Container = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 `
 
 const Navigation = styled.div`
@@ -92,10 +93,20 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
         })
     }
 
+    const handleTextChange = (text: string) => {
+        dispatch({
+            type: types.UPDATE_TEXT_OPTIONS,
+            payload: {
+                name: name,
+                text: text
+            }
+        })
+    }
+
     const EditComponent = () => {
         switch(type) {
             case 'text':
-                return <BlockTextEdit name={name} onAlignChange={handleAlignChange} onColorChange={(color: string) => handleColorChange(color, 'text')} />
+                return <BlockTextEdit name={name} onTextChange={handleTextChange} onAlignChange={handleAlignChange} onColorChange={(color: string) => handleColorChange(color, 'text')} />
             default:
                 return <BlockItemEdit name={name} onColorChange={(color: string) => handleColorChange(color, 'block')} />
         }

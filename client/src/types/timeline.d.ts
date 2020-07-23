@@ -1,4 +1,4 @@
-interface item {
+export interface item {
     type: string;
     itemType: string;
     width: number | string;

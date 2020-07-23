@@ -21,13 +21,24 @@ interface activeElementsState {
 interface BlockTextEditProps {
     onColorChange: (color: string) => void;
     onAlignChange: (type: string) => void;
+    onTextChange: (text: string) => void;
     name: string;
 }
 
 const Container = styled.div`
     width: 100%;
-    height: 100%;
+    height: calc(100% - 50px);
     padding: 20px;
+`
+
+const TextArea = styled.textarea`
+    resize: none;
+    width: 50%;
+    height: 100px;
+    margin-bottom: 10px;
+    margin-left: 18px;
+    font-size: 18px;
+
 `
 
 const Wrapper = styled.div<WrapperProps>`
@@ -47,13 +58,14 @@ const AlignButtons = styled.div`
     display: flex;
 `
 
-const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, name}) => {
+const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, onTextChange, name}) => {
     const timelineList = useTypedSelector(state => state.timeline.timeline);
     const [activeElements, setActive] = useState<activeElementsState>({
         0: false,
         1: false,
     });
     const [color, setColor] = useState('');
+    const [text, setText] = useState('');
 
     useEffect(() => {
         const currentItem = timelineList.filter(item => item.name === name);
@@ -61,10 +73,19 @@ const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, na
         if (currentItem.length !== 0) {
             if (currentItem[0].item && currentItem[0].item.textOptions) {
                 setColor(currentItem[0].item.textOptions.textColor);
+                setText(currentItem[0].item.textOptions.text);
             }
         }
 
     }, [name, timelineList]);
+
+    useEffect(() => {
+        const editingTimeout = setTimeout(() => {
+            onTextChange(text);
+        }, 500);
+
+        return () => clearTimeout(editingTimeout);
+    }, [text, onTextChange]);
 
     const handleLineClick = (id: number) => {
         setActive({
@@ -78,8 +99,13 @@ const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, na
         onColorChange(color);
     }
 
+    const handleTextChange = (value: string) => {
+        setText(value);
+    }
+
     return (
         <Container>
+            <TextArea onChange={(e) => handleTextChange(e.target.value)} value={text}/>
             <Line onClick={() => handleLineClick(0)} text="Font color" active={activeElements[0]} />
             <Wrapper active={activeElements[0]}>
                 <ChromePicker color={color} onChangeComplete={(color) => handleColorChange(color.hex)}/>
