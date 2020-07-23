@@ -103,10 +103,30 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
         })
     }
 
+    const handleFontChange = (size: string) => {
+        dispatch({
+            type: types.UPDATE_TEXT_OPTIONS_SIZE,
+            payload: {
+                name: name,
+                size: size
+            }
+        })
+    }
+
+    const handleFontTypeChange = (type: string) => {
+        dispatch({
+            type: types.UPDATE_TEXT_OPTIONS_TYPE,
+            payload: {
+                name: name,
+                type: type
+            }
+        })
+    }
+
     const EditComponent = () => {
         switch(type) {
             case 'text':
-                return <BlockTextEdit name={name} onTextChange={handleTextChange} onAlignChange={handleAlignChange} onColorChange={(color: string) => handleColorChange(color, 'text')} />
+                return <BlockTextEdit name={name} onFontTypeChange={handleFontTypeChange} onFontChange={handleFontChange} onTextChange={handleTextChange} onAlignChange={handleAlignChange} onColorChange={(color: string) => handleColorChange(color, 'text')} />
             default:
                 return <BlockItemEdit name={name} onColorChange={(color: string) => handleColorChange(color, 'block')} />
         }

@@ -12,7 +12,9 @@ export type timeLineActions = createNewTrackAction
     | updateTextOptionsColorAction
     | updateTextOptionsPositionAction
     | updateTextOptionsAlignAction
-    | updateTextOptionsAction;
+    | updateTextOptionsAction
+    | updateTextOptionsSizeAction
+    | updateTextOptionsTypeAction;
 
 interface createNewTrackAction {
     type: types.CREATE_NEW_TRACK,
@@ -119,5 +121,23 @@ interface updateTextOptionsAction {
 }
 export const updateTextOptions = (value: { name: string, text: string }): updateTextOptionsAction => ({
     type: types.UPDATE_TEXT_OPTIONS,
+    payload: value
+})
+
+interface updateTextOptionsSizeAction {
+    type: types.UPDATE_TEXT_OPTIONS_SIZE,
+    payload: { name: string, size: string; }
+}
+export const updateTextOptionsSize = (value: { name: string, size: string }): updateTextOptionsSizeAction => ({
+    type: types.UPDATE_TEXT_OPTIONS_SIZE,
+    payload: value
+})
+
+interface updateTextOptionsTypeAction {
+    type: types.UPDATE_TEXT_OPTIONS_TYPE,
+    payload: { name: string, type: string; }
+}
+export const updateTextOptionsType = (value: { name: string, type: string }): updateTextOptionsTypeAction => ({
+    type: types.UPDATE_TEXT_OPTIONS_TYPE,
     payload: value
 })

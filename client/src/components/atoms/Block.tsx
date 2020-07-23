@@ -53,6 +53,7 @@ const TextType = styled.div<TextTypeProps>`
     font-size: ${({fontSize}) => fontSize};
     justify-content: ${({justifyContent}) => justifyContent};
     border: ${({border}) => border ? '1px solid #fff' : 'none'};
+    font-family: ${({fontFamily}) => fontFamily};
     overflow: hidden;
 `
 
@@ -62,11 +63,11 @@ const TextElement = styled.span`
 
 const Block = forwardRef(
     (props: BlockProps, ref?: React.Ref<HTMLDivElement>) => {
-        const { color = '#fff', type, textAlign, fontSize, justifyContent, fontFamily, textColor = '#fff', border, children, ...rest } = props;
+        const { color = '#fff', type, textAlign, fontSize, justifyContent, fontFamily = 'Lato', textColor = '#fff', border, children, ...rest } = props;
         
         switch(type) {
             case 'text':
-                return <TextType ref={ref} border={border} color={color} textAlign={textAlign} fontSize={fontSize} textColor={textColor} justifyContent={justifyContent} {...rest}>
+                return <TextType ref={ref} border={border} color={color} textAlign={textAlign} fontFamily={fontFamily} fontSize={fontSize} textColor={textColor} justifyContent={justifyContent} {...rest}>
                         <TextElement>
                             {children}
                         </TextElement>
