@@ -70,7 +70,7 @@ const Label = styled.label`
     font-family: ${({theme}) => theme.Lato};
     color: #fff;
     font-size: 20px;
-    margin-left: 18px;
+    margin-left: 10px;
     padding: 5px 0px;
 `
 

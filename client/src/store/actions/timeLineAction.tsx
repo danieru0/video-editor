@@ -9,12 +9,7 @@ export type timeLineActions = createNewTrackAction
     | updateItemTrackSizeAction
     | updateItemPositionAction
     | updateItemColorAction
-    | updateTextOptionsColorAction
-    | updateTextOptionsPositionAction
-    | updateTextOptionsAlignAction
-    | updateTextOptionsAction
-    | updateTextOptionsSizeAction
-    | updateTextOptionsTypeAction;
+    | updateTextOptionsAction;
 
 interface createNewTrackAction {
     type: types.CREATE_NEW_TRACK,
@@ -88,56 +83,21 @@ export const updateItemColor = (value: { name: string, color: string }): updateI
     payload: value 
 })
 
-interface updateTextOptionsColorAction {
-    type: types.UPDATE_TEXT_OPTIONS_COLOR
-    payload: { name: string, color: string }
+interface TextOptions {
+    name: string;
+    textAlign: string | null;
+    fontSize: string | null;
+    fontFamily: string | null;
+    text: string | null;
+    textColor: string | null;
+    x: number | null;
+    y: number | null;
 }
-export const updateTextOptionsColor = (value: { name: string; color: string }): updateTextOptionsColorAction => ({
-    type: types.UPDATE_TEXT_OPTIONS_COLOR,
-    payload: value
-})
-
-interface updateTextOptionsPositionAction {
-    type: types.UPDATE_TEXT_OPTIONS_POSITION,
-    payload: { name: string, x: number; y: number }
-}
-export const updateTextOptionsPosition = (value: { name: string, x: number, y: number }): updateTextOptionsPositionAction => ({
-    type: types.UPDATE_TEXT_OPTIONS_POSITION,
-    payload: value
-})
-
-interface updateTextOptionsAlignAction {
-    type: types.UPDATE_TEXT_OPTIONS_ALIGN,
-    payload: { name: string, align: string; }
-}
-export const updateTextOptionsAlign = (value: { name: string, align: string }): updateTextOptionsAlignAction => ({
-    type: types.UPDATE_TEXT_OPTIONS_ALIGN,
-    payload: value
-})
-
 interface updateTextOptionsAction {
     type: types.UPDATE_TEXT_OPTIONS,
-    payload: { name: string, text: string; }
+    payload: TextOptions
 }
-export const updateTextOptions = (value: { name: string, text: string }): updateTextOptionsAction => ({
+export const updateTextOptions = (value: TextOptions): updateTextOptionsAction => ({
     type: types.UPDATE_TEXT_OPTIONS,
-    payload: value
-})
-
-interface updateTextOptionsSizeAction {
-    type: types.UPDATE_TEXT_OPTIONS_SIZE,
-    payload: { name: string, size: string; }
-}
-export const updateTextOptionsSize = (value: { name: string, size: string }): updateTextOptionsSizeAction => ({
-    type: types.UPDATE_TEXT_OPTIONS_SIZE,
-    payload: value
-})
-
-interface updateTextOptionsTypeAction {
-    type: types.UPDATE_TEXT_OPTIONS_TYPE,
-    payload: { name: string, type: string; }
-}
-export const updateTextOptionsType = (value: { name: string, type: string }): updateTextOptionsTypeAction => ({
-    type: types.UPDATE_TEXT_OPTIONS_TYPE,
     payload: value
 })

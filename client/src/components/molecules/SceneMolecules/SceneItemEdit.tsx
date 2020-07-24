@@ -73,10 +73,10 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
                 })
             case 'text':
                 return dispatch({
-                    type: types.UPDATE_TEXT_OPTIONS_COLOR,
+                    type: types.UPDATE_TEXT_OPTIONS,
                     payload: {
                         name: name,
-                        color: color
+                        textColor: color
                     }
                 })
             default: return false;
@@ -85,10 +85,10 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
 
     const handleAlignChange = (type: string) => {
         dispatch({
-            type: types.UPDATE_TEXT_OPTIONS_ALIGN,
+            type: types.UPDATE_TEXT_OPTIONS,
             payload: {
                 name: name,
-                align: type
+                textAlign: type
             }
         })
     }
@@ -105,20 +105,20 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
 
     const handleFontChange = (size: string) => {
         dispatch({
-            type: types.UPDATE_TEXT_OPTIONS_SIZE,
+            type: types.UPDATE_TEXT_OPTIONS,
             payload: {
                 name: name,
-                size: size
+                fontSize: size
             }
         })
     }
 
     const handleFontTypeChange = (type: string) => {
         dispatch({
-            type: types.UPDATE_TEXT_OPTIONS_TYPE,
+            type: types.UPDATE_TEXT_OPTIONS,
             payload: {
                 name: name,
-                type: type
+                fontFamily: type
             }
         })
     }

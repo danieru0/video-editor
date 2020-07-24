@@ -103,80 +103,40 @@ export default (state = initState, action: Action): timeLineState => {
                 })
             })
         }
-        case types.UPDATE_TEXT_OPTIONS_COLOR: {
-            return produce(state, draft => {
-                draft.timeline.forEach(item => {
-                    if (item.name === action.payload.name) {
-                        if (item.item && item.item.textOptions) {
-                            item.item.textOptions.textColor = action.payload.color;
-                        }
-                    }
-                })
-            })
-        }
-        case types.UPDATE_TEXT_OPTIONS_POSITION: {
-            return produce(state, draft => {
-                draft.timeline.forEach(item => {
-                    if (item.name === action.payload.name) {
-                        if (item.item && item.item.textOptions) {
-                            item.item.textOptions.textPosition = {
-                                x: action.payload.x,
-                                y: action.payload.y
-                            }
-                        }
-                    }
-                })
-            })
-        }
-        case types.UPDATE_TEXT_OPTIONS_ALIGN: {
-            return produce(state, draft => {
-                draft.timeline.forEach(item => {
-                    if (item.name === action.payload.name) {
-                        if (item.item && item.item.textOptions) {
-                            item.item.textOptions.justifyContent = action.payload.align;
-
-                            switch(action.payload.align) {
-                                case 'flex-start':
-                                    return item.item.textOptions.textAlign = 'left';
-                                case 'center':
-                                    return item.item.textOptions.textAlign = 'center';
-                                case 'flex-end':
-                                    return item.item.textOptions.textAlign = 'right';
-                                default: throw new Error('wrong type!');
-                            }
-                        }
-                    }
-                })
-            })
-        }
         case types.UPDATE_TEXT_OPTIONS: {
             return produce(state, draft => {
                 draft.timeline.forEach(item => {
                     if (item.name === action.payload.name) {
                         if (item.item && item.item.textOptions) {
-                            item.item.textOptions.text = action.payload.text;
-                        }
-                    }
-                })
-            })
-        }
-        case types.UPDATE_TEXT_OPTIONS_SIZE: {
-            return produce(state, draft => {
-                draft.timeline.forEach(item => {
-                    if (item.name === action.payload.name) {
-                        if (item.item && item.item.textOptions) {
-                            item.item.textOptions.fontSize = action.payload.size;
-                        }
-                    }
-                })
-            })
-        }
-        case types.UPDATE_TEXT_OPTIONS_TYPE: {
-            return produce(state, draft => {
-                draft.timeline.forEach(item => {
-                    if (item.name === action.payload.name) {
-                        if (item.item && item.item.textOptions) {
-                            item.item.textOptions.fontFamily = action.payload.type;
+                            const payloadCopy = (JSON.parse(JSON.stringify(action.payload)));
+                            const { x, y, name, textAlign, ...rest } = payloadCopy;
+
+                            if (x !== null && y !== null) {
+                                item.item.textOptions.textPosition = {
+                                    x: x,
+                                    y: y
+                                }
+                            }
+
+                            if (textAlign) {
+                                item.item.textOptions.justifyContent = textAlign;
+
+                                switch(textAlign) {
+                                    case 'flex-start':
+                                        return item.item.textOptions.textAlign = 'left';
+                                    case 'center':
+                                        return item.item.textOptions.textAlign = 'center';
+                                    case 'flex-end':
+                                        return item.item.textOptions.textAlign = 'right';
+                                    default: throw new Error('wrong type!');
+                                }
+                            }
+
+                            item.item.textOptions = {
+                                ...item.item.textOptions,
+                                ...rest
+                            }
+
                         }
                     }
                 })

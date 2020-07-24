@@ -63,8 +63,9 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                 const textRect = blockTextRef.current.children[0].getBoundingClientRect();
                 const x = textRect.x - videoRect.x;
                 const y = textRect.y - videoRect.y;
+
                 dispatch({
-                    type: types.UPDATE_TEXT_OPTIONS_POSITION,
+                    type: types.UPDATE_TEXT_OPTIONS,
                     payload: {
                         name: name,
                         x: x,
@@ -95,7 +96,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
     const updateOptionsTextPosition = (xRect: number, yRect: number) => {
         const videoRect = videoRef.getBoundingClientRect();
         dispatch({
-            type: types.UPDATE_TEXT_OPTIONS_POSITION,
+            type: types.UPDATE_TEXT_OPTIONS,
             payload: {
                 name: name,
                 x: xRect - videoRect.x,
