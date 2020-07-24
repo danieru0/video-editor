@@ -36,7 +36,7 @@ const Navigation = styled.div`
 
 const StyledIcon = styled(ButtonIcon)`
     position: absolute;
-    left: 5px;
+    left: 10px;
     top: 11px;
 `
 

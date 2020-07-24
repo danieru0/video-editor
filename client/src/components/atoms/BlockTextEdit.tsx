@@ -137,7 +137,7 @@ const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, on
         }, 500)
 
         return () => clearTimeout(editingTimeout);
-    }, [fontSize]);
+    }, [fontSize, onFontChange]);
 
     const handleLineClick = (id: number) => {
         setActive({

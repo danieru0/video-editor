@@ -21,7 +21,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
     width: 100%;
     height: 100%;
-    padding: 30px;
+    padding: 30px 10px 30px 30px;
 `
 
 const Scene: FC<SceneProps> = ({...props}) => {

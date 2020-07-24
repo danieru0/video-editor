@@ -9,6 +9,7 @@ import Block from '../atoms/Block';
 
 interface ItemProps {
     type: string;
+    index: number;
     bounds: {
         left: number;
         top: number;
@@ -32,16 +33,23 @@ interface ItemProps {
     } | null;
 }
 
-interface isActiveProp {
+interface settingsProps {
     isActive: boolean | null;
+    index: number;
 }
 
-const Container = styled.div<isActiveProp>`
-    display: ${({isActive}) => isActive ? 'block' : 'none'};
+const StyledBlock = styled(Block)<settingsProps>`
+    display: ${({isActive}) => isActive ? 'flex' : 'none'};
     position: absolute;
+    z-index: ${({index}) => index}!important;
 `
 
-const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOptions}) => {
+const StyledMoveable = styled(Moveable)<settingsProps>`
+    display: ${({isActive}) => isActive ? 'block' : 'none'}!important;
+    z-index: ${({index}) => index}!important;
+`
+
+const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOptions, index}) => {
     const dispatch = useDispatch();
     const videoCurrentDuration = useTypedSelector(state => state.video.videoRef.currentDuration);
     const videoRef = useTypedSelector(state => state.video.videoRef.videoRef);
@@ -52,6 +60,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
         scale: [1,1],
         rotate: 0
     });
+    const [isItemUsed, setIsItemUsed] = useState(false);
     const moveableRef = useRef<any>();
     const blockTextRef = useRef<any>();
     const alignment = textOptions?.justifyContent;
@@ -106,6 +115,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
     }
 
     const handleDragEnd = (e: any) => {
+        setIsItemUsed(false);
         dispatch({
             type: types.UPDATE_ITEM_POSITION,
             payload: {
@@ -122,6 +132,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
     }
 
     const handleEndEvent = (e: any) => {
+        setIsItemUsed(false);
         if (type === 'text') {
             const textRect = e.target.children[0].getBoundingClientRect();
             updateOptionsTextPosition(textRect.x, textRect.y);
@@ -129,43 +140,48 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
     }
 
     const handleItemClick = () => {
-        dispatch({
-            type: types.UPDATE_CLICKED_ITEM,
-            payload: {
-                name: name,
-                type: type
-            }
-        })
+        if (!isItemUsed) {
+            dispatch({
+                type: types.UPDATE_CLICKED_ITEM,
+                payload: {
+                    name: name,
+                    type: type
+                }
+            })
+        }
     }
 
     return (
-        <Container isActive={active}>
+        <>
             {
                 textOptions ? (
-                    <Block ref={blockTextRef} id={selector} color={color} type={type} {...textOptions}>{textOptions.text}</Block>
+                    <StyledBlock index={index + 4} isActive={active} ref={blockTextRef} id={selector} color={color} type={type} {...textOptions}>{textOptions.text}</StyledBlock>
                 ) : (
-                    <Block id={selector} color={color} type={type} />
+                    <StyledBlock index={index + 4} isActive={active} id={selector} color={color} type={type} />
                 )
             }
-            <Moveable 
+            <StyledMoveable 
+                index={index + 4}
+                isActive={active}
                 ref={moveableRef}
                 target={target}
                 scalable={textOptions ? false : true}
                 resizable={textOptions ? true : false}
-                dragArea={true}
                 rotatable={true}
                 origin={false}
+                dragArea={true}
                 rotationPosition={"top"}
                 keepRatio={textOptions ? false : true}
+                onClick={handleItemClick}
                 draggable={true}
                 snappable={true}
                 throttleScale={0}
                 bounds={bounds}
-                onClick={handleItemClick}
                 onDragStart={({ set }) => {
                     set(frame.translate);
                 }}
                 onDrag={({ target, beforeTranslate }) => {
+                    setIsItemUsed(true);
                     frame.translate = beforeTranslate;
                     target.style.transform
                         = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`
@@ -178,6 +194,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                     dragStart && dragStart.set(frame.translate);
                 }}
                 onScale={({ target, scale, drag }) => {
+                    setIsItemUsed(true);
                     const beforeTranslate = drag.beforeTranslate;
                     frame.translate = beforeTranslate;
                     frame.scale = scale;
@@ -190,6 +207,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                     set(frame.rotate);
                 }}
                 onRotate={({ target, beforeRotate }) => {
+                    setIsItemUsed(true);
                     frame.rotate = beforeRotate;
                     target.style.transform
                         = `translate(${frame.translate[0]}px, ${frame.translate[1]}px)`
@@ -213,7 +231,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                 }}
                 onResizeEnd={handleEndEvent}
             />
-        </Container>
+        </>
     );
 }
 

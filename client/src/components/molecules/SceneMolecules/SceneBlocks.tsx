@@ -6,7 +6,7 @@ import { types } from '../../../store/actions/types';
 
 import WithButton from '../../../hoc/withButton';
 
-import Block from '../../atoms/Block';
+import Block, { BlocksArray } from '../../atoms/Block';
 
 const ButtonBlock = WithButton(Block);
 
@@ -16,6 +16,7 @@ const Container = styled.div`
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
+    overflow-y: auto;
 `
 
 const StyledBlock = styled(ButtonBlock)`
@@ -86,9 +87,11 @@ const SceneBlocks: FC = () => {
     return (
         <Container>
             <StyledBlock onClick={(e: any) => handleBlockClick(e, 'text')} type="text" textAlign="center" fontSize="24px" border justifyContent="center">TEXT</StyledBlock>
-            <StyledBlock onClick={(e: any) => handleBlockClick(e, 'Triangle')} type="Triangle"/>
-            <StyledBlock onClick={(e: any) => handleBlockClick(e, 'Octagon')} type="Octagon"/>
-            <StyledBlock onClick={(e: any) => handleBlockClick(e, 'Trapezoid')} type="Trapezoid"/>
+            {
+                BlocksArray.map((item, key) => {
+                    return <StyledBlock key={key} onClick={(e: any) => handleBlockClick(e, item)} type={item} />
+                })
+            }
         </Container>
     )
 }
