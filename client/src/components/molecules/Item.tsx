@@ -60,7 +60,6 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
         scale: [1,1],
         rotate: 0
     });
-    const [isItemUsed, setIsItemUsed] = useState(false);
     const moveableRef = useRef<any>();
     const blockTextRef = useRef<any>();
     const alignment = textOptions?.justifyContent;
@@ -115,7 +114,6 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
     }
 
     const handleDragEnd = (e: any) => {
-        setIsItemUsed(false);
         dispatch({
             type: types.UPDATE_ITEM_POSITION,
             payload: {
@@ -132,7 +130,6 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
     }
 
     const handleEndEvent = (e: any) => {
-        setIsItemUsed(false);
         if (type === 'text') {
             const textRect = e.target.children[0].getBoundingClientRect();
             updateOptionsTextPosition(textRect.x, textRect.y);
@@ -140,15 +137,13 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
     }
 
     const handleItemClick = () => {
-        if (!isItemUsed) {
-            dispatch({
-                type: types.UPDATE_CLICKED_ITEM,
-                payload: {
-                    name: name,
-                    type: type
-                }
-            })
-        }
+        dispatch({
+            type: types.UPDATE_CLICKED_ITEM,
+            payload: {
+                name: name,
+                type: type
+            }
+        })
     }
 
     return (
@@ -181,7 +176,6 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                     set(frame.translate);
                 }}
                 onDrag={({ target, beforeTranslate }) => {
-                    setIsItemUsed(true);
                     frame.translate = beforeTranslate;
                     target.style.transform
                         = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`
@@ -194,7 +188,6 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                     dragStart && dragStart.set(frame.translate);
                 }}
                 onScale={({ target, scale, drag }) => {
-                    setIsItemUsed(true);
                     const beforeTranslate = drag.beforeTranslate;
                     frame.translate = beforeTranslate;
                     frame.scale = scale;
@@ -207,7 +200,6 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                     set(frame.rotate);
                 }}
                 onRotate={({ target, beforeRotate }) => {
-                    setIsItemUsed(true);
                     frame.rotate = beforeRotate;
                     target.style.transform
                         = `translate(${frame.translate[0]}px, ${frame.translate[1]}px)`

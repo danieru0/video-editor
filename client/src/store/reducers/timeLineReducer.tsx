@@ -27,6 +27,12 @@ export default (state = initState, action: Action): timeLineState => {
                 draft.timeline.push(action.payload)
             })
         }
+        case types.DELETE_TRACK: {
+            return {
+                ...state,
+                timeline: state.timeline.filter(item => item.name !== action.payload)
+            }
+        }
         case types.ADD_ITEM_TO_TRACK: {
             return produce(state, draft => {
                 draft.timeline.forEach(item => {

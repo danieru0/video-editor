@@ -2,6 +2,7 @@ import { timeLine, item } from '../../types/timeline';
 import { types } from './types';
 
 export type timeLineActions = createNewTrackAction
+    | deleteTrackAction
     | addItemToTrackAction
     | updateItemTimeAction
     | setTimelineRefAction
@@ -17,6 +18,15 @@ interface createNewTrackAction {
 }
 export const createNewTrack = (value: timeLine): createNewTrackAction => ({
     type: types.CREATE_NEW_TRACK,
+    payload: value
+});
+
+interface deleteTrackAction {
+    type: types.DELETE_TRACK,
+    payload: string;
+}
+export const deleteTrack = (value: string): deleteTrackAction => ({
+    type: types.DELETE_TRACK,
     payload: value
 });
 

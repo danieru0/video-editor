@@ -9,6 +9,7 @@ import Icon from '../atoms/Icon';
 
 interface TrackEditProps {
     name: string;
+    onDeleteClick: () => void;
 }
 
 const Container = styled.div`
@@ -28,13 +29,13 @@ const Wrapper = styled.div`
 
 const WithButtonIcon = WithButton(Icon);
 
-const TrackEdit: FC<TrackEditProps> = ({name}) => {
+const TrackEdit: FC<TrackEditProps> = ({name, onDeleteClick}) => {
     return (
         <Container>
             <TrackText text={name} color={theme.trackText} />
             <Wrapper>
                 <WithButtonIcon onClick={() => console.log('ye')} square name="sliders-h" color="#fff" size={18} />
-                <WithButtonIcon onClick={() => console.log('ye')} square name="trash" color="#fff" size={18} />
+                <WithButtonIcon onClick={onDeleteClick} square name="trash" color="#fff" size={18} />
             </Wrapper>
         </Container>
     )

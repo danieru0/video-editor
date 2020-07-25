@@ -150,6 +150,14 @@ const TimeLine: FC = () => {
         setTrackHeights(newTrackHeight);
     }
 
+    const handleDeleteTrack = (name: string) => {
+        dispatch({
+            type: types.DELETE_TRACK,
+            payload: name
+        })
+        setTrackHeights(trackHeights - 70);
+    }
+
     return (
         <Container height={trackHeights}>
             <SideNav>
@@ -157,7 +165,7 @@ const TimeLine: FC = () => {
                 <Wrapper>
                     {
                         trackList && trackList.map(item => {
-                            return <TrackEdit key={item.name} name={item.name}/>
+                            return <TrackEdit onDeleteClick={() => handleDeleteTrack(item.name)} key={item.name} name={item.name}/>
                         })
                     }
                 </Wrapper>
