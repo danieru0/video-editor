@@ -9,9 +9,17 @@ import TrackEdit from '../molecules/TrackEdit';
 import Track from '../molecules/Track';
 import TimeStamp from '../atoms/TimeStamp';
 import TimeArrow from '../molecules/TimeArrow';
+import SettingsDropdown from '../molecules/SettingsDropdown';
 
 interface ContainerProps {
     height: number;
+}
+
+interface dropdownData {
+    name: string | null;
+    clientX: number;
+    clientY: number;
+    type: string | undefined;
 }
 
 const Container = styled.div<ContainerProps>`
@@ -48,6 +56,12 @@ const TimeLine: FC = () => {
     const [resizeActive, setResizeActive] = useState(false);
     const [timelineWidth, setTimelineWidth] = useState(0);
     const [trackAmount, setTrackAmount]= useState(1);
+    const [dropdownData, setDropdownData] = useState<dropdownData>({
+        name: null,
+        clientX: 0,
+        clientY: 0,
+        type: ''
+    })
     const timelineRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -118,6 +132,23 @@ const TimeLine: FC = () => {
         return () => window.removeEventListener('resize', runTimeout);
     }, [trackList, timelineWidth, dispatch, resizeActive, videoData.videoLength]);
 
+    
+    
+    useEffect(() => {
+        const handleOutsideClick = () => {
+            setDropdownData({
+                name: null,
+                clientX: 0,
+                clientY: 0,
+                type: ''
+            })
+        }
+        
+        window.addEventListener('click', handleOutsideClick);
+
+        return () => window.removeEventListener('click', handleOutsideClick);
+    }, []);
+
     const handleTimeStampClick = (time: number) => {
         dispatch({
             type: types.SET_VIDEO_DURATION,
@@ -158,14 +189,26 @@ const TimeLine: FC = () => {
         setTrackHeights(trackHeights - 70);
     }
 
+    const handleSettingsClick = (e: any, type: string | undefined, name: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDropdownData({
+            name: name,
+            clientX: e.clientX,
+            clientY: e.clientY,
+            type: type
+        })
+    }
+
     return (
         <Container height={trackHeights}>
+            {dropdownData.name && <SettingsDropdown {...dropdownData}/> }
             <SideNav>
                 <AddTrack onClick={handleNewTrack} />
                 <Wrapper>
                     {
                         trackList && trackList.map(item => {
-                            return <TrackEdit onDeleteClick={() => handleDeleteTrack(item.name)} key={item.name} name={item.name}/>
+                            return <TrackEdit onSettingsClick={(e) => handleSettingsClick(e, item.item?.type, item.name)} onDeleteClick={() => handleDeleteTrack(item.name)} key={item.name} name={item.name}/>
                         })
                     }
                 </Wrapper>
