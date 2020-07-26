@@ -33,6 +33,17 @@ export default (state = initState, action: Action): timeLineState => {
                 timeline: state.timeline.filter(item => item.name !== action.payload)
             }
         }
+        case types.UPDATE_TRACK_NAME: {
+            return produce(state, draft => {
+                if (draft.timeline.filter(item => item.name === action.payload.newName).length === 0) {
+                    draft.timeline.forEach(item => {
+                        if (item.name === action.payload.name) {
+                            item.name = action.payload.newName;
+                        }
+                    })
+                }
+            })
+        }
         case types.ADD_ITEM_TO_TRACK: {
             return produce(state, draft => {
                 draft.timeline.forEach(item => {

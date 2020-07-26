@@ -1,0 +1,149 @@
+import React, { FC, useState } from 'react';
+import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { types } from '../../store/actions/types';
+
+import WithButton from '../../hoc/withButton';
+
+import ChangeNameModal from '../atoms/ModalTypes/ChangeNameModal';
+import Icon from '../atoms/Icon';
+
+interface ModalConnectorProps {
+    type: string | null;
+    name: string | null;
+}
+
+const IconWithButton = WithButton(Icon);
+
+const Container = styled.div`
+    width: auto;
+    height: auto;
+    font-family: ${({theme}) => theme.Lato};
+    box-shadow: 0px 0px 30px #000;
+    border-radius: 5px;
+`
+
+const Navigation = styled.div`
+    width: 100%;
+    height: 55px;
+    background: #424242;
+    border-bottom: 1px solid #595959;
+    display: flex;
+    padding-left: 15px;
+    align-items: center;
+    position: relative;
+    color: #fff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+`
+
+const Title = styled.span`
+    font-size: 22px;
+`
+
+const StyledIcon = styled(IconWithButton)`
+    position: absolute;
+    right: 10px;
+    top: 16px;
+`
+
+const ModalButtons = styled.div`
+    width: 100%;
+    height: 55px;
+    background: #424242;
+    border-top: 1px solid #595959;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 14px;
+`
+
+const Button = styled.button`
+    font-family: ${({theme}) => theme.Lato};
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 18px;
+    color: #8fc8f6;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 6px 8px;
+    border-radius: 5px;
+    outline: none;
+
+    &:hover {
+        background: rgba(144, 202, 249, 0.08);
+    }
+`
+
+const ModalConnector: FC<ModalConnectorProps> = ({type, name}) => {
+    const dispatch = useDispatch();
+    const [newName, setNewName] = useState('');
+    let ModalComponent;
+    let navTitle = '';
+
+    switch(type) {
+        case 'change-name':
+            ModalComponent = ChangeNameModal;
+            navTitle = 'Change name';
+            break;
+        default: ModalComponent = null;
+    }
+
+    const closeModal = () => {
+        dispatch({
+            type: types.UPDATE_MODAL_DATA,
+            payload: {
+                type: null,
+                name: null
+            }
+        })
+    }
+
+    const handleNameChange = (name: string) => {
+        setNewName(name);
+    }
+
+    const handleSaveClick = () => {
+        switch(type) {
+            case 'change-name':
+                return saveName();
+            default: return null;
+        }
+    }
+
+    const saveName = () => {
+        if (newName.length > 2 && newName.length < 13 && name) {
+            dispatch({
+                type: types.UPDATE_TRACK_NAME,
+                payload: {
+                    name: name,
+                    newName: newName
+                }
+            });
+            closeModal();
+        } else {
+            alert('Name should have from 3 to 12 characters!');
+        }
+    }
+
+    return (
+        <Container>
+            <Navigation>
+                <Title>{navTitle}</Title>
+                <StyledIcon onClick={closeModal} color="#9e9e9e" name="times" size={26} />
+            </Navigation>
+            {
+                ModalComponent && <ModalComponent handleNameChange={handleNameChange}/>
+            }
+            <ModalButtons>
+                <Button onClick={handleSaveClick}>Save</Button>
+            </ModalButtons>
+        </Container>
+    )
+}
+
+export default ModalConnector;

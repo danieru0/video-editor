@@ -169,7 +169,7 @@ const TimeLine: FC = () => {
     const handleNewTrack = () => {
         setTrackAmount(trackAmount + 1);
         const newTrack = {
-            name: `track ${trackAmount}`,
+            name: `TRACK ${trackAmount}`,
             item: null
         };
         const newTrackHeight = trackHeights + 70;
@@ -200,9 +200,21 @@ const TimeLine: FC = () => {
         })
     }
 
+    const handleNameClick = (name: string | null) => {
+        if (name) {            
+            dispatch({
+                type: types.UPDATE_MODAL_DATA,
+                payload: {
+                    name: name,
+                    type: 'change-name'
+                }
+            })
+        }
+    }
+
     return (
         <Container height={trackHeights}>
-            {dropdownData.name && <SettingsDropdown {...dropdownData}/> }
+            {dropdownData.name && <SettingsDropdown onChangeNameClick={handleNameClick} {...dropdownData}/> }
             <SideNav>
                 <AddTrack onClick={handleNewTrack} />
                 <Wrapper>

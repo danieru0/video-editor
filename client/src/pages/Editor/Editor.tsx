@@ -5,6 +5,7 @@ import Scene from '../../components/organisms/Scene';
 import Video from '../../components/organisms/Video';
 import Controls from '../../components/organisms/Controls';
 import TimeLine from '../../components/organisms/TimeLine';
+import Modal from '../../components/organisms/Modal';
 
 const Container = styled.div`
     display: flex;
@@ -39,6 +40,7 @@ const Editor: FC = () => {
             </Wrapper>
             <Controls />
             <TimeLine />
+            <Modal />
         </Container>
     );
 }

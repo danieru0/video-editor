@@ -13,7 +13,6 @@ const Text = styled.span<ComponentProps>`
     font-family: ${({theme}) => theme.Lato};
     color: ${({color}) => color};
     font-size: 16px;
-    text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;
 `

@@ -1,8 +1,12 @@
 import { testActions } from './testAction';
 import { videoActions } from './videoAction';
 import { timeLineActions } from './timeLineAction';
+import { modalActions } from './modalAction';
 
-export type Action = testActions | videoActions | timeLineActions;
+export type Action = testActions 
+    | videoActions 
+    | timeLineActions 
+    | modalActions;
 
 export enum types {
     SET_TEST_VALUE = 'SET_TEST_VALUE',
@@ -18,6 +22,7 @@ export enum types {
 
     CREATE_NEW_TRACK = 'CREATE_NEW_TRACK',
     DELETE_TRACK = 'DELETE_TRACK',
+    UPDATE_TRACK_NAME = 'UPDATE_TRACK_NAME',
     ADD_ITEM_TO_TRACK = 'ADD_ITEM_TO_TRACK',
     UPDATE_ITEM_TRACK = 'UPDATE_ITEM_TRACK',
     SET_TIMELINE_REF = 'SET_TIMELINE_REF',
@@ -28,5 +33,7 @@ export enum types {
     UPDATE_CLICKED_ITEM = 'UPDATE_CLICKED_ITEM',
     UPDATE_ITEM_COLOR = 'UPDATE_ITEM_COLOR',
 
-    UPDATE_TEXT_OPTIONS = 'UPDATE_TEXT_OPTIONS'
+    UPDATE_TEXT_OPTIONS = 'UPDATE_TEXT_OPTIONS',
+
+    UPDATE_MODAL_DATA = 'UPDATE_MODAL_DATA'
 }

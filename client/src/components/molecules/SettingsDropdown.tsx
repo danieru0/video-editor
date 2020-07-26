@@ -6,12 +6,13 @@ interface dropdownProps {
     clientX: number;
     clientY: number;
     type: string | undefined;
+    onChangeNameClick: (name: string | null) => void;
 }
 
 interface ContainerProps {
     x: number;
     y: number;
-    visibility: boolean;
+    visibility: number;
 }
 
 interface ListItemProps {
@@ -78,7 +79,7 @@ const ItemButton = styled.button`
     }
 `
 
-const SettingsDropdown: FC<dropdownProps> = ({ name, clientX, clientY, type }) => {
+const SettingsDropdown: FC<dropdownProps> = ({ name, clientX, clientY, type, onChangeNameClick }) => {
     const [yPosition, setYPosition] = useState(0);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -93,13 +94,13 @@ const SettingsDropdown: FC<dropdownProps> = ({ name, clientX, clientY, type }) =
                 setYPosition(clientY);
             }
         }
-    }, [dropdownRef])
+    }, [dropdownRef, clientY, setYPosition]);
 
     return (
-        <Container visibility={yPosition ? true : false} ref={dropdownRef} x={clientX} y={yPosition}>
+        <Container visibility={yPosition ? 1 : 0} ref={dropdownRef} x={clientX} y={yPosition}>
             <List>
                 <ListItem>
-                    <ItemButton>change name</ItemButton>
+                    <ItemButton onClick={() => onChangeNameClick(name)}>change name</ItemButton>
                 </ListItem>
                 <ListItem visibleByType="any" needItem={type}>
                     <ItemButton>delete item</ItemButton>
