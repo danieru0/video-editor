@@ -5,6 +5,7 @@ export type timeLineActions = createNewTrackAction
     | deleteTrackAction
     | updateTrackNameAction
     | addItemToTrackAction
+    | deleteItemFromTrackAction
     | updateItemTimeAction
     | setTimelineRefAction
     | updateItemTrackPositionAction
@@ -46,6 +47,15 @@ interface addItemToTrackAction {
 }
 export const addItemToTrack = (value: {name: string; item: item}): addItemToTrackAction => ({
     type: types.ADD_ITEM_TO_TRACK,
+    payload: value
+});
+
+interface deleteItemFromTrackAction {
+    type: types.DELETE_ITEM_FROM_TRACK,
+    payload: string;
+}
+export const deleteItemFromTrack = (value: string): deleteItemFromTrackAction => ({
+    type: types.DELETE_ITEM_FROM_TRACK,
     payload: value
 });
 

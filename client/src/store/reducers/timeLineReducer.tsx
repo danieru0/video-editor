@@ -53,6 +53,15 @@ export default (state = initState, action: Action): timeLineState => {
                 })
             })
         }
+        case types.DELETE_ITEM_FROM_TRACK: {
+            return produce(state, draft => {
+                draft.timeline.forEach(item => {
+                    if (item.name === action.payload) {
+                        item.item = null;
+                    }
+                })
+            })
+        }
         case types.UPDATE_ITEM_TRACK: {
             return produce(state, draft => {
                 draft.timeline.forEach(item => {
