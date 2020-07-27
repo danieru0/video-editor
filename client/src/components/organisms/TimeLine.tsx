@@ -233,9 +233,21 @@ const TimeLine: FC = () => {
         }
     }
 
+    const handleItemColor = (name: string | null) => {
+        if (name) {
+            dispatch({
+                type: types.UPDATE_MODAL_DATA,
+                payload: {
+                    name: name,
+                    type: 'item-color'
+                }
+            })
+        }
+    }
+
     return (
         <Container height={trackHeights}>
-            {dropdownData.name && <SettingsDropdown onMoveClick={handleMoveUp} onDeleteItemClick={handleItemDelete} onChangeNameClick={handleNameClick} {...dropdownData}/> }
+            {dropdownData.name && <SettingsDropdown onChangeItemColorClick={handleItemColor} onMoveClick={handleMoveUp} onDeleteItemClick={handleItemDelete} onChangeNameClick={handleNameClick} {...dropdownData}/> }
             <SideNav>
                 <AddTrack onClick={handleNewTrack} />
                 <Wrapper>

@@ -9,6 +9,7 @@ interface dropdownProps {
     onChangeNameClick: (name: string | null) => void;
     onDeleteItemClick: (name: string | null) => void;
     onMoveClick: (name: string | null, type: string) => void;
+    onChangeItemColorClick: (name: string | null) => void;
 }
 
 interface ContainerProps {
@@ -81,7 +82,7 @@ const ItemButton = styled.button`
     }
 `
 
-const SettingsDropdown: FC<dropdownProps> = ({ name, clientX, clientY, type, onChangeNameClick, onDeleteItemClick, onMoveClick }) => {
+const SettingsDropdown: FC<dropdownProps> = ({ name, clientX, clientY, type, onChangeNameClick, onDeleteItemClick, onMoveClick, onChangeItemColorClick }) => {
     const [yPosition, setYPosition] = useState(0);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -108,7 +109,7 @@ const SettingsDropdown: FC<dropdownProps> = ({ name, clientX, clientY, type, onC
                     <ItemButton onClick={() => onDeleteItemClick(name)}>delete item</ItemButton>
                 </ListItem>
                 <ListItem visibleByType="drawtext" type={type}>
-                    <ItemButton>change item color</ItemButton>
+                    <ItemButton onClick={() => onChangeItemColorClick(name)}>change item color</ItemButton>
                 </ListItem>
                 <ListItem>
                     <ItemButton onClick={() => onMoveClick(name, 'up')}>move up</ItemButton>

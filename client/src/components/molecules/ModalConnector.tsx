@@ -6,6 +6,7 @@ import { types } from '../../store/actions/types';
 import WithButton from '../../hoc/withButton';
 
 import ChangeNameModal from '../atoms/ModalTypes/ChangeNameModal';
+import ChangeItemColorModal from '../atoms/ModalTypes/ChangeItemColorModal';
 import Icon from '../atoms/Icon';
 
 interface ModalConnectorProps {
@@ -82,6 +83,7 @@ const Button = styled.button`
 const ModalConnector: FC<ModalConnectorProps> = ({type, name}) => {
     const dispatch = useDispatch();
     const [newName, setNewName] = useState('');
+    const [newColor, setNewColor] = useState('');
     let ModalComponent;
     let navTitle = '';
 
@@ -89,6 +91,10 @@ const ModalConnector: FC<ModalConnectorProps> = ({type, name}) => {
         case 'change-name':
             ModalComponent = ChangeNameModal;
             navTitle = 'Change name';
+            break;
+        case 'item-color':
+            ModalComponent = ChangeItemColorModal;
+            navTitle = 'Change color';
             break;
         default: ModalComponent = null;
     }
@@ -111,6 +117,8 @@ const ModalConnector: FC<ModalConnectorProps> = ({type, name}) => {
         switch(type) {
             case 'change-name':
                 return saveName();
+            case 'item-color':
+                return saveColor();
             default: return null;
         }
     }
@@ -130,6 +138,22 @@ const ModalConnector: FC<ModalConnectorProps> = ({type, name}) => {
         }
     }
 
+    const saveColor = () => {
+        if (newColor) {
+            dispatch({
+                type: types.UPDATE_ITEM_COLOR,
+                payload: {
+                    name: name,
+                    color: newColor
+                }
+            })
+        }
+    }
+
+    const handleColorChange = (color: string) => {
+        setNewColor(color);
+    }
+
     return (
         <Container>
             <Navigation>
@@ -137,7 +161,7 @@ const ModalConnector: FC<ModalConnectorProps> = ({type, name}) => {
                 <StyledIcon onClick={closeModal} color="#9e9e9e" name="times" size={26} />
             </Navigation>
             {
-                ModalComponent && <ModalComponent handleNameChange={handleNameChange}/>
+                ModalComponent && <ModalComponent handleColorChange={handleColorChange} handleNameChange={handleNameChange}/>
             }
             <ModalButtons>
                 <Button onClick={handleSaveClick}>Save</Button>
