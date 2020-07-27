@@ -62,6 +62,21 @@ export default (state = initState, action: Action): timeLineState => {
                 })
             })
         }
+        case types.MOVE_TRACK: {
+            return produce(state, draft => {
+                draft.timeline.forEach((item, index) => {
+                    if (item.name === action.payload.name) {
+                        const selectedTimeline = draft.timeline.splice(index, 1)[0];
+                        
+                        if (action.payload.type === 'up') {
+                            draft.timeline.splice(--index, 0, selectedTimeline);
+                        } else if (action.payload.type === 'down') {
+                            draft.timeline.splice(++index, 0, selectedTimeline);
+                        }
+                    }
+                })
+            }) 
+        }
         case types.UPDATE_ITEM_TRACK: {
             return produce(state, draft => {
                 draft.timeline.forEach(item => {

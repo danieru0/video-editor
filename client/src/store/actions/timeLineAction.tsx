@@ -4,6 +4,7 @@ import { types } from './types';
 export type timeLineActions = createNewTrackAction
     | deleteTrackAction
     | updateTrackNameAction
+    | moveTrackAction
     | addItemToTrackAction
     | deleteItemFromTrackAction
     | updateItemTimeAction
@@ -29,6 +30,15 @@ interface deleteTrackAction {
 }
 export const deleteTrack = (value: string): deleteTrackAction => ({
     type: types.DELETE_TRACK,
+    payload: value
+});
+
+interface moveTrackAction {
+    type: types.MOVE_TRACK
+    payload: {name: string, type: string}
+}
+export const moveTrack = (value: {name: string, type: string}): moveTrackAction => ({
+    type: types.MOVE_TRACK,
     payload: value
 });
 

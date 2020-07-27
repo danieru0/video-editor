@@ -221,9 +221,21 @@ const TimeLine: FC = () => {
         }
     }
 
+    const handleMoveUp = (name: string | null, type: string) => {
+        if (name) {
+            dispatch({
+                type: types.MOVE_TRACK,
+                payload: {
+                    name: name,
+                    type: type
+                }
+            })
+        }
+    }
+
     return (
         <Container height={trackHeights}>
-            {dropdownData.name && <SettingsDropdown onDeleteItemClick={handleItemDelete} onChangeNameClick={handleNameClick} {...dropdownData}/> }
+            {dropdownData.name && <SettingsDropdown onMoveClick={handleMoveUp} onDeleteItemClick={handleItemDelete} onChangeNameClick={handleNameClick} {...dropdownData}/> }
             <SideNav>
                 <AddTrack onClick={handleNewTrack} />
                 <Wrapper>
