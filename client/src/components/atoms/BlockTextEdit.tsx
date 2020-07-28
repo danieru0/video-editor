@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { ChromePicker } from 'react-color';
 import { useTypedSelector } from '../../store/selector';
 
+import { useDropDownMenu } from '../../hooks/useDropdownMenu';
+
 import WithButton from '../../hoc/withButton';
 
 import Line from './Line';
@@ -12,10 +14,6 @@ const AlignButton = WithButton(Icon);
 
 interface WrapperProps {
     active: boolean;
-}
-
-interface activeElementsState {
-    [x: number]: boolean;
 }
 
 interface BlockTextEditProps {
@@ -93,7 +91,7 @@ const Option = styled.option`
 
 const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, onTextChange, onFontChange, onFontTypeChange, name}) => {
     const timelineList = useTypedSelector(state => state.timeline.timeline);
-    const [activeElements, setActive] = useState<activeElementsState>({
+    const {activeElements, changeActiveElement} = useDropDownMenu({
         0: false,
         1: false,
         2: false
@@ -139,13 +137,6 @@ const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, on
         return () => clearTimeout(editingTimeout);
     }, [fontSize, onFontChange]);
 
-    const handleLineClick = (id: number) => {
-        setActive({
-            ...activeElements,
-            [id]: activeElements[id] === true ? false : true
-        });
-    }
-
     const handleColorChange = (color: string) => {
         setColor(color);
         onColorChange(color);
@@ -170,11 +161,11 @@ const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, on
     return (
         <Container>
             <TextArea onChange={(e) => handleTextChange(e.target.value)} value={text}/>
-            <Line onClick={() => handleLineClick(0)} text="Font color" active={activeElements[0]} />
+            <Line onClick={() => changeActiveElement(0)} text="Font color" active={activeElements[0]} />
             <Wrapper active={activeElements[0]}>
                 <ChromePicker color={color} onChangeComplete={(color) => handleColorChange(color.hex)}/>
             </Wrapper>
-            <Line onClick={() => handleLineClick(1)} text="Text alignment" active={activeElements[1]} />
+            <Line onClick={() => changeActiveElement(1)} text="Text alignment" active={activeElements[1]} />
             <Wrapper active={activeElements[1]}>
                 <AlignButtons>
                     <AlignButton onClick={() => onAlignChange('flex-start')} square name="align-left" size={26} color="#fff" />
@@ -182,7 +173,7 @@ const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, on
                     <AlignButton onClick={() => onAlignChange('flex-end')} square name="align-right" size={26} color="#fff" />
                 </AlignButtons>
             </Wrapper>
-            <Line onClick={() => handleLineClick(2)} text="Font settings" active={activeElements[2]} />
+            <Line onClick={() => changeActiveElement(2)} text="Font settings" active={activeElements[2]} />
             <Wrapper active={activeElements[2]}>
                 <FontSettingsWrapper>
                     <Label>

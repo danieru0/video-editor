@@ -3,14 +3,12 @@ import styled from 'styled-components';
 import { ChromePicker } from 'react-color';
 import { useTypedSelector } from '../../store/selector';
 
+import { useDropDownMenu } from '../../hooks/useDropdownMenu';
+
 import Line from './Line';
 
 interface WrapperProps {
     active: boolean;
-}
-
-interface activeElementsState {
-    [x: number]: boolean;
 }
 
 interface BlockItemEditProps {
@@ -36,7 +34,7 @@ const Wrapper = styled.div<WrapperProps>`
 
 const BlockItemEdit: FC<BlockItemEditProps> = ({onColorChange, name}) => {
     const timelineList = useTypedSelector(state => state.timeline.timeline);
-    const [activeElements, setActive] = useState<activeElementsState>({
+    const {activeElements, changeActiveElement} = useDropDownMenu({
         0: false,
     });
     const [color, setColor] = useState('');
@@ -52,13 +50,6 @@ const BlockItemEdit: FC<BlockItemEditProps> = ({onColorChange, name}) => {
 
     }, [name, timelineList]);
 
-    const handleLineClick = (id: number) => {
-        setActive({
-            ...activeElements,
-            [id]: activeElements[id] === true ? false : true
-        });
-    }
-
     const handleColorChange = (color: string) => {
         setColor(color);
         onColorChange(color);
@@ -66,7 +57,7 @@ const BlockItemEdit: FC<BlockItemEditProps> = ({onColorChange, name}) => {
 
     return (
         <Container>
-            <Line onClick={() => handleLineClick(0)} text="Colors" active={activeElements[0]} />
+            <Line onClick={() => changeActiveElement(0)} text="Colors" active={activeElements[0]} />
             <Wrapper active={activeElements[0]}>
                 <ChromePicker color={color} onChangeComplete={(color) => handleColorChange(color.hex)}/>
             </Wrapper>
