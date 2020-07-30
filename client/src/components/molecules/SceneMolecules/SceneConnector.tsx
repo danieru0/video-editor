@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import styled from 'styled-components';
 
 import SceneStyle from './SceneStyle';
 import SceneBlocks from './SceneBlocks';
@@ -10,7 +9,7 @@ interface SceneConnectorProps {
 }
 
 const SceneConnector: FC<SceneConnectorProps> = ({ activeScene }) => {
-    switch(activeScene) {
+    /*switch(activeScene) {
         case 0:
             return <SceneBlocks />
         case 1:
@@ -18,7 +17,15 @@ const SceneConnector: FC<SceneConnectorProps> = ({ activeScene }) => {
         case 2:
             return <SceneStyle />
         default: return null;
-    }
+    }*/
+
+    return (
+        <>
+            <SceneBlocks active={activeScene === 0} />
+            <SceneMedia active={activeScene === 1} />
+            <SceneStyle active={activeScene === 2} />
+        </>
+    )
 }
 
 export default SceneConnector;

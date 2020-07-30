@@ -8,22 +8,33 @@ import WithButton from '../../../hoc/withButton';
 
 import Block, { BlocksArray } from '../../atoms/Block';
 
+interface SceneBlocksProps {
+    active: boolean;
+}
+
 const ButtonBlock = WithButton(Block);
 
-const Container = styled.div`
+const Container = styled.div<SceneBlocksProps>`
     width: 100%;
     height: 100%;
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
     overflow-y: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: inherit;
+    visibility: ${({active}) => active ? 'visible': 'hidden'};
 `
 
 const StyledBlock = styled(ButtonBlock)`
     margin: 5px;
 `
 
-const SceneBlocks: FC = () => {
+const SceneBlocks: FC<SceneBlocksProps> = ({active}) => {
     const dispatch = useDispatch();
     const videoData = useTypedSelector(state => state.video.videoData);
     const trackList = useTypedSelector(state => state.timeline.timeline); 
@@ -85,7 +96,7 @@ const SceneBlocks: FC = () => {
     }
 
     return (
-        <Container>
+        <Container active={active}>
             <StyledBlock onClick={(e: any) => handleBlockClick(e, 'text')} type="text" textAlign="center" fontSize="24px" border justifyContent="center">TEXT</StyledBlock>
             {
                 BlocksArray.map((item, key) => {

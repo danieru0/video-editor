@@ -16,7 +16,8 @@ type IconTypes = 'play'
     | 'align-left'
     | 'align-center'
     | 'align-right'
-    | 'times';
+    | 'times'
+    | 'search'
 
 interface IconProps {
     size: number;

@@ -22,11 +22,12 @@ const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     padding: 30px 10px 30px 30px;
+    position: relative;
 `
 
 const Scene: FC<SceneProps> = ({...props}) => {
     const clickedItem = useTypedSelector(state => state.timeline.clickedItem);
-    const [activeScene, setScene] = useState(0);
+    const [activeScene, setScene] = useState(1);
 
     const handleNavigationClick = (id: number) => {
         setScene(id);
