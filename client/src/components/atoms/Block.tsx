@@ -82,6 +82,8 @@ interface TextTypeProps {
 }
 
 interface BlockProps extends BlockTypeProps, TextTypeProps {
+    text?: string;
+    imageSrc?: string;
     [x: string]: any;
 }
 
@@ -110,17 +112,29 @@ const TextElement = styled.span`
     white-space: pre-wrap;
 `
 
+const ImageWrapper = styled.div`
+    width: 100px;
+`
+
+const ImageType = styled.img`
+    width: 100%;
+`
+
 const Block = forwardRef(
-    (props: BlockProps, ref?: React.Ref<HTMLDivElement>) => {
-        const { color = '#fff', type, textAlign, fontSize, justifyContent, fontFamily = 'Lato', textColor = '#fff', border, children, ...rest } = props;
-        
+    (props: BlockProps, ref?: React.Ref<HTMLDivElement | HTMLImageElement>) => {
+        const { color = '#fff', type, textAlign, fontSize, justifyContent, fontFamily = 'Lato', textColor = '#fff', border, text, imageSrc, ...rest } = props;
+
         switch(type) {
             case 'text':
                 return <TextType ref={ref} border={border} color={color} textAlign={textAlign} fontFamily={fontFamily} fontSize={fontSize} textColor={textColor} justifyContent={justifyContent} {...rest}>
-                        <TextElement>
-                            {children}
-                        </TextElement>
-                    </TextType>
+                            <TextElement>
+                                {text}
+                            </TextElement>
+                        </TextType>
+            case 'image':
+                return <ImageWrapper {...rest}>
+                            <ImageType src={imageSrc} />
+                        </ImageWrapper>
             default: return <BlockType ref={ref} type={type} color={color} {...rest} />
         }
     }

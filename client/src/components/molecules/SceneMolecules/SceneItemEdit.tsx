@@ -127,6 +127,8 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
         switch(type) {
             case 'text':
                 return <BlockTextEdit name={name} onFontTypeChange={handleFontTypeChange} onFontChange={handleFontChange} onTextChange={handleTextChange} onAlignChange={handleAlignChange} onColorChange={(color: string) => handleColorChange(color, 'text')} />
+            case 'image':
+                return null;
             default:
                 return <BlockItemEdit name={name} onColorChange={(color: string) => handleColorChange(color, 'block')} />
         }

@@ -31,6 +31,7 @@ interface ItemProps {
         text: string;
         textColor: string;
     } | null;
+    imageSrc: string | null;
 }
 
 interface settingsProps {
@@ -49,7 +50,7 @@ const StyledMoveable = styled(Moveable)<settingsProps>`
     z-index: ${({index}) => index}!important;
 `
 
-const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOptions, index}) => {
+const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOptions, index, imageSrc}) => {
     const dispatch = useDispatch();
     const videoCurrentDuration = useTypedSelector(state => state.video.videoRef.currentDuration);
     const videoRef = useTypedSelector(state => state.video.videoRef.videoRef);
@@ -137,24 +138,20 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
     }
 
     const handleItemClick = () => {
-        dispatch({
-            type: types.UPDATE_CLICKED_ITEM,
-            payload: {
-                name: name,
-                type: type
-            }
-        })
+        if (type !== 'image') {
+            dispatch({
+                type: types.UPDATE_CLICKED_ITEM,
+                payload: {
+                    name: name,
+                    type: type
+                }
+            })
+        }
     }
 
     return (
         <>
-            {
-                textOptions ? (
-                    <StyledBlock index={index + 4} isActive={active} ref={blockTextRef} id={selector} color={color} type={type} {...textOptions}>{textOptions.text}</StyledBlock>
-                ) : (
-                    <StyledBlock index={index + 4} isActive={active} id={selector} color={color} type={type} />
-                )
-            }
+            <StyledBlock onLoad={() => moveableRef.current.updateRect()} index={index + 4} isActive={active} ref={blockTextRef} id={selector} color={color} type={type} {...textOptions} text={textOptions?.text} imageSrc={imageSrc} />
             <StyledMoveable 
                 index={index + 4}
                 isActive={active}

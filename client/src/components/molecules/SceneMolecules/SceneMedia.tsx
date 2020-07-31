@@ -5,14 +5,20 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 import {usePexelApi} from '../../../hooks/usePexelApi';
 
+import WithButton from '../../../hoc/withButton';
+
 import Icon from '../../atoms/Icon';
 import Loader from '../../atoms/Loader/Loader';
 
-interface SceneMediaProps {
+interface ContainerProps {
     active: boolean;
 }
 
-const Container = styled.div<SceneMediaProps>`
+interface SceneMediaProps extends ContainerProps {
+    onItemClick: (e: any, type: string, image?: string) => void;
+}
+
+const Container = styled.div<ContainerProps>`
     width: 100%;
     height: 100%;
     display: flex;
@@ -24,6 +30,16 @@ const Container = styled.div<SceneMediaProps>`
     right: 0;
     padding: inherit;
     visibility: ${({active}) => active ? 'visible': 'hidden'};
+`
+
+const PexelsLink = styled.a`
+    position: absolute;
+    top: -16px;
+    left: 26px;
+    font-size: 12px;
+    text-decoration: none;
+    font-style: italic;
+    color: grey;
 `
 
 const SearchWrapper = styled.div`
@@ -73,7 +89,13 @@ const ErrorMsg = styled.span`
     font-family: ${({theme}) => theme.Lato};
 `
 
-const SceneMedia: FC<SceneMediaProps> = ({active}) => {
+const ImageButton = WithButton(Image);
+
+const StyledImageButton = styled(ImageButton)`
+    padding: 0;
+`
+
+const SceneMedia: FC<SceneMediaProps> = ({active, onItemClick}) => {
     const [searchValue, setSearchValue] = useState('city night');
     const {images, error, fetchNewImages} = usePexelApi(searchValue);
 
@@ -86,6 +108,7 @@ const SceneMedia: FC<SceneMediaProps> = ({active}) => {
     return (
         <Container active={active}>
             <SearchWrapper>
+                <PexelsLink target="_blank" href="https://www.pexels.com/">pictures from - pexels.com</PexelsLink>
                 <StyledIcon name="search" size={24} color="#4f565f" />
                 <SearchInput onKeyDown={handleSearchInput} placeholder="Search image..." />
             </SearchWrapper>
@@ -114,7 +137,7 @@ const SceneMedia: FC<SceneMediaProps> = ({active}) => {
                         >
                             {
                                 images.map((item, key) => {
-                                    return <Image key={key} src={item.landscapeImage} />
+                                    return <StyledImageButton onClick={(e: any) => onItemClick(e, 'image', item.originalImage)} key={key} src={item.landscapeImage} />
                                 })
                             }
                         </Masonry>

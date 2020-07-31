@@ -19,8 +19,13 @@ const Container = styled.div`
     margin: 10px 0px;
 `
 
+const Image = styled.img`
+    width: 100%;
+`
+
 const Track: FC<TrackProps> = ({name, item, timelineRef, videoLength}) => {
     const dispatch = useDispatch();
+    let trackItemElement: any;
 
     const handleDragStop = (e: any, x: number) => {
         if (timelineRef && item) {
@@ -55,6 +60,18 @@ const Track: FC<TrackProps> = ({name, item, timelineRef, videoLength}) => {
                 }
             })
         }
+    }
+
+    switch(item?.itemType) {
+        case 'image':
+            trackItemElement = <Image src={item.imageSrc ? item.imageSrc : undefined} />
+            break;
+        case 'text':
+            trackItemElement = item.textOptions?.text;
+            break;
+        default:
+            trackItemElement = null;
+            break;
     }
     
     return (
@@ -97,7 +114,7 @@ const Track: FC<TrackProps> = ({name, item, timelineRef, videoLength}) => {
                     }}
                 >
                     {
-                        item.textOptions && item.textOptions.text
+                        trackItemElement
                     }
                 </Rnd>
             )}

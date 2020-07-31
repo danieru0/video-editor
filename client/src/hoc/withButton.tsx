@@ -6,6 +6,7 @@ const Button = styled.button`
     border: none;
     cursor: pointer;
     outline: none;
+    padding: 0;
 `
 
 export const withButton = <P extends object>(Component: React.ComponentType<P>) => {

@@ -25,6 +25,7 @@ export interface item {
             y: number;
         } | null;
     } | null;
+    imageSrc: string | null;
 }
 
 export interface timeLine {
