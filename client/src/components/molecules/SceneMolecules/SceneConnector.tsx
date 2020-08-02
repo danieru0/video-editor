@@ -72,11 +72,21 @@ const SceneConnector: FC<SceneConnectorProps> = ({ activeScene }) => {
         }
     }
 
+    const handleInputChange = (type: string, value: number) => {
+        dispatch({
+            type: types.SET_VIDEO_STYLE,
+            payload: {
+                type: type,
+                value: value
+            }
+        })
+    }
+
     return (
         <>
             <SceneBlocks onItemClick={handleItemClick} active={activeScene === 0} />
             <SceneMedia onItemClick={handleItemClick} active={activeScene === 1} />
-            <SceneStyle active={activeScene === 2} />
+            <SceneStyle onInputChange={handleInputChange} active={activeScene === 2} />
         </>
     )
 }

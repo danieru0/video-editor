@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 
 const Scene: FC<SceneProps> = ({...props}) => {
     const clickedItem = useTypedSelector(state => state.timeline.clickedItem);
-    const [activeScene, setScene] = useState(1);
+    const [activeScene, setScene] = useState(0);
 
     const handleNavigationClick = (id: number) => {
         setScene(id);

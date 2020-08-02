@@ -21,10 +21,11 @@ const VideoCanvas: FC<VideoCanvasProps> = ({ videoRef, tick, ...props }) => {
     }, [videoData.width, videoData.height, canvasObj]);
 
     useEffect(() => {
-        if (videoRef) {
-            ctx?.drawImage(videoRef, 0, 0)
+        if (videoRef && ctx) {
+            ctx.filter = `brightness(${videoData.brightness}%) contrast(${videoData.contrast}%) saturate(${videoData.saturation}%)`;
+            ctx.drawImage(videoRef, 0, 0)
         }
-    }, [videoRef, tick, ctx]);
+    }, [videoRef, tick, ctx, videoData.brightness, videoData.contrast, videoData.saturation]);
 
     return (
         <canvas {...props} ref={canvasRef}></canvas>

@@ -93,8 +93,7 @@ const TimeLine: FC = () => {
     
                 resizeTimeout = setTimeout(() => {
                     calculateItemWidths();
-                    setResizeActive(false);
-                }, 100);
+                }, 200);
             }
         }
 
@@ -102,7 +101,8 @@ const TimeLine: FC = () => {
             trackList.forEach(item => {
                 if (item.item && timelineRef.current && item.item.time) {
                     const width = typeof item.item.width === 'string' ? item.item.width.replace('px', '') : item.item.width; 
-                    const newWidth = Number(width) * timelineRef.current.offsetWidth / timelineWidth;
+                    const widthNumber = Number(width) as any;
+                    const newWidth = widthNumber.toFixed() * timelineRef.current.offsetWidth / timelineWidth;
                     const startTime = item.item.xPosition * videoData.videoLength / timelineRef.current.offsetWidth;
                     const endTime = (newWidth * videoData.videoLength / timelineRef.current.offsetWidth) + startTime;
                     let newXPosition;
@@ -125,12 +125,13 @@ const TimeLine: FC = () => {
                     })
                 }
             })
+            setResizeActive(false);
         }
 
         window.addEventListener('resize', runTimeout);
 
         return () => window.removeEventListener('resize', runTimeout);
-    }, [trackList, timelineWidth, dispatch, resizeActive, videoData.videoLength]);
+    }, [trackList, dispatch, videoData.videoLength]); //eslint-disable-line
 
     
     

@@ -13,6 +13,7 @@ interface InputRangeProps {
     max: number;
     value: number;
     onChange: (value: number) => void;
+    [x: string]: any;
 }
 
 const StyledSlider = styled(Slider)`
@@ -20,9 +21,9 @@ const StyledSlider = styled(Slider)`
     width: 100% !important;
 `
 
-const InputRange: FC<InputRangeProps> = ({ activeColor, trackColor, thumbColor, thumbWidth, thumbHeight, step, min, max, value, onChange }) => {
+const InputRange: FC<InputRangeProps> = ({ activeColor, trackColor, thumbColor, thumbWidth, thumbHeight, step, min, max, value, onChange, ...props }) => {
     return (
-        <StyledSlider styles={{
+        <StyledSlider {...props} styles={{
             active: {
                 backgroundColor: activeColor
             },

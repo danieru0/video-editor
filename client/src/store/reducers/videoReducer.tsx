@@ -16,7 +16,10 @@ const initState: VideoState = {
         volume: 1,
         duration: 0,
         videoLength: 0,
-        muted: false
+        muted: false,
+        brightness: 100,
+        contrast: 100,
+        saturation: 100
     },
     videoRef: {
         currentDuration: 0,
@@ -49,6 +52,9 @@ export default (state = initState, action: Action): VideoState => {
         }
         case types.SET_VIDEO_DURATION: {
             return {...state, videoData: { ...state.videoData, duration: action.payload }};
+        }
+        case types.SET_VIDEO_STYLE: {
+            return {...state, videoData: { ...state.videoData, [action.payload.type]: action.payload.value }}
         }
         default: return state;
     }
