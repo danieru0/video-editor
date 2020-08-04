@@ -21,6 +21,12 @@ const Container = styled.div`
 
 const Image = styled.img`
     width: 100%;
+    user-drag: none; 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 `
 
 const Track: FC<TrackProps> = ({name, item, timelineRef, videoLength}) => {

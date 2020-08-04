@@ -48,12 +48,16 @@ const Controls: FC = () => {
                     if (item.item.type === 'overlay') {
                         const node = document.getElementById(item.item.selector) as HTMLElement;
                         let toRender: any;
+                        let prevDisplay: string = '';
                         
                         if (item.item.itemType === 'image') {
                             toRender = node.children[0]
                         } else {
                             toRender = node;
                         }
+
+                        prevDisplay = node.style.display;
+                        node.style.display = 'block';
 
                         const rect = node.getBoundingClientRect();
                         const rotation = getRotationAngle(node);
@@ -73,6 +77,7 @@ const Controls: FC = () => {
                         })
 
                         formData.append('images', imageFile);
+                        node.style.display = prevDisplay;
                     }
                 }
             })
