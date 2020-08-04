@@ -28,7 +28,7 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
     const ffmpegChained = new ffmpeg(`./videos/${req.files['video'][0].originalname}`);
 
     for (let i = 0 ; i < req.files['images'].length; i++) {
-        ffmpegChained.input(`./videos/${req.files['images'][i].originalname}`);
+        ffmpegChained.input(`./images/${req.files['images'][i].originalname}`);
     }
 
     for (let i = 0; i < videoEditorData.length; i++) {
@@ -41,7 +41,7 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
                     options: {
                         x: item.position.x,
                         y: item.position.y,
-                        enable: `between(t,${item.time})`
+                        enable: `between(${item.time})`
                     }
                 });
                 break;
@@ -55,7 +55,7 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
                         text: item.text,
                         fontsize: item.fontsize,
                         fontcolor: item.fontcolor,
-                        enable: `between(t,${item.time})`
+                        enable: `between(${item.time})`
                     }
                 });
                 break;
@@ -94,7 +94,9 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
         input++;
     }
 
-    ffmpegChained
+    console.log(filters);    
+
+    /*ffmpegChained
         .complexFilter(filters)
         .videoCodec('libx264')
         .videoBitrate(2500)
@@ -103,7 +105,7 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
         .save('./dupa.mp4')
         .on('end', () => {
             console.log('success');
-        });
+        });*/
 })
 
 app.get('*', (req, res) => {

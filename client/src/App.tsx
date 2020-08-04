@@ -16,7 +16,7 @@ function App() {
     fetch(base64)
       .then(resp => resp.blob())
       .then(blob => {
-        const file = new File([blob], "test video",{ type: "video/mp4" });
+        const file = new File([blob], "test video.mp4",{ type: "video/mp4" });
 
         dispatch({
           type: types.SET_VIDEO_FILE,
