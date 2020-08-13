@@ -77,18 +77,22 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
     for (let i = 0; i < filters.length; i++) {
         const item = filters[i];
 
-        switch(input) {
-            case 1:
-                item['inputs'] = "0";
-                item['outputs'] = "1";
-                break;
-            case filters.length:
-                item['inputs'] = (input -= 1).toString();
-                break;
-            default:
-                item['inputs'] = (input -= 1).toString();
-                item['outputs'] = (input += 1).toString();
-                break;
+        if (filters.length !== 1) {
+            switch(input) {
+                case 1:
+                    item['inputs'] = "0";
+                    item['outputs'] = "1";
+                    break;
+                case filters.length:
+                    item['inputs'] = (input -= 1).toString();
+                    break;
+                default:
+                    item['inputs'] = (input -= 1).toString();
+                    item['outputs'] = (input += 1).toString();
+                    break;
+            }
+        } else {
+            item['inputs'] = '0';
         }
 
         input++;
@@ -96,7 +100,7 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
 
     console.log(filters);    
 
-    /*ffmpegChained
+    ffmpegChained
         .complexFilter(filters)
         .videoCodec('libx264')
         .videoBitrate(2500)
@@ -105,7 +109,9 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
         .save('./dupa.mp4')
         .on('end', () => {
             console.log('success');
-        });*/
+        });
+
+    return res.status(200);
 })
 
 app.get('*', (req, res) => {

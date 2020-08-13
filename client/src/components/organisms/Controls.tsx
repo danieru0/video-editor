@@ -37,9 +37,15 @@ const Controls: FC = () => {
     const videoData = useTypedSelector(state => state.video.videoData);
     const videoFile = useTypedSelector(state => state.video.video);
     const trackList = useTypedSelector(state => state.timeline.timeline);
+    const exportState = useTypedSelector(state => state.export.exportActive);
 
     const handleExportClick = async () => {
-        if (videoFile) {            
+        if (videoFile && trackList.length !== 0 && exportState !== true) {      
+            dispatch({
+                type: types.SET_EXPORT_STATE,
+                payload: true
+            });
+
             const ffmpegData: any[] = [];
             const formData = new FormData();
 
@@ -92,6 +98,13 @@ const Controls: FC = () => {
                     data: formData,
                     headers: {
                         'Content-Type': 'multipart/form-data'
+                    },
+                    onUploadProgress: progress => {
+                        const { total, loaded } = progress;
+                        const totalSize = total / 1000000;
+                        const loadedSize = loaded / 1000000;
+                        const percentage = (loadedSize / totalSize) * 100;
+                        console.log(percentage);
                     }
                 });
 
