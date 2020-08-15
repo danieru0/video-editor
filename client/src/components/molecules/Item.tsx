@@ -115,12 +115,14 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
     }
 
     const handleDragEnd = (e: any) => {
+        const targetRect = e.target.getBoundingClientRect();
+        const videoRect = videoRef.getBoundingClientRect();
         dispatch({
             type: types.UPDATE_ITEM_POSITION,
             payload: {
                 name: name,
-                x: frame.translate[0],
-                y: frame.translate[1]
+                x: targetRect.x - videoRect.x,
+                y: targetRect.y - videoRect.y
             }
         })
 
@@ -193,6 +195,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                         + ` scale(${scale[0]}, ${scale[1]})`
                         + `rotate(${frame.rotate}deg)`;
                 }}
+                onScaleEnd={handleDragEnd}
                 onRotateStart={({ set }) => {
                     set(frame.rotate);
                 }}

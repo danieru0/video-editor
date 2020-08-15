@@ -27,8 +27,10 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
 
     const ffmpegChained = new ffmpeg(`./videos/${req.files['video'][0].originalname}`);
 
-    for (let i = 0 ; i < req.files['images'].length; i++) {
-        ffmpegChained.input(`./images/${req.files['images'][i].originalname}`);
+    if (req.files['images']) {
+        for (let i = 0 ; i < req.files['images'].length; i++) {
+            ffmpegChained.input(`./images/${req.files['images'][i].originalname}`);
+        }
     }
 
     for (let i = 0; i < videoEditorData.length; i++) {
@@ -42,31 +44,6 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
                         x: item.position.x,
                         y: item.position.y,
                         enable: `between(${item.time})`
-                    }
-                });
-                break;
-            case 'drawtext':
-                filters.push({
-                    filter: item.type,
-                    options: {
-                        x: item.position.x,
-                        y: item.position.y,
-                        fontfile: `/fonts/${item.fontfile}`,
-                        text: item.text,
-                        fontsize: item.fontsize,
-                        fontcolor: item.fontcolor,
-                        enable: `between(${item.time})`
-                    }
-                });
-                break;
-            case 'eq':
-                filters.push({
-                    filter: item.type,
-                    options: {
-                        brightness: item.brightness || 0,
-                        saturation: item.saturation || 1,
-                        contrast: item.contrast || 1,
-                        gamma: item.gamma || 1
                     }
                 });
                 break;

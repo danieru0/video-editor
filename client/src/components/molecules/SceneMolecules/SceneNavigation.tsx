@@ -19,7 +19,6 @@ const SceneNavigation: FC<SceneNavigationProps> = ({ onClick, activeScene }) => 
         <Container>
             <SceneButton text="shapes" selected={activeScene === 0} id={0} handleClick={onClick} />
             <SceneButton text="media" selected={activeScene === 1} id={1} handleClick={onClick} />
-            <SceneButton text="style" selected={activeScene === 2} id={2} handleClick={onClick} />
         </Container>
     );
 }

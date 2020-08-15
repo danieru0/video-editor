@@ -14,7 +14,4 @@ export interface videoData extends videoDimensions {
     duration: number;
     videoLength: number;
     muted: boolean;
-    brightness: number;
-    contrast: number;
-    saturation: number;
 }

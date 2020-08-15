@@ -3,7 +3,6 @@ import { useTypedSelector } from '../../../store/selector';
 import { useDispatch } from 'react-redux';
 import { types } from '../../../store/actions/types';
 
-import SceneStyle from './SceneStyle';
 import SceneBlocks from './SceneBlocks';
 import SceneMedia from './SceneMedia';
 
@@ -72,21 +71,10 @@ const SceneConnector: FC<SceneConnectorProps> = ({ activeScene }) => {
         }
     }
 
-    const handleInputChange = (type: string, value: number) => {
-        dispatch({
-            type: types.SET_VIDEO_STYLE,
-            payload: {
-                type: type,
-                value: value
-            }
-        })
-    }
-
     return (
         <>
             <SceneBlocks onItemClick={handleItemClick} active={activeScene === 0} />
             <SceneMedia onItemClick={handleItemClick} active={activeScene === 1} />
-            <SceneStyle onInputChange={handleInputChange} active={activeScene === 2} />
         </>
     )
 }

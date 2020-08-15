@@ -8,7 +8,7 @@ import axios from 'axios';
 
 import getRotationAngle from '../../helpers/getRotationAngle';
 import imageSizeAfterRotation from '../../helpers/imageSizeAfterRotation';
-import dataURLtoFile from '../../helpers/dataURLtoFile';
+import dataURLtoFile from '../../helpers/dataURLtoFile'
 
 import VolumeInput from '../molecules/VolumeInput';
 import ControlsPlay from '../molecules/ControlsPlay';
@@ -34,7 +34,6 @@ async function asyncForEach(array: any, callback: any) {
 
 const Controls: FC = () => {
     const dispatch = useDispatch();
-    const videoData = useTypedSelector(state => state.video.videoData);
     const videoFile = useTypedSelector(state => state.video.video);
     const trackList = useTypedSelector(state => state.timeline.timeline);
     const exportState = useTypedSelector(state => state.export.exportActive);
@@ -49,69 +48,75 @@ const Controls: FC = () => {
             const ffmpegData: any[] = [];
             const formData = new FormData();
 
-            await asyncForEach(trackList, async (item: any) => {
+            await asyncForEach([...trackList].reverse(), async (item: any) => {
                 if (item.item && item.item.time) {
-                    if (item.item.type === 'overlay') {
-                        const node = document.getElementById(item.item.selector) as HTMLElement;
-                        let toRender: any;
-                        let prevDisplay: string = '';
-                        
-                        if (item.item.itemType === 'image') {
-                            toRender = node.children[0]
-                        } else {
-                            toRender = node;
-                        }
-
-                        prevDisplay = node.style.display;
-                        node.style.display = 'block';
-
-                        const rect = node.getBoundingClientRect();
-                        const rotation = getRotationAngle(node);
-                        const size = imageSizeAfterRotation([rect.width, rect.height], rotation);
-                        const dataUrl = await domtoimage.toPng(toRender, { width: rect.width, height: rect.height, style: {width: rect.width, transformOrigin: 'center', transform: `translate(0) scale(${rect.width / size[0]}) rotate(${rotation}deg)`} });
-                        const imageFile = dataURLtoFile(dataUrl, `${item.item.selector}.png`);
-                        const time = `t,${item.item.time.start}, ${item.item.time.end}`;
-
-                        ffmpegData.push({
-                            type: 'overlay',
-                            image: `${item.item.selector}.png`,
-                            time: time,
-                            position: {
-                                x: item.item.videoPosition.x,
-                                y: item.item.videoPosition.y
-                            }
-                        })
-
-                        formData.append('images', imageFile);
-                        node.style.display = prevDisplay;
+                    const node = document.getElementById(item.item.selector) as HTMLElement;
+                    const position: any = {
+                        x: 0,
+                        y: 0,
                     }
+                    let toRender: any;
+                    let prevDisplay: string = '';
+
+                    if (item.item.itemType === 'text') {
+                        toRender = node.children[0];
+                        position.x = item.item.textOptions.textPosition.x;
+                        position.y = item.item.textOptions.textPosition.y;
+                    } else {
+                        toRender = node;
+                        position.x = item.item.videoPosition.x;
+                        position.y = item.item.videoPosition.y;
+                    }
+
+                    prevDisplay = node.style.display;
+                    node.style.display = 'block';
+
+                    const rect = toRender.getBoundingClientRect();
+                    const rotation = getRotationAngle(node);
+                    const size = imageSizeAfterRotation([rect.width, rect.height], rotation);
+                    const dataUrl = await domtoimage.toPng(toRender, { width: rect.width, height: rect.height, style: {width: rect.width, transformOrigin: 'center', transform: `translate(0) scale(${rect.width / size[0]}) rotate(${rotation}deg)`} });
+                    const imageFile = dataURLtoFile(dataUrl, `${item.item.selector}.png`);
+                    const time = `t,${item.item.time.start}, ${item.item.time.end}`;
+
+                    ffmpegData.push({
+                        type: 'overlay',
+                        image: `${item.item.selector}.png`,
+                        time: time,
+                        position: position
+                    });
+
+                    formData.append('images', imageFile);
+                    node.style.display = prevDisplay;
                 }
             })
     
             formData.append('video', videoFile);
             formData.append('videoEditor', JSON.stringify(ffmpegData));
 
-            try {
-                const result = await axios({
-                    url: 'upload-video',
-                    method: 'post',
-                    data: formData,
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    onUploadProgress: progress => {
-                        const { total, loaded } = progress;
-                        const totalSize = total / 1000000;
-                        const loadedSize = loaded / 1000000;
-                        const percentage = (loadedSize / totalSize) * 100;
-                        console.log(percentage);
-                    }
-                });
-
-                console.log(result);
-            } catch (err) {
-                throw err;
+            if (formData.has('images')) {
+                try {
+                    const result = await axios({
+                        url: 'upload-video',
+                        method: 'post',
+                        data: formData,
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        onUploadProgress: progress => {
+                            const { total, loaded } = progress;
+                            const totalSize = total / 1000000;
+                            const loadedSize = loaded / 1000000;
+                            const percentage = (loadedSize / totalSize) * 100;
+                            console.log(percentage);
+                        }
+                    });
+    
+                    console.log(result);
+                } catch (err) {
+                    throw err;
+                }
             }
+
         }
     }
 
