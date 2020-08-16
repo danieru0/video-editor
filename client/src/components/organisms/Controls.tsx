@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { types } from '../../store/actions/types';
 import domtoimage from 'dom-to-image';
 import axios from 'axios';
+import download from 'downloadjs';
 
 import getRotationAngle from '../../helpers/getRotationAngle';
 import imageSizeAfterRotation from '../../helpers/imageSizeAfterRotation';
@@ -25,7 +26,6 @@ const Container = styled.div`
     z-index: 2;
 `
 
-
 async function asyncForEach(array: any, callback: any) {
     for (let index = 0; index < array.length; index++) {
       await callback(array[index], index, array);
@@ -39,11 +39,26 @@ const Controls: FC = () => {
     const exportState = useTypedSelector(state => state.export.exportActive);
 
     const handleExportClick = async () => {
-        if (videoFile && trackList.length !== 0 && exportState !== true) {      
+        if (videoFile && trackList.length !== 0 && exportState !== true && window.confirm('Are you sure?')) {      
             dispatch({
                 type: types.SET_EXPORT_STATE,
                 payload: true
             });
+            dispatch({
+                type: types.UPDATE_MODAL_DATA,
+                payload: {
+                    type: 'rendering',
+                    name: 'render'
+                }
+            })
+            dispatch({
+                type: types.SET_RENDER_STATUS,
+                payload: true
+            })
+            dispatch({
+                type: types.SET_RENDER_MESSAGE,
+                payload: 'Converting all into images'
+            })
 
             const ffmpegData: any[] = [];
             const formData = new FormData();
@@ -63,13 +78,13 @@ const Controls: FC = () => {
                         position.x = item.item.textOptions.textPosition.x;
                         position.y = item.item.textOptions.textPosition.y;
                     } else {
-                        toRender = node;
+                        toRender = item.item.itemType === 'image' ? node.children[0] : node;
                         position.x = item.item.videoPosition.x;
                         position.y = item.item.videoPosition.y;
                     }
 
                     prevDisplay = node.style.display;
-                    node.style.display = 'block';
+                    node.style.display = 'flex';
 
                     const rect = toRender.getBoundingClientRect();
                     const rotation = getRotationAngle(node);
@@ -102,19 +117,61 @@ const Controls: FC = () => {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         },
+                        responseType: 'blob',
                         onUploadProgress: progress => {
                             const { total, loaded } = progress;
                             const totalSize = total / 1000000;
                             const loadedSize = loaded / 1000000;
                             const percentage = (loadedSize / totalSize) * 100;
-                            console.log(percentage);
+                            if (percentage !== 100) {
+                                dispatch({
+                                    type: types.SET_RENDER_MESSAGE,
+                                    payload: `Uploading video: ${Math.floor(percentage)}%`
+                                });
+                            } else {
+                                dispatch({
+                                    type: types.SET_RENDER_MESSAGE,
+                                    payload: `Rendering video! Please wait...`
+                                });
+                            }
                         }
                     });
     
-                    console.log(result);
+                    if (result) {
+                        dispatch({
+                            type: types.SET_EXPORT_STATE,
+                            payload: false
+                        });
+                        dispatch({
+                            type: types.SET_RENDER_STATUS,
+                            payload: false
+                        })
+                        dispatch({
+                            type: types.SET_RENDER_MESSAGE,
+                            payload: 'Done!'
+                        });
+                        download(result.data, 'video.mp4');
+                    }
                 } catch (err) {
                     throw err;
                 }
+            } else {
+                dispatch({
+                    type: types.SET_EXPORT_STATE,
+                    payload: false
+                });
+                dispatch({
+                    type: types.SET_RENDER_STATUS,
+                    payload: false
+                })
+                dispatch({
+                    type: types.SET_RENDER_MESSAGE,
+                    payload: ''
+                })
+                dispatch({
+                    type: types.SET_RENDER_ERROR,
+                    payload: 'Nothing to render!'
+                })
             }
 
         }

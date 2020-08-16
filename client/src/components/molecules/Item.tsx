@@ -64,6 +64,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
     const moveableRef = useRef<any>();
     const blockTextRef = useRef<any>();
     const alignment = textOptions?.justifyContent;
+    const fontSize = textOptions?.fontSize;
 
     useEffect(() => {
         if (type === 'text') {
@@ -101,6 +102,13 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
             setActive(false);
         }
     }, [time, videoCurrentDuration]);
+
+    useEffect(() => {
+        if (target && type === 'text') {
+            const textRect = target.children[0].getBoundingClientRect();
+            updateOptionsTextPosition(textRect.x, textRect.y);   
+        }
+    }, [fontSize, target, type]);
 
     const updateOptionsTextPosition = (xRect: number, yRect: number) => {
         const videoRect = videoRef.getBoundingClientRect();

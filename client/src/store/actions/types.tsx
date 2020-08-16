@@ -3,12 +3,14 @@ import { videoActions } from './videoAction';
 import { timeLineActions } from './timeLineAction';
 import { modalActions } from './modalAction';
 import { exportActions } from './exportAction';
+import { renderActions } from './renderAction';
 
 export type Action = testActions 
     | videoActions 
     | timeLineActions 
     | modalActions
-    | exportActions;
+    | exportActions
+    | renderActions;
 
 export enum types {
     SET_TEST_VALUE = 'SET_TEST_VALUE',
@@ -41,5 +43,10 @@ export enum types {
 
     UPDATE_MODAL_DATA = 'UPDATE_MODAL_DATA',
 
-    SET_EXPORT_STATE = 'SET_EXPORT_STATE'
+    SET_EXPORT_STATE = 'SET_EXPORT_STATE',
+
+    SET_RENDER_STATUS = 'SET_RENDER_STATUS',
+    SET_RENDER_MESSAGE = 'SET_RENDER_MESSAGE',
+    SET_RENDER_ERROR = 'SET_RENDER_ERROR',
+
 }

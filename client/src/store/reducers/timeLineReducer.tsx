@@ -152,7 +152,7 @@ export default (state = initState, action: Action): timeLineState => {
                             const payloadCopy = (JSON.parse(JSON.stringify(action.payload)));
                             const { x, y, name, textAlign, ...rest } = payloadCopy;
 
-                            if (x !== null && y !== null) {
+                            if (x !== undefined && y !== undefined) {
                                 item.item.textOptions.textPosition = {
                                     x: x,
                                     y: y

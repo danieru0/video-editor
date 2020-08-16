@@ -20,7 +20,7 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 
 const upload = multer({ storage: storage });
 
-app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'images', maxCount: 8}, {name: 'videoEditor', maxCount: 1}]), (req, res, next) => {
+app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'images', maxCount: 99}, {name: 'videoEditor', maxCount: 1}]), (req, res, next) => {
     const filters = [];
     const videoEditorData = JSON.parse(req.body['videoEditor']);
     let input = 1;
@@ -75,8 +75,6 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
         input++;
     }
 
-    console.log(filters);    
-
     ffmpegChained
         .complexFilter(filters)
         .videoCodec('libx264')
@@ -85,10 +83,8 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
         .audioCodec('libmp3lame')
         .save('./dupa.mp4')
         .on('end', () => {
-            console.log('success');
+            res.download('./dupa.mp4');
         });
-
-    return res.status(200);
 })
 
 app.get('*', (req, res) => {

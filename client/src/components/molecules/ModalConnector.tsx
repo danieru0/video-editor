@@ -7,6 +7,7 @@ import WithButton from '../../hoc/withButton';
 
 import ChangeNameModal from '../atoms/ModalTypes/ChangeNameModal';
 import ChangeItemColorModal from '../atoms/ModalTypes/ChangeItemColorModal';
+import RenderModal from '../atoms/ModalTypes/RenderModal';
 import Icon from '../atoms/Icon';
 
 interface ModalConnectorProps {
@@ -96,6 +97,9 @@ const ModalConnector: FC<ModalConnectorProps> = ({type, name}) => {
             ModalComponent = ChangeItemColorModal;
             navTitle = 'Change color';
             break;
+        case 'rendering':
+            ModalComponent = RenderModal;
+            break;
         default: ModalComponent = null;
     }
 
@@ -156,16 +160,23 @@ const ModalConnector: FC<ModalConnectorProps> = ({type, name}) => {
 
     return (
         <Container>
-            <Navigation>
-                <Title>{navTitle}</Title>
-                <StyledIcon onClick={closeModal} color="#9e9e9e" name="times" size={26} />
-            </Navigation>
-            {
-                ModalComponent && <ModalComponent handleColorChange={handleColorChange} handleNameChange={handleNameChange}/>
+            {   type !== 'rendering' && (
+                    <Navigation>
+                        <Title>{navTitle}</Title>
+                        <StyledIcon onClick={closeModal} color="#9e9e9e" name="times" size={26} />
+                    </Navigation>
+                )
             }
-            <ModalButtons>
-                <Button onClick={handleSaveClick}>Save</Button>
-            </ModalButtons>
+            {
+                ModalComponent && <ModalComponent onCloseClick={closeModal} handleColorChange={handleColorChange} handleNameChange={handleNameChange}/>
+            }
+            {
+                type !== 'rendering' && (
+                    <ModalButtons>
+                        <Button onClick={handleSaveClick}>Save</Button>
+                    </ModalButtons>
+                )
+            }
         </Container>
     )
 }
