@@ -4,6 +4,7 @@ import Moveable from 'react-moveable';
 import { useTypedSelector } from '../../store/selector';
 import { useDispatch } from 'react-redux';
 import { types } from '../../store/actions/types';
+import { OnDragEnd, OnRotateEnd, OnResizeEnd } from 'react-moveable'
 
 import Block from '../atoms/Block';
 
@@ -62,13 +63,13 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
         rotate: 0
     });
     const moveableRef = useRef<any>();
-    const blockTextRef = useRef<any>();
+    const blockTextRef = useRef<HTMLDivElement>();
     const alignment = textOptions?.justifyContent;
     const fontSize = textOptions?.fontSize;
 
     useEffect(() => {
         if (type === 'text') {
-            if (blockTextRef.current && videoRef) {
+            if (blockTextRef.current) {
                 const videoRect = videoRef.getBoundingClientRect();
                 const textRect = blockTextRef.current.children[0].getBoundingClientRect();
                 const x = textRect.x - videoRect.x;
@@ -108,7 +109,13 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
             const textRect = target.children[0].getBoundingClientRect();
             updateOptionsTextPosition(textRect.x, textRect.y);   
         }
-    }, [fontSize, target, type]);
+    }, [fontSize, target, type]); //eslint-disable-line
+
+    useEffect(() => {
+        if (active && type === 'image') {
+            moveableRef.current.updateRect();
+        }
+    }, [active, type])
 
     const updateOptionsTextPosition = (xRect: number, yRect: number) => {
         const videoRect = videoRef.getBoundingClientRect();
@@ -122,7 +129,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
         })
     }
 
-    const handleDragEnd = (e: any) => {
+    const handleDragEnd = (e: OnDragEnd) => {
         const targetRect = e.target.getBoundingClientRect();
         const videoRect = videoRef.getBoundingClientRect();
         dispatch({
@@ -140,7 +147,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
         }
     }
 
-    const handleEndEvent = (e: any) => {
+    const handleEndEvent = (e: OnRotateEnd | OnResizeEnd) => {
         if (type === 'text') {
             const textRect = e.target.children[0].getBoundingClientRect();
             updateOptionsTextPosition(textRect.x, textRect.y);

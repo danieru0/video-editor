@@ -15,3 +15,5 @@ export default function imageSizeAfterRotation(size: [number, number], degrees: 
     const height = (size[0] * Math.sin(radians)) + (size[1] * Math.cos(radians));
     return [ width, height ];
 }
+
+// FROM: https://stackoverflow.com/a/57778745

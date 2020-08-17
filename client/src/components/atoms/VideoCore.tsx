@@ -5,7 +5,7 @@ import { useTypedSelector } from '../../store/selector';
 import { types } from '../../store/actions/types';
 
 interface VideoCoreProps {
-    handleTick: (tick: number | undefined, videoRef: any) => void;
+    handleTick: (tick: number | undefined, videoRef: HTMLVideoElement) => void;
     [x: string]: any;
 }
 
@@ -16,55 +16,48 @@ const VideoCore: FC<VideoCoreProps> = ({ handleTick, ...props }) => {
     const videoFile = useTypedSelector(state => state.video.video);
     const videoData = useTypedSelector(state => state.video.videoData);
     const URL = window.URL || window.webkitURL;
-    const videoRef = useRef<HTMLVideoElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(document.createElement('video'));
 
     let getTimeInterval: any;
 
     useEffect(() => {
         if (videoFile) {
-            if (videoRef.current) {
-                videoRef.current.src = URL.createObjectURL( videoFile );
-                videoRef.current.addEventListener('loadeddata', (e: Event) => {
-                    const element = e.target as HTMLVideoElement;
-                    dispatch({
-                        type: types.SET_VIDEO_DIMENSIONS,
-                        payload: { width: element.offsetWidth, height: element.offsetHeight }
-                    });
-                    dispatch({
-                        type: types.SET_VIDEO_LENGTH,
-                        payload: element.duration
-                    });
+            videoRef.current.src = URL.createObjectURL(videoFile);
+            videoRef.current.addEventListener('loadeddata', (e: Event) => {
+                const element = e.target as HTMLVideoElement;
+                dispatch({
+                    type: types.SET_VIDEO_DIMENSIONS,
+                    payload: { width: element.offsetWidth, height: element.offsetHeight }
                 });
-            }
+                dispatch({
+                    type: types.SET_VIDEO_LENGTH,
+                    payload: element.duration
+                });
+            });
         }
     }, [videoFile, URL, dispatch]);
 
     useEffect(() => {
-        if (videoRef.current) {
-            videoRef.current.muted = videoData.muted;
-            videoRef.current.volume = videoData.volume;
-        }
+        videoRef.current.muted = videoData.muted;
+        videoRef.current.volume = videoData.volume;
     }, [videoData.muted, videoData.volume]);
 
     useEffect(() => {
-        if (videoRef.current) {
-            videoRef.current.currentTime = videoData.duration;
-            handleTick(videoRef.current.currentTime, videoRef.current);
-        }
+        videoRef.current.currentTime = videoData.duration;
+        handleTick(videoRef.current.currentTime, videoRef.current);
     }, [videoData.duration]); //eslint-disable-line
 
     useEffect(() => {
-        if (videoRef.current) {
-            videoData.play ? videoRef.current.play() : videoRef.current.pause();
-        }
+        videoData.play ? videoRef.current.play() : videoRef.current.pause();
 
         return () => clearInterval(getTimeInterval);
     }, [videoData.play, getTimeInterval])
 
     const tickStart = () => {
         getTimeInterval = setInterval(() => {
-            handleTick(videoRef.current?.currentTime, videoRef.current);
+            handleTick(videoRef.current.currentTime, videoRef.current);
         }, 30)
+
     }
 
     return (

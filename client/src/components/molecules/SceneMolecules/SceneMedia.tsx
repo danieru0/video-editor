@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, SyntheticEvent } from 'react';
 import styled from 'styled-components';
 import Masonry from 'react-masonry-component';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -15,7 +15,7 @@ interface ContainerProps {
 }
 
 interface SceneMediaProps extends ContainerProps {
-    onItemClick: (e: any, type: string, image?: string) => void;
+    onItemClick: (e: SyntheticEvent<HTMLDivElement>, type: string, image?: string) => void;
 }
 
 const Container = styled.div<ContainerProps>`
@@ -137,7 +137,7 @@ const SceneMedia: FC<SceneMediaProps> = ({active, onItemClick}) => {
                         >
                             {
                                 images.map((item, key) => {
-                                    return <StyledImageButton onClick={(e: any) => onItemClick(e, 'image', item.originalImage)} key={key} src={item.landscapeImage} />
+                                    return <StyledImageButton onClick={(e: SyntheticEvent<HTMLDivElement>) => onItemClick(e, 'image', item.originalImage)} key={key} src={item.landscapeImage} />
                                 })
                             }
                         </Masonry>

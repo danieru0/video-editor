@@ -2,7 +2,7 @@ import React, { FC, useRef, useEffect } from 'react';
 import { useTypedSelector } from '../../store/selector';
 
 interface VideoCanvasProps {
-    videoRef: any;
+    videoRef: HTMLVideoElement;
     tick: number | undefined;
     [x: string]: any;
 }
@@ -22,10 +22,9 @@ const VideoCanvas: FC<VideoCanvasProps> = ({ videoRef, tick, ...props }) => {
 
     useEffect(() => {
         if (videoRef && ctx) {
-            ctx.filter = `brightness(${videoData.brightness}%) contrast(${videoData.contrast}%) saturate(${videoData.saturation}%)`;
             ctx.drawImage(videoRef, 0, 0)
         }
-    }, [videoRef, tick, ctx, videoData.brightness, videoData.contrast, videoData.saturation]);
+    }, [videoRef, tick, ctx]);
 
     return (
         <canvas {...props} ref={canvasRef}></canvas>

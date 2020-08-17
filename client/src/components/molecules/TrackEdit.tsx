@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../themes/theme';
 
@@ -10,7 +10,7 @@ import Icon from '../atoms/Icon';
 interface TrackEditProps {
     name: string;
     onDeleteClick: () => void;
-    onSettingsClick: (e: any) => void;
+    onSettingsClick: (e: MouseEvent) => void;
 }
 
 const Container = styled.div`

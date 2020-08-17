@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, RefObject, MouseEvent } from 'react';
 import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
 import { useDispatch } from 'react-redux';
@@ -7,7 +7,7 @@ import { item } from '../../types/timeline';
 
 interface TrackProps {
     item: item | null;
-    timelineRef: any;
+    timelineRef: RefObject<HTMLDivElement>;
     videoLength: number;
     name: string;
 }
@@ -34,7 +34,7 @@ const Track: FC<TrackProps> = ({name, item, timelineRef, videoLength}) => {
     let trackItemElement: any;
 
     const handleDragStop = (e: any, x: number) => {
-        if (timelineRef && item) {
+        if (timelineRef.current && item) {
             const startTime = x * videoLength / timelineRef.current.offsetWidth;
             const endTime = (e.target.offsetWidth * videoLength / timelineRef.current.offsetWidth) + startTime;
 
@@ -50,8 +50,8 @@ const Track: FC<TrackProps> = ({name, item, timelineRef, videoLength}) => {
         }
     }
 
-    const handleResizeStop = (e: any, ref: any, x: number) => {
-        if (timelineRef) {
+    const handleResizeStop = (e: any, ref: HTMLDivElement, x: number) => {
+        if (timelineRef.current) {
             const startTime = x * videoLength / timelineRef.current.offsetWidth;
             const endTime = (Number(ref.style.width.replace('px', '')) * videoLength / timelineRef.current.offsetWidth) + startTime;
 

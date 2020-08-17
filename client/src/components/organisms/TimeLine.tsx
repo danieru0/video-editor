@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect, useState } from 'react';
+import React, { FC, useRef, useEffect, useState, MouseEvent } from 'react';
 import styled from 'styled-components';
 import { useTypedSelector } from '../../store/selector';
 import { useDispatch } from 'react-redux';
@@ -190,7 +190,7 @@ const TimeLine: FC = () => {
         setTrackHeights(trackHeights - 70);
     }
 
-    const handleSettingsClick = (e: any, type: string | undefined, name: string) => {
+    const handleSettingsClick = (e: MouseEvent, type: string | undefined, name: string) => {
         e.preventDefault();
         e.stopPropagation();
         setDropdownData({
@@ -254,7 +254,7 @@ const TimeLine: FC = () => {
                 <Wrapper>
                     {
                         trackList && trackList.map(item => {
-                            return <TrackEdit onSettingsClick={(e) => handleSettingsClick(e, item.item?.type, item.name)} onDeleteClick={() => handleDeleteTrack(item.name)} key={item.name} name={item.name}/>
+                            return <TrackEdit onSettingsClick={(e: MouseEvent) => handleSettingsClick(e, item.item?.type, item.name)} onDeleteClick={() => handleDeleteTrack(item.name)} key={item.name} name={item.name}/>
                         })
                     }
                 </Wrapper>

@@ -1,8 +1,9 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { useTypedSelector } from '../../store/selector';
 import { useDispatch } from 'react-redux';
 import { types } from '../../store/actions/types';
+import { item } from '../../types/timeline';
 import domtoimage from 'dom-to-image';
 import axios from 'axios';
 import download from 'downloadjs';
@@ -10,6 +11,7 @@ import download from 'downloadjs';
 import getRotationAngle from '../../helpers/getRotationAngle';
 import imageSizeAfterRotation from '../../helpers/imageSizeAfterRotation';
 import dataURLtoFile from '../../helpers/dataURLtoFile'
+import asyncForEach from '../../helpers/asyncForEach';
 
 import VolumeInput from '../molecules/VolumeInput';
 import ControlsPlay from '../molecules/ControlsPlay';
@@ -25,12 +27,6 @@ const Container = styled.div`
     justify-content: space-between;
     z-index: 2;
 `
-
-async function asyncForEach(array: any, callback: any) {
-    for (let index = 0; index < array.length; index++) {
-      await callback(array[index], index, array);
-    }
-  }
 
 const Controls: FC = () => {
     const dispatch = useDispatch();
@@ -63,17 +59,17 @@ const Controls: FC = () => {
             const ffmpegData: any[] = [];
             const formData = new FormData();
 
-            await asyncForEach([...trackList].reverse(), async (item: any) => {
+            await asyncForEach([...trackList].reverse(), async (item: {name: string, item: item}) => {
                 if (item.item && item.item.time) {
                     const node = document.getElementById(item.item.selector) as HTMLElement;
-                    const position: any = {
+                    const position: {x: number, y: number} = {
                         x: 0,
                         y: 0,
                     }
-                    let toRender: any;
+                    let toRender: HTMLElement | Element;
                     let prevDisplay: string = '';
 
-                    if (item.item.itemType === 'text') {
+                    if (item.item.itemType === 'text' && item.item.textOptions?.textPosition) {
                         toRender = node.children[0];
                         position.x = item.item.textOptions.textPosition.x;
                         position.y = item.item.textOptions.textPosition.y;

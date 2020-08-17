@@ -23,9 +23,9 @@ const StyledVideoItems = styled(VideoItems)`
 const VideoPlayer: FC = () => {
     const dispatch = useDispatch();
     const [tick, setTick] = useState<number | undefined>(0);
-    const [videoRef, setVideoRef] = useState(undefined);
+    const [videoRef, setVideoRef] = useState<HTMLVideoElement>();
 
-    const timeUpdate =  (tick: number | undefined, videoRef: any) => {
+    const timeUpdate =  (tick: number | undefined, videoRef: HTMLVideoElement) => {
         setTick(tick);
         setVideoRef(videoRef);
         dispatch({

@@ -4,7 +4,7 @@ export interface videoDimensions {
 }
 
 export interface videoRef {
-    videoRef: any;
+    videoRef: HTMLVideoElement;
     currentDuration: number;
 }
 

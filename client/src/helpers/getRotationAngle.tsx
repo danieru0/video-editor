@@ -17,3 +17,5 @@ export default function getRotationAngle(target: any) {
   
     return (angle < 0) ? angle +=360 : angle;
 }
+
+// FROM: https://gist.github.com/hoandang/5989980

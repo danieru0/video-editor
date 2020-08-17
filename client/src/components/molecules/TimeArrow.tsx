@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, RefObject } from 'react';
 import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
 import Icon from '../atoms/Icon';
@@ -7,7 +7,7 @@ import { useTypedSelector } from '../../store/selector';
 interface TimeArrowProps {
     height: number;
     positionChange: (x: number, e: any) => void;
-    timelineRef: any;
+    timelineRef: RefObject<HTMLDivElement>
 }
 
 const Timer = styled.div`

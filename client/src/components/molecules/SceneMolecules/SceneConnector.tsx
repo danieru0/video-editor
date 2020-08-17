@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, SyntheticEvent } from 'react';
 import { useTypedSelector } from '../../../store/selector';
 import { useDispatch } from 'react-redux';
 import { types } from '../../../store/actions/types';
@@ -16,7 +16,7 @@ const SceneConnector: FC<SceneConnectorProps> = ({ activeScene }) => {
     const trackList = useTypedSelector(state => state.timeline.timeline); 
     const timelineRef = useTypedSelector(state => state.timeline.timelineRef);
 
-    const handleItemClick = (e: any, type: string, image?: string) => {
+    const handleItemClick = (e: SyntheticEvent<HTMLDivElement>, type: string, image?: string) => {
         e.preventDefault();
         e.stopPropagation();
 
