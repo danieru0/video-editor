@@ -18,6 +18,7 @@ type IconTypes = 'play'
     | 'align-right'
     | 'times'
     | 'search'
+    | 'expand'
 
 interface IconProps {
     size: number;

@@ -9,7 +9,8 @@ export type videoActions = setVideoFileAction
     | setVideoCurrentDurationAction
     | setVideoDurationAction
     | setVideoLengthAction
-    | updateClickedItemAction;
+    | updateClickedItemAction
+    | setVideoFullScreenAction;
 
 interface setVideoFileAction {
     type: types.SET_VIDEO_FILE,
@@ -91,3 +92,12 @@ export const updateClickedItem = (value: {name: string, type: string}): updateCl
     type: types.UPDATE_CLICKED_ITEM,
     payload: value
 });
+
+interface setVideoFullScreenAction {
+    type: types.SET_VIDEO_FULLSCREEN,
+    payload: boolean
+}
+export const setVideoFullScreen = (value: boolean): setVideoFullScreenAction => ({
+    type: types.SET_VIDEO_FULLSCREEN,
+    payload: value
+})

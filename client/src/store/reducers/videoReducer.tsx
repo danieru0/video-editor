@@ -5,6 +5,7 @@ export interface VideoState {
     video: File | null;
     videoData: videoData;
     videoRef: videoRef;
+    fullScreen: boolean;
 }
 
 const initState: VideoState = {
@@ -21,7 +22,8 @@ const initState: VideoState = {
     videoRef: {
         currentDuration: 0,
         videoRef: null
-    }
+    },
+    fullScreen: false
 }
 
 export default (state = initState, action: Action): VideoState => {
@@ -49,6 +51,9 @@ export default (state = initState, action: Action): VideoState => {
         }
         case types.SET_VIDEO_DURATION: {
             return {...state, videoData: { ...state.videoData, duration: action.payload }};
+        }
+        case types.SET_VIDEO_FULLSCREEN: {
+            return {...state, fullScreen: action.payload};
         }
         default: return state;
     }

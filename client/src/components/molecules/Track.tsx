@@ -1,4 +1,4 @@
-import React, { FC, RefObject, MouseEvent } from 'react';
+import React, { FC, RefObject } from 'react';
 import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
 import { useDispatch } from 'react-redux';

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useTypedSelector } from '../../store/selector';
 import { useDispatch } from 'react-redux';
 import { types } from '../../store/actions/types';
-import { item } from '../../types/timeline';
+import { item } from '../../types/timeline'; //eslint-disable-line
 import domtoimage from 'dom-to-image';
 import axios from 'axios';
 import download from 'downloadjs';
@@ -17,15 +17,33 @@ import VolumeInput from '../molecules/VolumeInput';
 import ControlsPlay from '../molecules/ControlsPlay';
 import ExportButton from '../atoms/ExportButton';
 
-const Container = styled.div`
+interface ContainerProps {
+    fullScreen: boolean;
+}
+
+const Container = styled.div<ContainerProps>`
     width: 100%;
     height: 70px;
     background-color: ${({theme}) => theme.secondary};
     display: flex;
     align-items: center;
     padding: 0px 20px;
-    justify-content: space-between;
+    justify-content: center;
     z-index: 2;
+
+    & > div:first-child {
+        margin-right: auto;
+    }
+
+    & > button {
+        margin-left: auto;
+    }
+
+    ${({fullScreen}) => fullScreen && `
+        z-index: 9999;
+        position: absolute;
+        bottom: 0;
+    `}
 `
 
 const Controls: FC = () => {
@@ -33,6 +51,7 @@ const Controls: FC = () => {
     const videoFile = useTypedSelector(state => state.video.video);
     const trackList = useTypedSelector(state => state.timeline.timeline);
     const exportState = useTypedSelector(state => state.export.exportActive);
+    const videoFullScreen = useTypedSelector(state => state.video.fullScreen);
 
     const handleExportClick = async () => {
         if (videoFile && trackList.length !== 0 && exportState !== true && window.confirm('Are you sure?')) {      
@@ -174,7 +193,7 @@ const Controls: FC = () => {
     }
 
     return (
-        <Container>
+        <Container fullScreen={videoFullScreen}>
             <VolumeInput />
             <ControlsPlay />
             <ExportButton onClick={handleExportClick}/>

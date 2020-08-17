@@ -16,6 +16,7 @@ const Container = styled.div`
     justify-content: space-around;
     align-items: center;
     width: 350px;
+    margin-left: -50px;
 `
 
 const ControlsPlay: FC = () => {
