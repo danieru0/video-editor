@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec babel-node index.js",
     "build": "babel index.js storage -d build",
-    "start:prod": "babel-node index.js"
+    "start:prod": "nodemon --exec babel-node index.js"
   },
   "keywords": [],
   "author": "",
