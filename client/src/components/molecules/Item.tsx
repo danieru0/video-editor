@@ -69,7 +69,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
 
     useEffect(() => {
         if (type === 'text') {
-            if (blockTextRef.current) {
+            if (blockTextRef.current && videoRef) {
                 const videoRect = videoRef.getBoundingClientRect();
                 const textRect = blockTextRef.current.children[0].getBoundingClientRect();
                 const x = textRect.x - videoRect.x;
@@ -118,28 +118,32 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
     }, [active, type])
 
     const updateOptionsTextPosition = (xRect: number, yRect: number) => {
-        const videoRect = videoRef.getBoundingClientRect();
-        dispatch({
-            type: types.UPDATE_TEXT_OPTIONS,
-            payload: {
-                name: name,
-                x: xRect - videoRect.x,
-                y: yRect - videoRect.y
-            }
-        })
+        if (videoRef) {            
+            const videoRect = videoRef.getBoundingClientRect();
+            dispatch({
+                type: types.UPDATE_TEXT_OPTIONS,
+                payload: {
+                    name: name,
+                    x: xRect - videoRect.x,
+                    y: yRect - videoRect.y
+                }
+            })
+        }
     }
 
     const handleDragEnd = (e: OnDragEnd) => {
-        const targetRect = e.target.getBoundingClientRect();
-        const videoRect = videoRef.getBoundingClientRect();
-        dispatch({
-            type: types.UPDATE_ITEM_POSITION,
-            payload: {
-                name: name,
-                x: targetRect.x - videoRect.x,
-                y: targetRect.y - videoRect.y
-            }
-        })
+        if (videoRef) {
+            const targetRect = e.target.getBoundingClientRect();
+            const videoRect = videoRef.getBoundingClientRect();
+            dispatch({
+                type: types.UPDATE_ITEM_POSITION,
+                payload: {
+                    name: name,
+                    x: targetRect.x - videoRect.x,
+                    y: targetRect.y - videoRect.y
+                }
+            })
+        }
 
         if (type === 'text') {
             const textRect = e.target.children[0].getBoundingClientRect();

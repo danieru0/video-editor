@@ -19,6 +19,7 @@ type IconTypes = 'play'
     | 'times'
     | 'search'
     | 'expand'
+    | 'upload'
 
 interface IconProps {
     size: number;

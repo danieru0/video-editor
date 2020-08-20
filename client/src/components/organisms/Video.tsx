@@ -20,25 +20,31 @@ interface ContainerProps {
 const Container = styled.div<ContainerProps>`
     display: flex;
     height: 100%;
-    padding: 20px;
-    justify-content: center;
-    align-items: center;
     z-index: 2;
     position: relative;
+    overflow: auto;
+
+    &:after {
+        content: '';
+        display: block;
+        height: 20px;
+        width: 100%;
+    }
 
     ${({fullScreen}) => fullScreen && `
         position: absolute;
         width: 100%;
         z-index: 999;
         background-color: #000;
-        padding: 10px;
     `}
 `
 
 const Wrapper = styled.div`
-    position: absolute;
+    position: sticky;
     top: 15px;
     left: 15px;
+    z-index: 3;
+    height: 35px;
 `
 
 const WithButtonIcon = WithButton(Icon);

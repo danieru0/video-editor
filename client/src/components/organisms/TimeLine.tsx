@@ -102,7 +102,8 @@ const TimeLine: FC = () => {
                 if (item.item && timelineRef.current && item.item.time) {
                     const width = typeof item.item.width === 'string' ? item.item.width.replace('px', '') : item.item.width; 
                     const widthNumber = Number(width) as any;
-                    const newWidth = widthNumber.toFixed() * timelineRef.current.offsetWidth / timelineWidth;
+                    const widthDifference = timelineWidth - timelineRef.current.offsetWidth;
+                    const newWidth = (widthDifference > 0) ? widthNumber.toFixed() - widthDifference : widthNumber;
                     const startTime = item.item.xPosition * videoData.videoLength / timelineRef.current.offsetWidth;
                     const endTime = (newWidth * videoData.videoLength / timelineRef.current.offsetWidth) + startTime;
                     let newXPosition;

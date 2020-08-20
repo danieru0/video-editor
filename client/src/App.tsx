@@ -1,33 +1,21 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { types } from './store/actions/types'
+import React from 'react';
+import { useTypedSelector } from './store/selector';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlay, faVolumeUp, faPause, faForward, faBackward, faPlus, faTrash, faSlidersH, faChevronLeft, faChevronDown, faArrowLeft, faAlignLeft, faAlignCenter, faAlignRight, faTimes, faSearch, faExpand } from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faVolumeUp, faPause, faForward, faBackward, faPlus, faTrash, faSlidersH, faChevronLeft, faChevronDown, faArrowLeft, faAlignLeft, faAlignCenter, faAlignRight, faTimes, faSearch, faExpand, faUpload } from '@fortawesome/free-solid-svg-icons'
 
-import Editor from './pages/Editor/Editor';
-import { base64 } from './testVideoBase64';
+import Editor from './pages/Editor';
+import Upload from './pages/Upload';
 
-library.add(faPlay, faVolumeUp, faPause, faForward, faBackward, faPlus, faTrash, faSlidersH, faChevronLeft, faChevronDown, faArrowLeft, faAlignLeft, faAlignCenter, faAlignRight, faTimes, faSearch, faExpand);
+library.add(faPlay, faVolumeUp, faPause, faForward, faBackward, faPlus, faTrash, faSlidersH, faChevronLeft, faChevronDown, faArrowLeft, faAlignLeft, faAlignCenter, faAlignRight, faTimes, faSearch, faExpand, faUpload);
 
 function App() {
-  const dispatch = useDispatch();
+  const videoFile = useTypedSelector(state => state.video.video);
 
-  useEffect(() => {
-    fetch(base64)
-      .then(resp => resp.blob())
-      .then(blob => {
-        const file = new File([blob], "test video.mp4",{ type: "video/mp4" });
-
-        dispatch({
-          type: types.SET_VIDEO_FILE,
-          payload: file
-        })
-      })
-  }, [dispatch])
-
-  return (
-    <Editor />
-  );
+  if (videoFile) {
+    return <Editor />
+  } else {
+    return <Upload />
+  }
 }
 
 export default App;

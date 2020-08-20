@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../store/selector';
 import { types } from '../../store/actions/types';
 
+import getSizesWithoutPadding from '../../helpers/getSizesWithoutPadding';
+
 interface VideoCoreProps {
     handleTick: (tick: number | undefined, videoRef: HTMLVideoElement) => void;
     [x: string]: any;
@@ -27,7 +29,7 @@ const VideoCore: FC<VideoCoreProps> = ({ handleTick, ...props }) => {
                 const element = e.target as HTMLVideoElement;
                 dispatch({
                     type: types.SET_VIDEO_DIMENSIONS,
-                    payload: { width: element.offsetWidth, height: element.offsetHeight }
+                    payload: { width: getSizesWithoutPadding(element)[0], height: getSizesWithoutPadding(element)[1] }
                 });
                 dispatch({
                     type: types.SET_VIDEO_LENGTH,
@@ -57,11 +59,17 @@ const VideoCore: FC<VideoCoreProps> = ({ handleTick, ...props }) => {
         getTimeInterval = setInterval(() => {
             handleTick(videoRef.current.currentTime, videoRef.current);
         }, 30)
+    }
 
+    const handleEnd = () => {
+        dispatch({
+            type: types.SET_VIDEO_PLAY,
+            payload: false
+        });
     }
 
     return (
-        <StyledVideo {...props} onPlay={tickStart} controls={false} ref={videoRef} />
+        <StyledVideo {...props} onPlay={tickStart} onEnded={handleEnd} controls={false} ref={videoRef} />
     )
 }
 
