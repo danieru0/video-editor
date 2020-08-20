@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec babel-node index.js",
-    "build": "babel index.js --out-dir build --copy-files",
-    "start:prod": "node build/index.js"
+    "build": "babel index.js storage -d build",
+    "start:prod": "node index.js"
   },
   "keywords": [],
   "author": "",
