@@ -3,6 +3,8 @@ import { useTypedSelector } from '../../../store/selector';
 import { useDispatch } from 'react-redux';
 import { types } from '../../../store/actions/types';
 
+import getRandomId from '../../../helpers/getRandomId';
+
 import SceneBlocks from './SceneBlocks';
 import SceneMedia from './SceneMedia';
 
@@ -38,7 +40,7 @@ const SceneConnector: FC<SceneConnectorProps> = ({ activeScene }) => {
                     itemType: type,
                     width: 134,
                     xPosition: 0,
-                    selector: Math.random().toString(36).substring(7),
+                    selector: getRandomId(),
                     color: '#fff',
                     time: {
                         start: 0,

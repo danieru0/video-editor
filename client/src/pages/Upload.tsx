@@ -4,6 +4,8 @@ import {useDropzone} from 'react-dropzone';
 import { useDispatch } from 'react-redux';
 import { types } from '../store/actions/types';
 
+import getRandomId from '../helpers/getRandomId';
+
 import Icon from '../components/atoms/Icon';
 
 const getColor = (props: any) => {
@@ -70,7 +72,7 @@ const Upload: FC = () => {
 
     const handleFileDrop = (file: File[]) => {
         if (file.length !== 0) {
-            const newFile = new File([file[0]], 'siema', {type: file[0].type});
+            const newFile = new File([file[0]], getRandomId, {type: file[0].type});
 
             dispatch({
                 type: types.SET_VIDEO_FILE,
