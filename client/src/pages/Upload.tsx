@@ -72,7 +72,7 @@ const Upload: FC = () => {
 
     const handleFileDrop = (file: File[]) => {
         if (file.length !== 0) {
-            const newFile = new File([file[0]], getRandomId, {type: file[0].type});
+            const newFile = new File([file[0]], getRandomId(), {type: file[0].type});
 
             dispatch({
                 type: types.SET_VIDEO_FILE,

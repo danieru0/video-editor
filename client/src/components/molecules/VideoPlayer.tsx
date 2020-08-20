@@ -27,6 +27,7 @@ const StyledVideoCanvas = styled(VideoCanvas)`
 const StyledVideoItems = styled(VideoItems)`
     z-index: 2;
     ${positionStyle};
+    box-sizing: content-box;
 `
 
 const VideoPlayer: FC = () => {
