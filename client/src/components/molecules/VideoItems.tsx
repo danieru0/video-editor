@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { useTypedSelector } from '../../store/selector';
 import { timeLine } from '../../types/timeline';
 
-import getSizesWithoutPadding from '../../helpers/getSizesWithoutPadding';
-
 import Item from './Item';
 
 interface VideoItemsProps {
