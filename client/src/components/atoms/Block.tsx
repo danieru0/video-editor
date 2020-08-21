@@ -68,6 +68,7 @@ type BlockTypes = typeof BlocksArray[number];
 
 interface BlockTypeProps {
     color?: string;
+    opacity: number;
     type: BlockTypes | string;
 }
 
@@ -92,6 +93,7 @@ const BlockType = styled.div<BlockTypeProps>`
     background-color: ${({color}) => color};
     width: 100px;
     height: 100px;
+    opacity: ${({opacity}) => opacity};
 `
 
 const TextType = styled.div<TextTypeProps>`
@@ -122,7 +124,7 @@ const ImageType = styled.img`
 
 const Block = forwardRef(
     (props: BlockProps, ref?: React.Ref<HTMLDivElement | HTMLImageElement>) => {
-        const { color = '#fff', type, textAlign, fontSize, justifyContent, fontFamily = 'Lato', textColor = '#fff', border, text, imageSrc, ...rest } = props;
+        const { color = '#fff', type, textAlign, fontSize, justifyContent, fontFamily = 'Lato', textColor = '#fff', border, text, imageSrc, opacity, ...rest } = props;
 
         switch(type) {
             case 'text':
@@ -135,7 +137,7 @@ const Block = forwardRef(
                 return <ImageWrapper {...rest}>
                             <ImageType src={imageSrc} />
                         </ImageWrapper>
-            default: return <BlockType ref={ref} type={type} color={color} {...rest} />
+            default: return <BlockType ref={ref} opacity={opacity} type={type} color={color} {...rest} />
         }
     }
 )

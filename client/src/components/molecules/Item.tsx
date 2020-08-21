@@ -33,6 +33,7 @@ interface ItemProps {
         textColor: string;
     } | null;
     imageSrc: string | null;
+    opacity: number;
 }
 
 interface settingsProps {
@@ -51,7 +52,7 @@ const StyledMoveable = styled(Moveable)<settingsProps>`
     z-index: ${({index}) => index}!important;
 `
 
-const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOptions, index, imageSrc}) => {
+const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOptions, index, imageSrc, opacity}) => {
     const dispatch = useDispatch();
     const videoCurrentDuration = useTypedSelector(state => state.video.videoRef.currentDuration);
     const videoRef = useTypedSelector(state => state.video.videoRef.videoRef);
@@ -172,7 +173,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
 
     return (
         <>
-            <StyledBlock onLoad={() => moveableRef.current.updateRect()} index={index + 4} isActive={active} ref={blockTextRef} id={selector} color={color} type={type} {...textOptions} text={textOptions?.text} imageSrc={imageSrc} />
+            <StyledBlock onLoad={() => moveableRef.current.updateRect()} index={index + 4} isActive={active} ref={blockTextRef} id={selector} opacity={opacity} color={color} type={type} {...textOptions} text={textOptions?.text} imageSrc={imageSrc} />
             <StyledMoveable 
                 index={index + 4}
                 isActive={active}

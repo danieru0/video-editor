@@ -5,6 +5,7 @@ export interface item {
     xPosition: number;
     selector: string;
     color: string;
+    opacity: number;
     time: {
         start: number,
         end: number

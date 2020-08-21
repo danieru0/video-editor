@@ -144,6 +144,17 @@ export default (state = initState, action: Action): timeLineState => {
                 })
             })
         }
+        case types.UPDATE_ITEM_OPACITY: {
+            return produce(state, draft => {
+                draft.timeline.forEach(item => {
+                    if (item.name === action.payload.name) {
+                        if (item.item) {
+                            item.item.opacity = action.payload.opacity;
+                        }
+                    }
+                })
+            })
+        }
         case types.UPDATE_TEXT_OPTIONS: {
             return produce(state, draft => {
                 draft.timeline.forEach(item => {

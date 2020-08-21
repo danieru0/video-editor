@@ -13,6 +13,7 @@ export type timeLineActions = createNewTrackAction
     | updateItemTrackSizeAction
     | updateItemPositionAction
     | updateItemColorAction
+    | updateItemOpacityAction
     | updateTextOptionsAction;
 
 interface createNewTrackAction {
@@ -122,6 +123,15 @@ export const updateItemColor = (value: { name: string, color: string }): updateI
     type: types.UPDATE_ITEM_COLOR,
     payload: value 
 })
+
+interface updateItemOpacityAction {
+    type: types.UPDATE_ITEM_OPACITY,
+    payload: { name: string, opacity: number }
+}
+export const updateItemOpacity = (value: { name: string, opacity: number }): updateItemOpacityAction => ({
+    type: types.UPDATE_ITEM_OPACITY,
+    payload: value
+});
 
 interface TextOptions {
     name: string;
