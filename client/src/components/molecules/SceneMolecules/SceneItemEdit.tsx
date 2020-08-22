@@ -133,6 +133,16 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
         })
     }
 
+    const handleKeepRatioChange = (value: boolean) => {
+        dispatch({
+            type: types.UPDATE_ITEM_RATIO,
+            payload: {
+                name: name,
+                keepRatio: value
+            }
+        })
+    }
+
     const EditComponent = () => {
         switch(type) {
             case 'text':
@@ -140,7 +150,7 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
             case 'image':
                 return null;
             default:
-                return <BlockItemEdit name={name} onOpacityChange={handleOpacityChange} onColorChange={(color: string) => handleColorChange(color, 'block')} />
+                return <BlockItemEdit name={name} onKeepRatioChange={handleKeepRatioChange} onOpacityChange={handleOpacityChange} onColorChange={(color: string) => handleColorChange(color, 'block')} />
         }
     }
 

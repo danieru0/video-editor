@@ -14,6 +14,7 @@ export type timeLineActions = createNewTrackAction
     | updateItemPositionAction
     | updateItemColorAction
     | updateItemOpacityAction
+    | updateItemRatioAction
     | updateTextOptionsAction;
 
 interface createNewTrackAction {
@@ -130,6 +131,15 @@ interface updateItemOpacityAction {
 }
 export const updateItemOpacity = (value: { name: string, opacity: number }): updateItemOpacityAction => ({
     type: types.UPDATE_ITEM_OPACITY,
+    payload: value
+});
+
+interface updateItemRatioAction {
+    type: types.UPDATE_ITEM_RATIO,
+    payload: { name: string, keepRatio: boolean }
+}
+export const updateItemRatio = (value: { name: string, keepRatio: boolean }): updateItemRatioAction => ({
+    type: types.UPDATE_ITEM_RATIO,
     payload: value
 });
 

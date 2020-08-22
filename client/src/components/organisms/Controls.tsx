@@ -104,7 +104,8 @@ const Controls: FC = () => {
                     const rect = toRender.getBoundingClientRect();
                     const rotation = getRotationAngle(node);
                     const size = imageSizeAfterRotation([rect.width, rect.height], rotation);
-                    const dataUrl = await domtoimage.toPng(toRender, { width: rect.width, height: rect.height, style: {width: rect.width, transformOrigin: 'center', transform: `translate(0) scale(${rect.width / size[0]}) rotate(${rotation}deg)`} });
+                    
+                    const dataUrl = await domtoimage.toPng(toRender, {width: rect.width, height: rect.height, style: {marginLeft: item.item.itemType !== 'text' ? '-20px' : '0', marginTop: item.item.itemType !== 'text' ? '-20px' : '0', width: rect.width, transformOrigin: 'center', transform: `translate(0) scale(${rect.width / size[0]}, ${rect.height / size[1]}) rotate(${rotation}deg)`} });
                     const imageFile = dataURLtoFile(dataUrl, `${item.item.selector}.png`);
                     const time = `t,${item.item.time.start}, ${item.item.time.end}`;
 

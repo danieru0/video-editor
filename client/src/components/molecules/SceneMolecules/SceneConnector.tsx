@@ -51,7 +51,8 @@ const SceneConnector: FC<SceneConnectorProps> = ({ activeScene }) => {
                         y: 0
                     },
                     textOptions: type === 'text' ? textOptions : null,
-                    imageSrc: image ? image : null
+                    imageSrc: image ? image : null,
+                    keepRatio: true
                 }
 
                 const tracksWithoutItems = trackList.filter(item => item.item === null);

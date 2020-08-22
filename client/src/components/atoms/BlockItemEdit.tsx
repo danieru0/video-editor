@@ -17,6 +17,7 @@ interface WrapperProps {
 interface BlockItemEditProps {
     onColorChange: (color: string) => void;
     onOpacityChange: (opacity: number) => void;
+    onKeepRatioChange: (value: boolean) => void;
     name: string;
 }
 
@@ -42,14 +43,31 @@ const StyledOpacityRange = styled(InputRange)`
     width: 90% !important;
 `
 
-const BlockItemEdit: FC<BlockItemEditProps> = ({onColorChange, onOpacityChange, name}) => {
+const Label = styled.label`
+    font-family: ${({theme}) => theme.Lato};
+    color: #fff;
+    font-size: 20px;
+    margin-left: 10px;
+    padding: 5px 0px;
+`
+
+const CheckInput = styled.input`
+    margin-left: 10px;
+    position: relative;
+    top: 1px;
+    transform: scale(1.2);
+`
+
+const BlockItemEdit: FC<BlockItemEditProps> = ({onColorChange, onOpacityChange, onKeepRatioChange, name}) => {
     const timelineList = useTypedSelector(state => state.timeline.timeline);
     const {activeElements, changeActiveElement} = useDropDownMenu({
         0: false,
-        1: false
+        1: false,
+        2: false
     });
     const [color, setColor] = useState('');
     const [opacity, setOpacity] = useState(1);
+    const [keepRatio, setKeepRatio] = useState(true);
 
     useEffect(() => {
         const currentItem = timelineList.filter(item => item.name === name);
@@ -57,6 +75,7 @@ const BlockItemEdit: FC<BlockItemEditProps> = ({onColorChange, onOpacityChange, 
         if (currentItem.length !== 0) {
             if (currentItem[0].item) {
                 setColor(currentItem[0].item.color);
+                setOpacity(currentItem[0].item.opacity);
             }
         }
 
@@ -70,6 +89,11 @@ const BlockItemEdit: FC<BlockItemEditProps> = ({onColorChange, onOpacityChange, 
     const handleOpacityChange = (opacity: number) => {
         setOpacity(opacity);
         onOpacityChange(opacity);
+    }
+
+    const handleKeepRatioChange = (value: boolean) => {
+        setKeepRatio(!keepRatio);
+        onKeepRatioChange(value);
     }
 
     return (
@@ -92,6 +116,13 @@ const BlockItemEdit: FC<BlockItemEditProps> = ({onColorChange, onOpacityChange, 
                     value={opacity}
                     onChange={handleOpacityChange}
                 />
+            </Wrapper>
+            <Line onClick={() => changeActiveElement(2)} text="Settings" active={activeElements[2]} />
+            <Wrapper active={activeElements[2]}>
+                <Label>
+                    Keep ratio:
+                    <CheckInput type="checkbox" checked={keepRatio} onChange={(e) => handleKeepRatioChange(e.target.checked)}/>
+                </Label>
             </Wrapper>
         </Container>
     )

@@ -6,6 +6,7 @@ export interface item {
     selector: string;
     color: string;
     opacity: number;
+    keepRatio: boolean;
     time: {
         start: number,
         end: number

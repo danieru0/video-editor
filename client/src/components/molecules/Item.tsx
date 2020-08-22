@@ -34,6 +34,7 @@ interface ItemProps {
     } | null;
     imageSrc: string | null;
     opacity: number;
+    keepRatio: boolean;
 }
 
 interface settingsProps {
@@ -52,7 +53,7 @@ const StyledMoveable = styled(Moveable)<settingsProps>`
     z-index: ${({index}) => index}!important;
 `
 
-const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOptions, index, imageSrc, opacity}) => {
+const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOptions, index, imageSrc, opacity, keepRatio}) => {
     const dispatch = useDispatch();
     const videoCurrentDuration = useTypedSelector(state => state.video.videoRef.currentDuration);
     const videoRef = useTypedSelector(state => state.video.videoRef.videoRef);
@@ -125,8 +126,8 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                 type: types.UPDATE_TEXT_OPTIONS,
                 payload: {
                     name: name,
-                    x: xRect - videoRect.x,
-                    y: yRect - videoRect.y
+                    x: (xRect - videoRect.x) - 20,
+                    y: (yRect - videoRect.y) - 20
                 }
             })
         }
@@ -140,8 +141,8 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                 type: types.UPDATE_ITEM_POSITION,
                 payload: {
                     name: name,
-                    x: targetRect.x - videoRect.x,
-                    y: targetRect.y - videoRect.y
+                    x: (targetRect.x - videoRect.x) - 20,
+                    y: (targetRect.y - videoRect.y) - 20
                 }
             })
         }
@@ -185,7 +186,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
                 origin={false}
                 dragArea={true}
                 rotationPosition={"top"}
-                keepRatio={textOptions ? false : true}
+                keepRatio={keepRatio}
                 onClick={handleItemClick}
                 draggable={true}
                 snappable={true}
