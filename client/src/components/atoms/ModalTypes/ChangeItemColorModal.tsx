@@ -9,7 +9,7 @@ interface ChangeItemColorModalProps {
 const Container = styled.div`
     width: 400px;
     height: 300px;
-    background: #424242;
+    background: ${({theme}) => theme.primary};
     display: flex;
     justify-content: center;
     align-items: center;

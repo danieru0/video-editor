@@ -4,6 +4,8 @@ import { useTypedSelector } from '../../store/selector';
 import { useDispatch } from 'react-redux';
 import { types } from '../../store/actions/types';
 
+import getRandomId from '../../helpers/getRandomId';
+
 import AddTrack from '../molecules/AddTrack';
 import TrackEdit from '../molecules/TrackEdit';
 import Track from '../molecules/Track';
@@ -172,7 +174,8 @@ const TimeLine: FC = () => {
         setTrackAmount(trackAmount + 1);
         const newTrack = {
             name: `TRACK ${trackAmount}`,
-            item: null
+            item: null,
+            id: getRandomId()
         };
         const newTrackHeight = trackHeights + 70;
 
@@ -187,6 +190,13 @@ const TimeLine: FC = () => {
         dispatch({
             type: types.DELETE_TRACK,
             payload: name
+        })
+        dispatch({
+            type: types.UPDATE_CLICKED_ITEM,
+            payload: {
+                name: '',
+                type: ''
+            }
         })
         setTrackHeights(trackHeights - 70);
     }
@@ -219,6 +229,13 @@ const TimeLine: FC = () => {
             dispatch({
                 type: types.DELETE_ITEM_FROM_TRACK,
                 payload: name
+            })
+            dispatch({
+                type: types.UPDATE_CLICKED_ITEM,
+                payload: {
+                    name: '',
+                    type: ''
+                }
             })
         }
     }

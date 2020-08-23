@@ -22,6 +22,7 @@ interface BlockTextEditProps {
     onTextChange: (text: string) => void;
     onFontChange: (size: string) => void;
     onFontTypeChange: (type: string) => void;
+    onKeepRatioChange: (value: boolean) => void;
     name: string;
 }
 
@@ -89,17 +90,26 @@ const Option = styled.option`
     font-family: ${({theme}) => theme.Lato};
 `
 
-const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, onTextChange, onFontChange, onFontTypeChange, name}) => {
+const CheckInput = styled.input`
+    margin-left: 10px;
+    position: relative;
+    top: 1px;
+    transform: scale(1.2);
+`
+
+const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, onTextChange, onFontChange, onFontTypeChange, onKeepRatioChange, name}) => {
     const timelineList = useTypedSelector(state => state.timeline.timeline);
     const {activeElements, changeActiveElement} = useDropDownMenu({
         0: false,
         1: false,
-        2: false
+        2: false,
+        3: false
     });
     const [color, setColor] = useState('');
     const [text, setText] = useState('');
     const [fontSize, setFontSize] = useState(0);
     const [fontType, setFontType] = useState('Lato');
+    const [keepRatio, setKeepRatio] = useState(true);
 
     useEffect(() => {
         const currentItem = timelineList.filter(item => item.name === name);
@@ -110,6 +120,7 @@ const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, on
                 setText(currentItem[0].item.textOptions.text);
                 setFontSize(Number(currentItem[0].item.textOptions.fontSize.replace('px', '')));
                 setFontType(currentItem[0].item.textOptions.fontFamily);
+                setKeepRatio(currentItem[0].item.keepRatio);
             }
         }
 
@@ -158,6 +169,11 @@ const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, on
         onFontTypeChange(value);
     }
 
+    const handleKeepRatioChange = (value: boolean) => {
+        setKeepRatio(!keepRatio);
+        onKeepRatioChange(value);
+    }
+
     return (
         <Container>
             <TextArea onChange={(e) => handleTextChange(e.target.value)} value={text}/>
@@ -188,6 +204,13 @@ const BlockEditText: FC<BlockTextEditProps> = ({onColorChange, onAlignChange, on
                         </Select>
                     </Label>
                 </FontSettingsWrapper>
+            </Wrapper>
+            <Line onClick={() => changeActiveElement(3)} text="Settings" active={activeElements[3]} />
+            <Wrapper active={activeElements[3]}>
+                <Label>
+                    Keep ratio:
+                    <CheckInput type="checkbox" checked={keepRatio} onChange={(e) => handleKeepRatioChange(e.target.checked)}/>
+                </Label>
             </Wrapper>
         </Container>
     )

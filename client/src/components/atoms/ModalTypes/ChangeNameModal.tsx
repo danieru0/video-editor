@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 interface ChangeNameModalProps {
     handleNameChange: (name: string) => void;
+    onEnterClick: (type: string) => void;
 }
 
 interface InputProps {
@@ -12,7 +13,7 @@ interface InputProps {
 const Container = styled.div`
     width: 400px;
     height: 100px;
-    background: #424242;
+    background: ${({theme}) => theme.primary};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,9 +29,13 @@ const Input = styled.input<InputProps>`
     font-size: 24px;
     outline: none;
     color: #fff;
+
+    &::placeholder {
+        color: ${({theme}) => theme.notSelected};
+    }
 `
 
-const ChangeNameModal: FC<ChangeNameModalProps> = ({handleNameChange}) => {
+const ChangeNameModal: FC<ChangeNameModalProps> = ({handleNameChange, onEnterClick}) => {
     const [inputValue, setInputValue] = useState('');
     const [error, setError] = useState(false);
 
@@ -45,9 +50,15 @@ const ChangeNameModal: FC<ChangeNameModalProps> = ({handleNameChange}) => {
         }
     }
 
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>)=> {
+        if (e.key === 'Enter') {
+            onEnterClick('change-name');
+        }
+    }
+
     return (
         <Container>
-            <Input error={error} placeholder="New name" value={inputValue} onChange={(e) => handleInputChange(e.target.value)} />
+            <Input error={error} placeholder="New name" value={inputValue} onKeyPress={handleKeyPress} onChange={(e) => handleInputChange(e.target.value)} />
         </Container>
 
     )

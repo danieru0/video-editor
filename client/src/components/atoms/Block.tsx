@@ -5,7 +5,8 @@ interface BlocksValuesI {
     [x: string]: string;
 }
 export const BlocksArray = [
-    'Triangle', 
+    'Triangle',
+    'Square', 
     'Trapezoid', 
     'Octagon',
     'Parallelogram',
@@ -34,6 +35,7 @@ export const BlocksArray = [
 ] as const;
 const Values = [
     'polygon(50% 0%, 0% 100%, 100% 100%);',
+    'polygon(100% 0, 100% 100%, 0 100%, 0 0);',
     'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);',
     'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);',
     'polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);',

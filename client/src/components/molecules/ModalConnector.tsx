@@ -28,8 +28,8 @@ const Container = styled.div`
 const Navigation = styled.div`
     width: 100%;
     height: 55px;
-    background: #424242;
-    border-bottom: 1px solid #595959;
+    background: ${({theme}) => theme.primary};
+    border-bottom: 1px solid ${({theme}) => theme.secondary};
     display: flex;
     padding-left: 15px;
     align-items: center;
@@ -52,8 +52,8 @@ const StyledIcon = styled(IconWithButton)`
 const ModalButtons = styled.div`
     width: 100%;
     height: 55px;
-    background: #424242;
-    border-top: 1px solid #595959;
+    background: ${({theme}) => theme.primary};
+    border-top: 1px solid ${({theme}) => theme.secondary};
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     display: flex;
@@ -163,12 +163,12 @@ const ModalConnector: FC<ModalConnectorProps> = ({type, name}) => {
             {   type !== 'rendering' && (
                     <Navigation>
                         <Title>{navTitle}</Title>
-                        <StyledIcon onClick={closeModal} color="#9e9e9e" name="times" size={26} />
+                        <StyledIcon onClick={closeModal} color="#535863" name="times" size={26} />
                     </Navigation>
                 )
             }
             {
-                ModalComponent && <ModalComponent onCloseClick={closeModal} handleColorChange={handleColorChange} handleNameChange={handleNameChange}/>
+                ModalComponent && <ModalComponent onEnterClick={handleSaveClick} onCloseClick={closeModal} handleColorChange={handleColorChange} handleNameChange={handleNameChange}/>
             }
             {
                 type !== 'rendering' && (

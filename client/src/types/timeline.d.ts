@@ -33,4 +33,5 @@ export interface item {
 export interface timeLine {
     name: string;
     item: item | null
+    id: string;
 }

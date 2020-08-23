@@ -96,6 +96,14 @@ const Track: FC<TrackProps> = ({name, item, timelineRef, videoLength}) => {
                         fontFamily: 'Lato',
                         color: item.textOptions ? item.textOptions.textColor : '',
                     }}
+                    resizeHandleStyles={{
+                        left: {
+                            background: '#535863'
+                        },
+                        right: {
+                            background: '#535863'
+                        }
+                    }}
                     position={{
                         x: item.xPosition,
                         y: 0,

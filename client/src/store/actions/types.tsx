@@ -1,20 +1,16 @@
-import { testActions } from './testAction';
 import { videoActions } from './videoAction';
 import { timeLineActions } from './timeLineAction';
 import { modalActions } from './modalAction';
 import { exportActions } from './exportAction';
 import { renderActions } from './renderAction';
 
-export type Action = testActions 
-    | videoActions 
+export type Action = videoActions 
     | timeLineActions 
     | modalActions
     | exportActions
     | renderActions;
 
 export enum types {
-    SET_TEST_VALUE = 'SET_TEST_VALUE',
-
     SET_VIDEO_FILE = 'SET_VIDEO_FILE',
     SET_VIDEO_DIMENSIONS = 'SET_VIDEO_DIMENSIONS',
     SET_VIDEO_LENGTH = 'SET_VIDEO_LENGTH',

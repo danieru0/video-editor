@@ -23,7 +23,7 @@ interface BlockItemEditProps {
 
 const Container = styled.div`
     width: 100%;
-    height: 100%;
+    height: calc(100% - 50px);
     padding: 20px;
 `
 
@@ -76,6 +76,7 @@ const BlockItemEdit: FC<BlockItemEditProps> = ({onColorChange, onOpacityChange, 
             if (currentItem[0].item) {
                 setColor(currentItem[0].item.color);
                 setOpacity(currentItem[0].item.opacity);
+                setKeepRatio(currentItem[0].item.keepRatio);
             }
         }
 

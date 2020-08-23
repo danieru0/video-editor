@@ -29,6 +29,7 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 `
 
 const Wrapper = styled.div`
@@ -36,6 +37,7 @@ const Wrapper = styled.div`
     top: 30px;
     color: ${({theme}) => theme.white};
     font-family: ${({theme}) => theme.Lato};
+    z-index: 2;
 `
 
 const AppTitle = styled.h1`
@@ -61,6 +63,11 @@ const Dropzone = styled.div`
     border-color: ${props => getColor(props)};
     outline: none;
     cursor: pointer;
+    z-index: 2;
+
+    &:hover {
+        filter: brightness(103%);
+    }
 `
 
 const StyledIcon = styled(Icon)`

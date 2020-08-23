@@ -81,9 +81,9 @@ app.post('/upload-video', upload.fields([{name: 'video', maxCount: 1}, {name: 'i
         .videoBitrate(2500)
         .format('mp4')
         .audioCodec('libmp3lame')
-        .save('./dupa.mp4')
+        .save(`./${req.files['video'][0].originalname}.mp4`)
         .on('end', () => {
-            res.download('./dupa.mp4');
+            res.download(`./${req.files['video'][0].originalname}.mp4`);
         });
 })
 
