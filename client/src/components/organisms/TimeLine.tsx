@@ -21,7 +21,7 @@ interface dropdownData {
     name: string | null;
     clientX: number;
     clientY: number;
-    type: string | undefined;
+    type: string;
     index: number;
 }
 
@@ -190,18 +190,20 @@ const TimeLine: FC = () => {
     }
 
     const handleDeleteTrack = (name: string) => {
-        dispatch({
-            type: types.DELETE_TRACK,
-            payload: name
-        })
-        dispatch({
-            type: types.UPDATE_CLICKED_ITEM,
-            payload: {
-                name: '',
-                type: ''
-            }
-        })
-        setTrackHeights(trackHeights - 70);
+        if (window.confirm('Are you sure?')) {
+            dispatch({
+                type: types.DELETE_TRACK,
+                payload: name
+            })
+            dispatch({
+                type: types.UPDATE_CLICKED_ITEM,
+                payload: {
+                    name: '',
+                    type: ''
+                }
+            })
+            setTrackHeights(trackHeights - 70);
+        }
     }
 
     const handleSettingsClick = (e: MouseEvent, type: string | undefined, name: string, index: number) => {
@@ -211,7 +213,7 @@ const TimeLine: FC = () => {
             name: name,
             clientX: e.clientX,
             clientY: e.clientY,
-            type: type,
+            type: type ? type : '',
             index: index
         })
     }
@@ -229,7 +231,7 @@ const TimeLine: FC = () => {
     }
 
     const handleItemDelete = (name: string | null) => {
-        if (name) {
+        if (name && window.confirm('Are you sure?')) {
             dispatch({
                 type: types.DELETE_ITEM_FROM_TRACK,
                 payload: name
@@ -269,9 +271,21 @@ const TimeLine: FC = () => {
         }
     }
 
+    const handleItemEdit = (name: string | null, type: string | undefined) => {
+        if (name && type) {
+            dispatch({
+                type: types.UPDATE_CLICKED_ITEM,
+                payload: {
+                    name: name,
+                    type: type
+                }
+            })
+        }
+    }
+
     return (
         <Container height={trackHeights}>
-            {dropdownData.name && <SettingsDropdown onChangeItemColorClick={handleItemColor} onMoveClick={handleMove} onDeleteItemClick={handleItemDelete} onChangeNameClick={handleNameClick} {...dropdownData}/> }
+            {dropdownData.name && <SettingsDropdown onItemEditClick={handleItemEdit} onChangeItemColorClick={handleItemColor} onMoveClick={handleMove} onDeleteItemClick={handleItemDelete} onChangeNameClick={handleNameClick} {...dropdownData}/> }
             <SideNav>
                 <AddTrack onClick={handleNewTrack} />
                 <Wrapper>

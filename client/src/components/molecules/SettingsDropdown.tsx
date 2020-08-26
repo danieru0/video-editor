@@ -1,16 +1,17 @@
 import React, { FC, useRef, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
 interface dropdownProps {
     name: string | null;
     clientX: number;
     clientY: number;
-    type: string | undefined;
+    type: string;
     index: number;
     onChangeNameClick: (name: string | null) => void;
     onDeleteItemClick: (name: string | null) => void;
     onMoveClick: (name: string | null, type: string, index: number) => void;
     onChangeItemColorClick: (name: string | null) => void;
+    onItemEditClick: (name: string | null, type: string) => void;
 }
 
 interface ContainerProps {
@@ -20,8 +21,8 @@ interface ContainerProps {
 }
 
 interface ListItemProps {
-    type?: string | undefined;
-    visibleByType?: string;
+    type?: string;
+    visibleByType?: string[] | string;
     needItem?: string;
 }
 
@@ -49,18 +50,30 @@ const ListItem = styled.li<ListItemProps>`
     height: 40px;
     border-top: 1px solid #000;
     display: ${({visibleByType, type, needItem}) => {
-        if (visibleByType !== 'any') {
-            if (visibleByType === type) {
-                return 'block;';
+        if (visibleByType) {
+            if (visibleByType !== 'any') {
+                if (type) {
+                    if (type !== '') {
+                        if (visibleByType?.includes(type)) {
+                            return 'block';
+                        } else {
+                            return 'none';
+                        }
+                    } else {
+                        return 'none';
+                    }
+                } else {
+                    return 'none';
+                }
             } else {
-                return 'none;';
+                if (needItem) {
+                    return 'block;';
+                } else {
+                    return 'none;';
+                }
             }
         } else {
-            if (needItem) {
-                return 'block';
-            } else {
-                return 'none';
-            }
+            return 'block';
         }
     }}
 `
@@ -83,7 +96,7 @@ const ItemButton = styled.button`
     }
 `
 
-const SettingsDropdown: FC<dropdownProps> = ({ name, clientX, clientY, type, index, onChangeNameClick, onDeleteItemClick, onMoveClick, onChangeItemColorClick }) => {
+const SettingsDropdown: FC<dropdownProps> = ({ name, clientX, clientY, type, index, onChangeNameClick, onDeleteItemClick, onMoveClick, onChangeItemColorClick, onItemEditClick }) => {
     const [yPosition, setYPosition] = useState(0);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -100,6 +113,8 @@ const SettingsDropdown: FC<dropdownProps> = ({ name, clientX, clientY, type, ind
         }
     }, [dropdownRef, clientY, setYPosition]);
 
+    console.log(type);
+
     return (
         <Container visibility={yPosition ? 1 : 0} ref={dropdownRef} x={clientX} y={yPosition}>
             <List>
@@ -109,8 +124,11 @@ const SettingsDropdown: FC<dropdownProps> = ({ name, clientX, clientY, type, ind
                 <ListItem visibleByType="any" needItem={type}>
                     <ItemButton onClick={() => onDeleteItemClick(name)}>delete item</ItemButton>
                 </ListItem>
-                <ListItem visibleByType="drawtext" type={type}>
+                <ListItem visibleByType={['drawtext']} type={type}>
                     <ItemButton onClick={() => onChangeItemColorClick(name)}>change item color</ItemButton>
+                </ListItem>
+                <ListItem visibleByType={['drawtext', 'overlay']} type={type}>
+                    <ItemButton onClick={() => onItemEditClick(name, type)}>Edit item</ItemButton>
                 </ListItem>
                 <ListItem>
                     <ItemButton onClick={() => onMoveClick(name, 'up', index)}>move up</ItemButton>

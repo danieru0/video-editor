@@ -18,7 +18,7 @@ const SceneConnector: FC<SceneConnectorProps> = ({ activeScene }) => {
     const trackList = useTypedSelector(state => state.timeline.timeline); 
     const timelineRef = useTypedSelector(state => state.timeline.timelineRef);
 
-    const handleItemClick = (e: SyntheticEvent<HTMLDivElement>, type: string, image?: string) => {
+    const handleItemClick = (e: SyntheticEvent<HTMLDivElement>, itemType: string, type: string, image?: string) => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -36,8 +36,8 @@ const SceneConnector: FC<SceneConnectorProps> = ({ activeScene }) => {
                     textPosition: null
                 }
                 const newItem = {
-                    type: type === 'text' ? 'drawtext' : 'overlay',
-                    itemType: type,
+                    type: type,
+                    itemType: itemType,
                     width: 134,
                     xPosition: 0,
                     selector: getRandomId(),
@@ -50,7 +50,7 @@ const SceneConnector: FC<SceneConnectorProps> = ({ activeScene }) => {
                         x: 0,
                         y: 0
                     },
-                    textOptions: type === 'text' ? textOptions : null,
+                    textOptions: type === 'drawtext' ? textOptions : null,
                     imageSrc: image ? image : null,
                     keepRatio: true
                 }
@@ -65,11 +65,7 @@ const SceneConnector: FC<SceneConnectorProps> = ({ activeScene }) => {
                             name: tracksWithoutItems[0].name
                         }
                     });
-                } else {
-                    console.log('every track has item!');
                 }
-            } else {
-                console.log('no tracks!');
             }
         }
     }

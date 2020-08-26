@@ -88,7 +88,7 @@ const Controls: FC = () => {
                     let toRender: HTMLElement | Element;
                     let prevDisplay: string = '';
 
-                    if (item.item.itemType === 'text' && item.item.textOptions?.textPosition) {
+                    if (item.item.itemType === 'drawtext' && item.item.textOptions?.textPosition) {
                         toRender = node.children[0];
                         position.x = item.item.textOptions.textPosition.x;
                         position.y = item.item.textOptions.textPosition.y;

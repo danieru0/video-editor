@@ -72,7 +72,7 @@ const Track: FC<TrackProps> = ({name, item, timelineRef, videoLength}) => {
         case 'image':
             trackItemElement = <Image src={item.imageSrc ? item.imageSrc : undefined} />
             break;
-        case 'text':
+        case 'drawtext':
             trackItemElement = item.textOptions?.text;
             break;
         default:

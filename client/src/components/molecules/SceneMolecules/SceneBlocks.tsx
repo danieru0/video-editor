@@ -10,7 +10,7 @@ interface ContainerProps {
 }
 
 interface SceneBlocksProps extends ContainerProps {
-    onItemClick: (e: SyntheticEvent<HTMLDivElement>, type: string) => void;
+    onItemClick: (e: SyntheticEvent<HTMLDivElement>, itemType: string, type: string) => void;
 }
 
 const ButtonBlock = WithButton(Block);
@@ -39,10 +39,10 @@ const StyledBlock = styled(ButtonBlock)`
 const SceneBlocks: FC<SceneBlocksProps> = ({active, onItemClick}) => {
     return (
         <Container active={active}>
-            <StyledBlock onClick={(e: SyntheticEvent<HTMLDivElement>) => onItemClick(e, 'text')} type="text" textAlign="center" fontSize="24px" border justifyContent="center" text="TEXT" />
+            <StyledBlock onClick={(e: SyntheticEvent<HTMLDivElement>) => onItemClick(e, 'drawtext', 'drawtext')} type="text" textAlign="center" fontSize="24px" border justifyContent="center" text="TEXT" />
             {
                 BlocksArray.map((item, key) => {
-                    return <StyledBlock key={key} onClick={(e: SyntheticEvent<HTMLDivElement>) => onItemClick(e, item)} type={item} />
+                    return <StyledBlock key={key} onClick={(e: SyntheticEvent<HTMLDivElement>) => onItemClick(e, item, 'overlay')} type={item} />
                 })
             }
         </Container>

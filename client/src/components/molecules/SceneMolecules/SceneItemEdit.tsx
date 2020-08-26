@@ -145,7 +145,7 @@ const SceneItemEdit: FC<SceneItemEditProps> = ({type, name}) => {
 
     const EditComponent = () => {
         switch(type) {
-            case 'text':
+            case 'drawtext':
                 return <BlockTextEdit name={name} onKeepRatioChange={handleKeepRatioChange} onFontTypeChange={handleFontTypeChange} onFontChange={handleFontChange} onTextChange={handleTextChange} onAlignChange={handleAlignChange} onColorChange={(color: string) => handleColorChange(color, 'text')} />
             case 'image':
                 return null;

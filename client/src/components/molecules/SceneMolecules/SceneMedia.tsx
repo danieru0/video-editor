@@ -15,7 +15,7 @@ interface ContainerProps {
 }
 
 interface SceneMediaProps extends ContainerProps {
-    onItemClick: (e: SyntheticEvent<HTMLDivElement>, type: string, image?: string) => void;
+    onItemClick: (e: SyntheticEvent<HTMLDivElement>, itemType: string, type: string, image?: string) => void;
 }
 
 const Container = styled.div<ContainerProps>`
@@ -137,7 +137,7 @@ const SceneMedia: FC<SceneMediaProps> = ({active, onItemClick}) => {
                         >
                             {
                                 images.map((item, key) => {
-                                    return <StyledImageButton onClick={(e: SyntheticEvent<HTMLDivElement>) => onItemClick(e, 'image', item.originalImage)} key={key} src={item.landscapeImage} />
+                                    return <StyledImageButton onClick={(e: SyntheticEvent<HTMLDivElement>) => onItemClick(e, 'image', 'image', item.originalImage)} key={key} src={item.landscapeImage} />
                                 })
                             }
                         </Masonry>

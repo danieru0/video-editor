@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { types } from '../../store/actions/types';
+import { useTypedSelector } from '../../store/selector';
 
 import WithButton from '../../hoc/withButton';
 
@@ -83,6 +84,7 @@ const Button = styled.button`
 
 const ModalConnector: FC<ModalConnectorProps> = ({type, name}) => {
     const dispatch = useDispatch();
+    const clickedItem = useTypedSelector(state => state.timeline.clickedItem);
     const [newName, setNewName] = useState('');
     const [newColor, setNewColor] = useState('');
     let ModalComponent;
@@ -136,6 +138,13 @@ const ModalConnector: FC<ModalConnectorProps> = ({type, name}) => {
                     newName: newName
                 }
             });
+            dispatch({
+                type: types.UPDATE_CLICKED_ITEM,
+                payload: {
+                    name: newName,
+                    type: clickedItem.type
+                }
+            })
             closeModal();
         } else {
             alert('Name should have from 3 to 12 characters!');

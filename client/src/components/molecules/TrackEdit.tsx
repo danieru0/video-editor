@@ -31,12 +31,19 @@ const Wrapper = styled.div`
 const WithButtonIcon = WithButton(Icon);
 
 const TrackEdit: FC<TrackEditProps> = ({name, onDeleteClick, onSettingsClick}) => {
+
+    const handleDeleteClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onDeleteClick();
+    }
+
     return (
         <Container>
             <TrackText text={name} color={theme.trackText} />
             <Wrapper>
                 <WithButtonIcon onClick={onSettingsClick} square name="sliders-h" color="#fff" size={18} />
-                <WithButtonIcon onClick={onDeleteClick} square name="trash" color="#fff" size={18} />
+                <WithButtonIcon onClick={(e: React.MouseEvent) => handleDeleteClick(e)} square name="trash" color="#fff" size={18} />
             </Wrapper>
         </Container>
     )

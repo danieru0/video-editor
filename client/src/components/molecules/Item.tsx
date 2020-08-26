@@ -174,7 +174,7 @@ const Item: FC<ItemProps> = ({bounds, selector, time, name, color, type, textOpt
 
     return (
         <>
-            <StyledBlock onLoad={() => moveableRef.current.updateRect()} index={index + 4} isActive={active} ref={blockTextRef} id={selector} opacity={opacity} color={color} type={type} {...textOptions} text={textOptions?.text} imageSrc={imageSrc} />
+            <StyledBlock onLoad={() => moveableRef.current.updateRect()} index={index + 4} isActive={active} ref={blockTextRef} id={selector} opacity={opacity} color={color} type={type === 'drawtext' ? 'text' : type} {...textOptions} text={textOptions?.text} imageSrc={imageSrc} />
             <StyledMoveable 
                 index={index + 4}
                 isActive={active}
