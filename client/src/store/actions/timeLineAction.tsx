@@ -37,9 +37,9 @@ export const deleteTrack = (value: string): deleteTrackAction => ({
 
 interface moveTrackAction {
     type: types.MOVE_TRACK
-    payload: {name: string, type: string}
+    payload: {name: string, type: string, index: number}
 }
-export const moveTrack = (value: {name: string, type: string}): moveTrackAction => ({
+export const moveTrack = (value: {name: string, type: string, index: number}): moveTrackAction => ({
     type: types.MOVE_TRACK,
     payload: value
 });

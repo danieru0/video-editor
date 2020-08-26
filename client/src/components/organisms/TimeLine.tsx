@@ -22,6 +22,7 @@ interface dropdownData {
     clientX: number;
     clientY: number;
     type: string | undefined;
+    index: number;
 }
 
 const Container = styled.div<ContainerProps>`
@@ -62,7 +63,8 @@ const TimeLine: FC = () => {
         name: null,
         clientX: 0,
         clientY: 0,
-        type: ''
+        type: '',
+        index: 0
     })
     const timelineRef = useRef<HTMLDivElement>(null);
 
@@ -144,7 +146,8 @@ const TimeLine: FC = () => {
                 name: null,
                 clientX: 0,
                 clientY: 0,
-                type: ''
+                type: '',
+                index: 0
             })
         }
         
@@ -201,14 +204,15 @@ const TimeLine: FC = () => {
         setTrackHeights(trackHeights - 70);
     }
 
-    const handleSettingsClick = (e: MouseEvent, type: string | undefined, name: string) => {
+    const handleSettingsClick = (e: MouseEvent, type: string | undefined, name: string, index: number) => {
         e.preventDefault();
         e.stopPropagation();
         setDropdownData({
             name: name,
             clientX: e.clientX,
             clientY: e.clientY,
-            type: type
+            type: type,
+            index: index
         })
     }
 
@@ -240,13 +244,14 @@ const TimeLine: FC = () => {
         }
     }
 
-    const handleMoveUp = (name: string | null, type: string) => {
+    const handleMove = (name: string | null, type: string, index: number) => {
         if (name) {
             dispatch({
                 type: types.MOVE_TRACK,
                 payload: {
                     name: name,
-                    type: type
+                    type: type,
+                    index: index
                 }
             })
         }
@@ -266,13 +271,13 @@ const TimeLine: FC = () => {
 
     return (
         <Container height={trackHeights}>
-            {dropdownData.name && <SettingsDropdown onChangeItemColorClick={handleItemColor} onMoveClick={handleMoveUp} onDeleteItemClick={handleItemDelete} onChangeNameClick={handleNameClick} {...dropdownData}/> }
+            {dropdownData.name && <SettingsDropdown onChangeItemColorClick={handleItemColor} onMoveClick={handleMove} onDeleteItemClick={handleItemDelete} onChangeNameClick={handleNameClick} {...dropdownData}/> }
             <SideNav>
                 <AddTrack onClick={handleNewTrack} />
                 <Wrapper>
                     {
-                        trackList && trackList.map(item => {
-                            return <TrackEdit onSettingsClick={(e: MouseEvent) => handleSettingsClick(e, item.item?.type, item.name)} onDeleteClick={() => handleDeleteTrack(item.name)} key={item.name} name={item.name}/>
+                        trackList && trackList.map((item, index) => {
+                            return <TrackEdit onSettingsClick={(e: MouseEvent) => handleSettingsClick(e, item.item?.type, item.name, index)} onDeleteClick={() => handleDeleteTrack(item.name)} key={item.name} name={item.name}/>
                         })
                     }
                 </Wrapper>
