@@ -25,10 +25,10 @@ interface dropdownData {
     index: number;
 }
 
-const Container = styled.div<ContainerProps>`
+const Container = styled.div`
     display: flex;
     overflow-y: auto;
-    height: ${({height}) => height}px;
+    flex: 1;
     padding: 0px 20px;
 `
 
@@ -284,7 +284,7 @@ const TimeLine: FC = () => {
     }
 
     return (
-        <Container height={trackHeights}>
+        <Container>
             {dropdownData.name && <SettingsDropdown onItemEditClick={handleItemEdit} onChangeItemColorClick={handleItemColor} onMoveClick={handleMove} onDeleteItemClick={handleItemDelete} onChangeNameClick={handleNameClick} {...dropdownData}/> }
             <SideNav>
                 <AddTrack onClick={handleNewTrack} />
