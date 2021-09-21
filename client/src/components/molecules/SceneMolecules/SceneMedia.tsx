@@ -51,7 +51,7 @@ const SearchWrapper = styled.div`
 
 const SearchInput = styled.input`
     width: 100%;
-    height: 100%;
+    height: 50px;
     outline: none;
     border-radius: 30px;
     background-color: #353947;
